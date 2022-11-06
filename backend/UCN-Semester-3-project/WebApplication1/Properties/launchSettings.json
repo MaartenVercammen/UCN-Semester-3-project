@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "RecipeRestService": {
+    "WebApplication1": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7088;http://localhost:5088"
+      "applicationUrl": "https://localhost:7099;http://localhost:5099"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -31,8 +31,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:19956",
-      "sslPort": 44329
+      "applicationUrl": "http://localhost:22522",
+      "sslPort": 44332
     }
   }
 }

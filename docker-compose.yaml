@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  web:
+    image: emvee/ucn-frontend:latest
+    depends_on:
+      - api
+    ports:
+      - "8080:80"
+
+  api:
+    image: emvee/reciperestservice:latest
+    ports:
+      - "3000:80"
+      - "3001:433"
+    depends_on:
+      - db
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1434:1433"
+    volumes:
+      - /var/mssql/data:/var/opt/mssql/data
+
+    environment:
+      SA_PASSWORD: "S3cur3P@ssW0rd!"
+      ACCEPT_EULA: "Y"
+      #user is sa
