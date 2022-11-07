@@ -1,5 +1,5 @@
 
-name: Docker Image CI
+name: Docker Image Frontend
 on:
   push:
     branches: [ main ]
