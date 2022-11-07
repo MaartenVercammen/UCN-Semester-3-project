@@ -14,16 +14,16 @@ jobs:
     - name: Push the Docker image
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && docker push ${{ secrets.DOCKERHUB_USERNAME }}/ucn-frontend:latest
   
+    - name: webhook frontend
+      uses: wei/curl@v1
+      with:
+        args: -X POST http://157.230.22.150/portainer/api/webhooks/4f373e70-1877-493a-a51b-30e420dac1d5
+
     - uses: actions/checkout@v2
     - name: Build the Docker image backend
       run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/reciperestservice ./backend/UCN-Semester-3-project/RecipeRestService/
     - name: Push the Docker image
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }} && docker push ${{ secrets.DOCKERHUB_USERNAME }}/reciperestservice:latest
-    
-    - name: webhook frontend
-      uses: wei/curl@v1
-      with:
-        args: -X POST http://157.230.22.150/portainer/api/webhooks/4f373e70-1877-493a-a51b-30e420dac1d5
 
     - name: webhook backend
       uses: wei/curl@v1
