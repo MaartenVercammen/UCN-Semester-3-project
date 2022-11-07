@@ -22,7 +22,7 @@ services:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     restart: always
     ports:
-      - "1434:1433"
+      - "1433:1433"
     volumes:
       - /var/mssql/data:/var/opt/mssql/data
 
