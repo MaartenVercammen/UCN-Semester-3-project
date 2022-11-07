@@ -1,0 +1,20 @@
+nav {
+  display: flex;
+  height: 8rem;
+  justify-content: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.panda {
+  height: 70px;
+}
+
+.pandaLogo {
+  font-size: 2rem;
+  color: #D8A8DC;
+  margin-left: 10px;
+}
