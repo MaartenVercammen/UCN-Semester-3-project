@@ -9,7 +9,7 @@ services:
       - "8080:80"
 
   api:
-    image: emvee/reciperestservice:latest
+    image: emvee/ucn-backend:latest
     ports:
       - "3000:80"
       - "3001:433"
