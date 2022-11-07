@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TAmBAedjR9HrUQy5kH2CEJI3/9vsR+5QqcavTnxn+FjLyor7xvx2KetWlQsXjN+/q/62oxhUARF7QL9rIzom0w==",
+  "dgSpecHash": "YAUw5jnejguRq03BPp50oInCL+SEkC4aVQCq8zW54p1Iy4v+i3cnAQr7bOb6FAQIppk1S5Ed8+AKukPBLAtgqQ==",
   "success": true,
   "projectFilePath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.1.0\\microsoft.testplatform.objectmodel.17.1.0.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.testplatform.testhost\\17.1.0\\microsoft.testplatform.testhost.17.1.0.nupkg.sha512",
+    "C:\\Users\\geeni\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.17.0\\microsoft.visualstudio.azure.containers.tools.targets.1.17.0.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\newtonsoft.json\\9.0.1\\newtonsoft.json.9.0.1.nupkg.sha512",

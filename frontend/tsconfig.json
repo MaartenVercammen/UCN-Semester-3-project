@@ -17,5 +17,5 @@
     "jsx": "react-jsx",
     "noImplicitAny": false
   },
-  "include": ["src", "server.js", "tailwind.config.js"]
+  "include": ["src", "server.js"]
 }

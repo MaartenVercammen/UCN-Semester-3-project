@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Index from './component';
 import './css/index.css';
 
 function App() {
@@ -8,9 +9,7 @@ function App() {
       <Route
         path="/"
         element={(
-          <h1 className="text-3xl font-bold underline">
-            Hello world!
-          </h1>
+          <Index/>
   )}
       />
     </Routes>
