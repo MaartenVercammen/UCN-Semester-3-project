@@ -22,10 +22,10 @@ services:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     restart: always
     ports:
-      - "1433:1433"
+      - "1400:1433"
     volumes:
       - ./var/mssql/data:/var/opt/mssql/data
 
     environment:
-      SA_PASSWORD: "S3cur3P@ssW0rd!"
+      MSSQL_SA_PASSWORD: "S3cur3P@ssW0rd!"
       ACCEPT_EULA: "Y"
