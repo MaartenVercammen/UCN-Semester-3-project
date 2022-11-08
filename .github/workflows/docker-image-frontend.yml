@@ -17,5 +17,5 @@ jobs:
     - name: webhook frontend
       uses: wei/curl@v1
       with:
-        args: -X POST {{ FRONTEND_WEBHOOK }}
+        args: -X POST ${{ FRONTEND_WEBHOOK }}
 
