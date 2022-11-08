@@ -18,13 +18,13 @@ services:
     depends_on:
       - db
 
-   db:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
-    restart: always
-    ports:
-      - "1400:1433"
-    volumes:
-      - ./var/mssql/data:/var/opt/mssql/data
-    environment:
-      SA_PASSWORD: "S3cur3P@ssW0rd!"
-      ACCEPT_EULA: "Y"
+  db:
+  image: "mcr.microsoft.com/mssql/server:2022-latest"
+  restart: always
+  ports:
+    - "1400:1433"
+  volumes:
+    - ./var/mssql/data:/var/opt/mssql/data
+  environment:
+    SA_PASSWORD: "S3cur3P@ssW0rd!"
+    ACCEPT_EULA: "Y"
