@@ -29,4 +29,5 @@ services:
     environment:
       SA_PASSWORD: "S3cur3P@ssW0rd!"
       ACCEPT_EULA: "Y"
+      MSSQL_PID: Express
       #user is sa
