@@ -26,5 +26,5 @@ services:
     volumes:
       - /var/mssql/data:/var/opt/mssql/data
     environment:
-      SA_PASSWORD: "S3cur3P@ssW0rd!"
+      SA_PASSWORD: { { DB_PASSWORD } }
       ACCEPT_EULA: "Y"
