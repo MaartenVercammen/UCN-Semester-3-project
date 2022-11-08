@@ -17,5 +17,5 @@ jobs:
     - name: webhook frontend
       uses: wei/curl@v1
       with:
-        args: -X POST http://157.230.22.150/portainer/api/webhooks/4f373e70-1877-493a-a51b-30e420dac1d5
+        args: -X POST ${{ secrets.FRONTEND_WEBHOOK }}
 
