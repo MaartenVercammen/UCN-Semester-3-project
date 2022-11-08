@@ -17,4 +17,4 @@ jobs:
     - name: webhook backend
       uses: wei/curl@v1
       with:
-        args: -X POST ${{ API_WEBHOOK }}
+        args: -X POST ${{ secrets.API_WEBHOOK }}
