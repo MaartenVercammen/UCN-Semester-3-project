@@ -13,10 +13,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.RoutePrefix = "api";
-});
+app.UseSwaggerUI();
 
 // app.UseHttpsRedirection();
 
