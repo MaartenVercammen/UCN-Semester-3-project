@@ -19,8 +19,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore "./backend/RecipeDataTest/RecipeDataTest.csproj" --disable-parallel
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build "./backend/RecipeDataTest/RecipeDataTest.csproj" --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test "./backend/RecipeDataTest/RecipeDataTest.csproj" --no-build --verbosity normal
