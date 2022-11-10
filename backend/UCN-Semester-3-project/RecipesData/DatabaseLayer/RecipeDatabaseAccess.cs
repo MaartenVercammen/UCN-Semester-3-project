@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 namespace RecipesData.DatabaseLayer
 { 
     public class RecipeDatabaseAccess : IRecipeAccess
-    public class RecipeDatabaseAccess : IRecipeAccess
     {
         readonly string _connectionString;
 
