@@ -1,0 +1,26 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET test
+
+on:
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore "./backend/RecipeDataTest/RecipeDataTest.csproj" --disable-parallel
+    - name: Build
+      run: dotnet build "./backend/RecipeDataTest/RecipeDataTest.csproj" --no-restore
+    - name: Test
+      run: dotnet test "./backend/RecipeDataTest/RecipeDataTest.csproj" --no-build --verbosity normal
