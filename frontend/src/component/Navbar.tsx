@@ -1,7 +1,7 @@
 import  panda from '../assets/panda.png';
 import style from './Navbar.module.css';
 
-function Navbar() {
+const Navbar:React.FC = () => {
   return (
     <header>
         <nav>

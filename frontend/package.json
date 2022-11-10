@@ -19,10 +19,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
     "@types/node": "^16.18.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
@@ -45,8 +43,6 @@
     "css-loader": "^6.7.1",
     "cssnano": "^5.1.13",
     "dotenv-webpack": "^7.1.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-typescript": "^17.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss": "^8.4.18",
@@ -58,7 +54,6 @@
     "stylelint-config-css-modules": "^4.1.0",
     "stylelint-config-standard": "^28.0.0",
     "stylelint-use-nesting": "^4.0.0",
-    "tailwindcss": "^3.2.2",
     "ts-loader": "^9.2.6",
     "webpack": "^5.74.0",
     "webpack-dev-server": "^4.7.4"
@@ -66,15 +61,6 @@
   "scripts": {
     "start": "node tools/devServer.js",
     "prebuild": "shx rm -rf dist && mkdir dist",
-    "build": "node tools/build.js",
-    "lint:css": "stylelint **/*.css",
-    "lint:js": "eslint src/",
-    "test": "react-scripts test"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "build": "node tools/build.js"
   }
 }

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import style from './Footer.module.css';
 
-function Footer() {
+const Footer:React.FC = () => {
   return (
     <footer>
       <div className={style.footer_container}>
