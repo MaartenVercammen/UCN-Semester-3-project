@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Index from './component';
 import './css/index.css';
 
-function App() {
+const App:React.FC = () => {
   return (
     <Routes>
       <Route

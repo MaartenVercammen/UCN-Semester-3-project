@@ -1,7 +1,7 @@
 import appdemo from '../assets/appDemo.png';
 import style from './MainPage.module.css';
 
-function Main() {
+const Main:React.FC = () => {
   return (
     <div className={style.main}>
       <div className={style.main_container}>
