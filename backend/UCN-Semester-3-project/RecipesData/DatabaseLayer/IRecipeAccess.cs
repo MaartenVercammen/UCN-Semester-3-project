@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipesData.DatabaseLayer
 {
-    internal interface IRecipeAccess
+    public interface IRecipeAccess
     {
     }
 }
