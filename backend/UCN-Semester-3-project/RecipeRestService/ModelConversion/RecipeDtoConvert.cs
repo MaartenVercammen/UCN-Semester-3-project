@@ -1,4 +1,4 @@
-﻿using RecipeRestService.DTO;
+using RecipeRestService.DTO;
 using RecipesData.ModelLayer;
 using System;
 
