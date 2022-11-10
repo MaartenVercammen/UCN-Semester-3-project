@@ -8,5 +8,16 @@ namespace RecipesData.DatabaseLayer
 {
     public interface IRecipeAccess
     {
+        /*
+        Recipe GetRecipeById(int id);
+
+        List<Recipe> GetAllRecipes();
+
+        int CreateRecipe(Recipe recipe);
+
+        bool UpdateRecipe(Recipe recipe);
+
+        bool DeleteRecipe(int id);
+         */
     }
 }
