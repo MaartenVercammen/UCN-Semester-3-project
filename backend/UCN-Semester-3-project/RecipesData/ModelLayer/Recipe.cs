@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipesData.ModelLayer
 {
-    internal class Recipe
+    public class Recipe
     {
     }
 }

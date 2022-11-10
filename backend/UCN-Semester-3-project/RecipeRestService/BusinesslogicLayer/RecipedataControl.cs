@@ -4,10 +4,12 @@ namespace RecipeRestService.BusinesslogicLayer
 {
     public class RecipedataControl : IRecipeData
     {
-        IRecipeData _RecipeAccess;
+        IRecipeAccess _RecipeAccess;
         public RecipedataControl(IConfiguration inConfiguration)
         {
             _RecipeAccess = new RecipeDatabaseAccess(inConfiguration);
         }
+
+        //implement IRecipeData
     }
 }

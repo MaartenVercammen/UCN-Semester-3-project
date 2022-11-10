@@ -15,5 +15,10 @@ namespace RecipesData.DatabaseLayer
         {
             _connectionString = configuration.GetConnectionString("UcnConnection");
         }
+
+        public RecipeDatabaseAccess(string connetionstring)
+        {
+            _connectionString = connetionstring;
+        }
     }
 }

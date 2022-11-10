@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecipeRestService.BusinesslogicLayer;
 
 namespace RecipeRestService.Controllers
 {
-    public class RecipesController : Controller
+    public class RecipesController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly RecipedataControl _rControl;
+        private readonly IConfiguration _configuration;
+
+        [HttpGet]
+        public IActionResult Get()
         {
-            return View();
+            return new StatusCodeResult(500);
         }
     }
 }
