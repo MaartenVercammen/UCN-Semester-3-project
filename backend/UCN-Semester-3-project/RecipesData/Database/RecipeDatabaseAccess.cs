@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RecipesData.Model;
+using System.Data.SqlClient;
 
 namespace RecipesData.Database
 {
@@ -25,7 +26,7 @@ namespace RecipesData.Database
         /// <summary>
         /// This method gets a recipe by it's id from the database
         /// </summary>
-        public override Recipe GetRecipeById(Guid id)
+        Recipe IRecipeAccess.GetRecipeById(Guid id)
         {
             Recipe recipe = new Recipe();
             try
@@ -33,10 +34,10 @@ namespace RecipesData.Database
 
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    connection.open();
+                    connection.Open();
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.commandText = "SELECT * FROM recipe WHERE recipeId = @id";
+                        command.CommandText = "SELECT * FROM recipe WHERE recipeId = @id";
                         command.Parameters.AddWithValue("@id", id);
 
                         SqlDataReader reader = command.ExecuteReader();
@@ -53,17 +54,17 @@ namespace RecipesData.Database
         /// <summary>
         /// This method gets all the recipes from the database
         /// </summary>
-        public List<Recipe> GetRecipes()
+        List<Recipe> IRecipeAccess.GetRecipes()
         {
             List<Recipe> recipes = new List<Recipe>();
             try
             {
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
-                    connection.open();
+                    connection.Open();
                     using (SqlCommand command = connection.CreateCommand())
                     {
-                        command.commandText = "SELECT * FROM recipe";
+                        command.CommandText = "SELECT * FROM recipe";
 
                         SqlDataReader reader = command.ExecuteReader();
                         recipes = BuildObjects(reader);
@@ -77,30 +78,33 @@ namespace RecipesData.Database
             return recipes;
         }
 
-        public void CreateRecipe(Recipe recipe)
+        int IRecipeAccess.CreateRecipe(Recipe recipe)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateRecipe(Recipe recipe)
+        bool IRecipeAccess.UpdateRecipe(Recipe recipe)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteRecipe(int id)
+        bool IRecipeAccess.DeleteRecipe(int id)
         {
             throw new NotImplementedException();
         }
 
+
+
+        // private 
         private Recipe BuildObject(SqlDataReader reader)
         {
             Recipe recipe = new Recipe();
             try
             {
-                recipe.RecipeId = reader.GetGuid(reader.GetOrdinal("recipeId"));
-                recipe.RecipeName = reader.GetString(reader.GetOrdinal("recipeName"));
-                recipe.RecipeDescription = reader.GetString(reader.GetOrdinal("recipeDescription"));
-                recipe.RecipePictureUrl = reader.GetString(reader.GetOrdinal("recipePictureUrl"));
+                recipe.RecipeId = new Guid((byte[])reader.GetValue(reader.GetOrdinal("recipeId")));
+                recipe.Name = reader.GetString(reader.GetOrdinal("recipeName"));
+                recipe.Description = reader.GetString(reader.GetOrdinal("recipeDescription"));
+                recipe.PictureURL = reader.GetString(reader.GetOrdinal("recipePictureUrl"));
                 recipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
                 recipe.PortionNum = reader.GetInt32(reader.GetOrdinal("portionNum"));
             }
@@ -111,22 +115,21 @@ namespace RecipesData.Database
             return recipe;
         }
 
-    }
-
-    private List<Recipe> buildObjects(SqlDataReader reader)
-    {
-        List<Recipe> recipes = new List<Recipe>();
-        try
+        private List<Recipe> BuildObjects(SqlDataReader reader)
         {
-            while (reader.Read())
+            List<Recipe> recipes = new List<Recipe>();
+            try
             {
-                recipes.Add(BuildObject(reader));
+                while (reader.Read())
+                {
+                    recipes.Add(BuildObject(reader));
+                }
             }
+            catch (SqlException e)
+            {
+                throw new Exception("Error while building objects for a list", e);
+            }
+            return recipes;
         }
-        catch (SqlException e)
-        {
-            throw new Exception("Error while building objects for a list", e);
-        }
-        return recipes;
     }
 }
