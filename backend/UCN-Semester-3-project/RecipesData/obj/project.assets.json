@@ -591,19 +591,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\budai\\.nuget\\packages\\": {}
+    "C:\\Users\\geeni\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+      "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
       "projectName": "RecipesData",
-      "projectPath": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
-      "packagesPath": "C:\\Users\\budai\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
+      "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+      "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
+      "outputPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\budai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\geeni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -654,7 +659,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

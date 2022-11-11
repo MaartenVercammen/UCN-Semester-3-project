@@ -14,10 +14,11 @@ namespace RecipesData.Model
         public string PictureURL { get; set; }
         public int Time { get; set; }
         public int PortionNum { get; set; }
+        public User Author { get; set; }
         public List<Ingredient> Ingredients { get; set; }
         public List<Instruction> Instructions { get; set; }
 
-        public Recipe(Guid recipeId, string name, string description, string pictureURL, int time, int portionNum)
+        public Recipe(Guid recipeId, string name, string description, string pictureURL, int time, int portionNum, User author)
         {
             this.RecipeId = recipeId;
             this.Name = name;
@@ -25,9 +26,12 @@ namespace RecipesData.Model
             this.PictureURL = pictureURL;
             this.Time = time;
             this.PortionNum = portionNum;
+            this.Ingredients = new List<Ingredient>();
+            this.Instructions = new List<Instruction>();
+            this.Author = author;
         }
 
-        public Recipe(string name, string description, string pictureURL, int time, int portionNum)
+        public Recipe(string name, string description, string pictureURL, int time, int portionNum, User author)
         {
             this.RecipeId = Guid.NewGuid();
             this.Name = name;
@@ -35,10 +39,15 @@ namespace RecipesData.Model
             this.PictureURL = pictureURL;
             this.Time = time;
             this.PortionNum = portionNum;
+            this.Ingredients = new List<Ingredient>();
+            this.Instructions = new List<Instruction>();
+            this.Author = author;
         }
 
         public Recipe()
         {
+            this.Ingredients = new List<Ingredient>();
+            this.Instructions = new List<Instruction>();
         }
 
     }
