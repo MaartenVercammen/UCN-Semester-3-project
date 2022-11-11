@@ -8,16 +8,14 @@ namespace RecipesData.Database
 {
     public interface IRecipeAccess
     {
-        /*
-        Recipe GetRecipeById(int id);
+        Recipe GetRecipeById(Guid id);
 
-        List<Recipe> GetAllRecipes();
+        List<Recipe> GetRecipes();
 
         int CreateRecipe(Recipe recipe);
 
         bool UpdateRecipe(Recipe recipe);
 
         bool DeleteRecipe(int id);
-         */
     }
 }
