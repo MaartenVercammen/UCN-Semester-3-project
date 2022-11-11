@@ -1,4 +1,4 @@
-﻿namespace RecipeRestService.BusinesslogicLayer
+﻿namespace RecipeRestService.Businesslogic
 {
     public interface IRecipeData
     {
