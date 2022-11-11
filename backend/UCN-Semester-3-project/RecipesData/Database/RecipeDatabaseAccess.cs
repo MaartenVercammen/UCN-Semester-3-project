@@ -20,5 +20,31 @@ namespace RecipesData.Database
         {
             _connectionString = connetionstring;
         }
+
+        public Recipe GetRecipe(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Recipe> GetRecipes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateRecipe(Recipe recipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRecipe(Recipe recipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteRecipe(int id)
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }
