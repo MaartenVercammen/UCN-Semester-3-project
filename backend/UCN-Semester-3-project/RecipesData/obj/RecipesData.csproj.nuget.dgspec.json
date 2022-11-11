@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {}
+    "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {}
   },
   "projects": {
-    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
+    "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
+        "projectUniqueName": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
         "projectName": "RecipesData",
-        "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
-        "packagesPath": "/Users/tomassabol/.nuget/packages/",
-        "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/obj/",
+        "projectPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+        "packagesPath": "C:\\Users\\ttomy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/tomassabol/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ttomy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.402/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
