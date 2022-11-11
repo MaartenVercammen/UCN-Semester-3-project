@@ -8,13 +8,11 @@ namespace RecipesData.Model
 {
     public class Instruction
     {
-        public Recipe Recipe {get;set;}
         public int Step {get;set;}
         public string Description {get;set;}
 
-        public Instruction(Recipe recipe,int step,string description)
+        public Instruction(int step, string description)
         {
-            this.Recipe = recipe;
             this.Step = step;
             this.Description = description;
         }

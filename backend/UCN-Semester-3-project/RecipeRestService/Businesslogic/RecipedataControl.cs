@@ -1,6 +1,6 @@
-﻿using RecipesData.DatabaseLayer;
+﻿using RecipesData.Database;
 
-namespace RecipeRestService.BusinesslogicLayer
+namespace RecipeRestService.Businesslogic
 {
     public class RecipedataControl : IRecipeData
     {
