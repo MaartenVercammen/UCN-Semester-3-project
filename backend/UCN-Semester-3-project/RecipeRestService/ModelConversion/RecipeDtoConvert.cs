@@ -1,5 +1,5 @@
 using RecipeRestService.DTO;
-using RecipesData.ModelLayer;
+using RecipesData.Model;
 using System;
 
 namespace RecipeRestService.ModelConversion

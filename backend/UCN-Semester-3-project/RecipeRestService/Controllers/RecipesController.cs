@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RecipeRestService.BusinesslogicLayer;
+using RecipeRestService.Businesslogic;
 
 namespace RecipeRestService.Controllers
 {
