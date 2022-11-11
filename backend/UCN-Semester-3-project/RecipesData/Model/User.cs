@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecipesData.ModelLayer
+namespace RecipesData.Model
 {
     public enum Role 
     {
