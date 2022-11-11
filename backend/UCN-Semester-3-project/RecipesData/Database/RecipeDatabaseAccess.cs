@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RecipesData.Model;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace RecipesData.Database
 {
@@ -40,9 +41,13 @@ namespace RecipesData.Database
                         command.Parameters.AddWithValue("@id", guidString);
 
                         SqlDataReader reader = command.ExecuteReader();
-                        recipe = BuildObject(reader);
+                        while (reader.Read())
+                        {
+                            recipe = BuildObject(reader);
+                        }
                         reader.Close();
                     }
+                connection.Close();
                 }
             
             return recipe;
@@ -61,11 +66,16 @@ namespace RecipesData.Database
                     using (SqlCommand command = connection.CreateCommand())
                     {
                         command.CommandText = "SELECT * FROM recipe";
-
                         SqlDataReader reader = command.ExecuteReader();
-                        recipes = BuildObjects(reader);
+                        while (reader.Read())
+                        {
+                            Recipe recipe = new Recipe();
+                            recipe = BuildObject(reader);
+                            recipes.Add(recipe);
+                        }
                         reader.Close();
                     }
+                    connection.Close();
                 }
             }
             catch (SqlException e)
@@ -96,33 +106,14 @@ namespace RecipesData.Database
         private Recipe BuildObject(SqlDataReader reader)
         {
             Recipe recipe = new Recipe();
-            while (reader.Read())
-            {
-                recipe.RecipeId = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
-                recipe.Name = reader.GetString(reader.GetOrdinal("name"));
-                recipe.Description = reader.GetString(reader.GetOrdinal("description"));
-                recipe.PictureURL = reader.GetString(reader.GetOrdinal("pictureURL"));
-                recipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
-                recipe.PortionNum = reader.GetInt32(reader.GetOrdinal("portionNum"));
-            }
+            recipe.RecipeId = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
+            recipe.Name = reader.GetString(reader.GetOrdinal("name"));
+            recipe.Description = reader.GetString(reader.GetOrdinal("description"));
+            recipe.PictureURL = reader.GetString(reader.GetOrdinal("pictureURL"));
+            recipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
+            recipe.PortionNum = reader.GetInt32(reader.GetOrdinal("portionNum"));
             return recipe;
         }
 
-        private List<Recipe> BuildObjects(SqlDataReader reader)
-        {
-            List<Recipe> recipes = new List<Recipe>();
-            try
-            {
-                while (reader.Read())
-                {
-                    recipes.Add(BuildObject(reader));
-                }
-            }
-            catch (SqlException e)
-            {
-                throw new Exception("Error while building objects for a list", e);
-            }
-            return recipes;
-        }
     }
 }

@@ -26,10 +26,18 @@ namespace RecipeDataTest
         [Fact]
         public void TestGetRecipeById()
         {
-            Guid id = new Guid("0c4cc56f-57db-436f-8276-9826a63d3dae");
+            Guid id = new Guid("42108066-b596-480f-a3b2-16ddb3f56183");
             Recipe recipe = null;
             recipe = _recipeAccess.GetRecipeById(id);
             Assert.NotNull(recipe);
+        }
+
+        [Fact]
+        public void TestGetAllRecipes()
+        {
+            List<Recipe> recipes = new List<Recipe>();
+            recipes = _recipeAccess.GetRecipes();
+            Assert.Equal(5, recipes.Count);
         }
     }
 }
