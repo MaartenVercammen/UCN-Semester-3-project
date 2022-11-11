@@ -1,5 +1,5 @@
 using Xunit.Abstractions;
-using RecipesData.DatabaseLayer;
+using RecipesData.Database;
 
 namespace RecipeDataTest
 {
