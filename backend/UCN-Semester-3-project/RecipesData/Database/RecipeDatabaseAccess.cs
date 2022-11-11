@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RecipesData.Model;
 
 namespace RecipesData.Database
 { 
@@ -20,5 +21,31 @@ namespace RecipesData.Database
         {
             _connectionString = connetionstring;
         }
+
+        public Recipe GetRecipe(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Recipe> GetRecipes()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateRecipe(Recipe recipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateRecipe(Recipe recipe)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteRecipe(int id)
+        {
+            throw new NotImplementedException();
+        }
+        
     }
 }
