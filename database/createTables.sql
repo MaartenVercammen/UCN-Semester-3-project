@@ -29,8 +29,8 @@ create table recipe (
     on delete cascade,
     pictureURL varchar(255) not null,
     time int not null,
-    primary key (recipeId)
-    /* 'amount' int not null, */
+    primary key (recipeId),
+    portionNum int not null 
 );
 
 create table ingredient (
