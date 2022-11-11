@@ -16,7 +16,7 @@ namespace RecipesData.Model
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
 
-        public BambooSession(string sessionId, string hostId, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
+        public BambooSession(Guid sessionId, Guid hostId, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = sessionId;
             this.HostId = hostId;

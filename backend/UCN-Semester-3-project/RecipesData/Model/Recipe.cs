@@ -16,7 +16,7 @@ namespace RecipesData.Model
         public int Time { get; set; }
         public int PortionNum { get; set; }
 
-        public Recipe(string recipeId, string name, string description, string authorId, string pictureURL, int time, int portionNum)
+        public Recipe(Guid recipeId, string name, string description, Guid authorId, string pictureURL, int time, int portionNum)
         {
             this.RecipeId = recipeId;
             this.Name = name;
