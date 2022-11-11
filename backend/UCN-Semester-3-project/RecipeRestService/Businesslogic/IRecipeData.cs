@@ -1,4 +1,6 @@
-﻿namespace RecipeRestService.Businesslogic
+﻿using RecipesData.Model;
+
+namespace RecipeRestService.Businesslogic
 {
     public interface IRecipeData
     {
@@ -10,5 +12,7 @@
         bool Delete(int id); 
          
          */
+
+        Guid Add(Recipe recipeToAdd);
     }
 }
