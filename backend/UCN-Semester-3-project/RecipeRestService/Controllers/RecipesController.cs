@@ -27,7 +27,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Guid> Post(RecipeDto inRecipe)
+        public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;

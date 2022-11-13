@@ -35,7 +35,8 @@ namespace RecipesData.Database
 
         public Guid CreateRecipe(Recipe recipe)
         {
-            Guid outid = Guid.Empty;
+            Guid outid = Guid.NewGuid();
+            recipe.RecipeId= outid;
 
             string queryRecipe = "insert into recipe (recipeId, name, description, pictureURL, time, portionNum, authorId) output INSERTED.recipeId values (@id, @name, @description, @pictureURL, @time, @portionNum, @authorId)";
             string queryIngredient = "insert into ingredient(name, amount, unit, recipeId) values (@name, @amount, @unit, @recipeId)";
