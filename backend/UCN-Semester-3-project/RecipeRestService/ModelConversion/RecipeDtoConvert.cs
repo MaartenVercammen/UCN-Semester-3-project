@@ -31,6 +31,8 @@ namespace RecipeRestService.ModelConversion
             {
                 // TODO: change guid string to author id once author is implemented
                 recipeDTO = new RecipeDto(inRecipe.RecipeId, inRecipe.Name, inRecipe.Description, inRecipe.PictureURL, inRecipe.Time, inRecipe.PortionNum, new Guid("34dc5363-e96d-4f64-a46e-3deb150a59c0"));
+                recipeDTO.Ingredients = inRecipe.Ingredients;
+                recipeDTO.Instructions = inRecipe.Instructions;
             }
             return recipeDTO;
         }

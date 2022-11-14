@@ -19,49 +19,58 @@ namespace RecipeRestService.Controllers
             _rControl = new RecipedataControl(_configuration);
         }
 
-
         [HttpGet, Route("{id}")]
-        public ActionResult<Recipe> Get(string id)
+        public ActionResult<RecipeDto> Get(string id)
         {
-            ActionResult foundReturn;
-            Guid recipeId = new Guid(id);
-            Recipe recipe = _rControl.Get(recipeId);
-            if (recipe == null)
+            Guid recipeId = Guid.Parse(id);
+
+            ActionResult<RecipeDto> foundReturn;
+            Recipe? foundRecipe = _rControl.Get(recipeId);
+            if (foundRecipe != null)
+            {
+                foundReturn = Ok(RecipeDtoConvert.FromRecipe(foundRecipe));
+            }
+            else
             {
                 foundReturn = NotFound();
             }
-            foundReturn = Ok(recipe);
+            return foundReturn;
         }
 
+         [HttpGet]
         public ActionResult<List<RecipeDto>> Get()
         {
-            ActionResult<List<RecipeDto>> foundRecipes;
+            ActionResult<List<RecipeDto>> foundReturn;
             // retrieve and convert data
-            List<Recipe>? recipes = _rControl.Get();
-            List<RecipeDto> recipeDTOs = null;
+            List<Recipe>? foundRecipes = _rControl.Get();
+            List<RecipeDto>? foundDts = null;
             if (foundRecipes != null)
             {
-                recipeDTOs = RecipeDtoConvert.FromRecipeCollection(recipes);
+                foundDts = RecipeDtoConvert.FromRecipeCollection(foundRecipes);
             }
-            if (foundRecipes != null)
+            // evaluate
+            if (foundDts != null)
             {
-                if (foundRecipes.Count > 0)
+                if (foundDts.Count > 0)
                 {
-                    foundRecipes = Ok(recipeDTOs);
+                    foundReturn = Ok(foundDts);                 // Statuscode 200
                 }
                 else
                 {
-                    foundRecipes = new StatusCodeResult(204);
+                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
                 }
-            else 
-            {
-                foundRecipes = new StatusCodeResult(500);
             }
-            foundRecipes = NotFound();
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            // send response back to client
+            return foundReturn;
+
         }
 
         [HttpPost]
-        public ActionResult<Guid> Post(RecipeDto inRecipe)
+        public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;

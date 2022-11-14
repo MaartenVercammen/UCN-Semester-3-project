@@ -11,7 +11,7 @@ namespace RecipeRestService.Businesslogic
             _RecipeAccess = new RecipeDatabaseAccess(inConfiguration);
         }
 
-        public int Add(Recipe recipeToAdd)
+        public  Guid Add(Recipe recipeToAdd)
         {
             throw new NotImplementedException();
         }
