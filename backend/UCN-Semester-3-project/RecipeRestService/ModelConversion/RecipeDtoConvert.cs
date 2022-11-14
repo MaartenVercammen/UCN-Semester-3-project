@@ -17,7 +17,10 @@ namespace RecipeRestService.ModelConversion
         public static Recipe? ToRecipe(RecipeDto inDto)
         {
             //TODO change user to get request to get ID;
-            return new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER));
+            Recipe recipe = new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER));
+            recipe.Ingredients = inDto.Ingredients;
+            recipe.Instructions = inDto.Instructions;
+            return recipe;
         }
     }
 }

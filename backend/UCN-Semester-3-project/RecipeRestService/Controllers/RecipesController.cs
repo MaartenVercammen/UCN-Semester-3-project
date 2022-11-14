@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipesData.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace RecipeRestService.Controllers
 {
@@ -33,7 +35,15 @@ namespace RecipeRestService.Controllers
             Guid insertedGuid = Guid.Empty;
             if(inRecipe != null)
             {
-                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+                Recipe recipe = RecipeDtoConvert.ToRecipe(inRecipe);
+                ValidationContext context = new ValidationContext(recipe);
+                ICollection<ValidationResult> results = new List<ValidationResult>();
+                bool isValid = Validator.TryValidateObject(recipe, context, results);
+                if (isValid)
+                {
+                    insertedGuid = _rControl.Add(recipe);
+                }
+                
             }
             if(insertedGuid!= Guid.Empty)
             {
