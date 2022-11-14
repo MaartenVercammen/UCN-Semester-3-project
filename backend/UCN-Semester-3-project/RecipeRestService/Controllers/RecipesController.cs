@@ -21,29 +21,27 @@ namespace RecipeRestService.Controllers
 
 
         [HttpGet, Route("{id}")]
-        public ActionResult<Recipe> Get(Guid id)
+        public ActionResult<Recipe> Get(string id)
         {
             ActionResult foundReturn;
-            Recipe recipe = _rControl.Get(id);
+            Guid recipeId = new Guid(id);
+            Recipe recipe = _rControl.Get(recipeId);
             if (recipe == null)
             {
                 foundReturn = NotFound();
             }
-            else
-            {
-                foundReturn = Ok(recipe);
-            }
+            foundReturn = Ok(recipe);
         }
 
-        public ActionResult<List<RecipeDTO>> Get()
+        public ActionResult<List<RecipeDto>> Get()
         {
-            ActionResult<List<RecipeDTO>> foundRecipes;
+            ActionResult<List<RecipeDto>> foundRecipes;
             // retrieve and convert data
             List<Recipe>? recipes = _rControl.Get();
-            List<RecipeDTO> recipeDTOs = null;
+            List<RecipeDto> recipeDTOs = null;
             if (foundRecipes != null)
             {
-                recipeDTOs = ModelConverter.ConvertToDTO(recipes);
+                recipeDTOs = RecipeDtoConvert.FromRecipeCollection(recipes);
             }
             if (foundRecipes != null)
             {
