@@ -1,5 +1,6 @@
 using Xunit.Abstractions;
 using RecipesData.Database;
+using RecipesData.Model;
 
 namespace RecipeDataTest
 {
@@ -17,9 +18,20 @@ namespace RecipeDataTest
         }
 
         [Fact]
-        public void Test1()
-        {
-            Assert.Equal(1, 1);
+        public void CreateRecipe(){
+            User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
+            RecipeDatabaseAccess access = new RecipeDatabaseAccess(_connectionString);
+            Ingredient ingredient1 = new Ingredient("banana", 5, "kg");
+            Ingredient ingredient2 = new Ingredient("sugar", 500, "g");
+            Instruction instruction1 = new Instruction(1, "peel the banana");
+            Instruction instruction2 = new Instruction(2, "Add suggar");
+            Recipe recipe = new Recipe("Bananabread", "best bananabread in the world", "http://picture.png", 30, 4, auhtor);
+            recipe.Ingredients.Add(ingredient1);
+            recipe.Ingredients.Add(ingredient2);
+            recipe.Instructions.Add(instruction1);
+            recipe.Instructions.Add(instruction2);
+            Guid id = access.CreateRecipe(recipe);
+            Assert.NotEqual(Guid.Empty, id);
         }
     }
 }
