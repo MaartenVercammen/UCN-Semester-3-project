@@ -26,12 +26,12 @@ const GetRecipe: React.FC = () => {
       <div className={style.recipeImg}>
         <img src={recipe.pictureURL} alt="" />
       </div>
+      <h1>{recipe.name}</h1>
       <div className={style.container}>
-        <h2>{recipe.name}</h2>
-        <h5>Preparation time: {recipe.time}min</h5>
+        <h4>Preparation time: {recipe.time}min</h4>
         <p>{recipe.description}</p>
-        <h5>published by: author</h5> {/** TODO: change this to author.name  */}
-        <h5>Number of portions: {recipe.portionNum}</h5>
+        <h4>published by: author</h4> {/** TODO: change this to author.name  */}
+        <h4>Number of portions: {recipe.portionNum}</h4>
         <h3>Ingredients:</h3>
         {ingredients.map((ingredient: Ingredient) => (
           <div key={ingredient.name}>

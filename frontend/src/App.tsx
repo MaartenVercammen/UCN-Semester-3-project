@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Index from './component';
-import CreateRecipe from './component/recipe/CreateRecipe';
+import Index from './components';
+import CreateRecipe from './components/recipe/CreateRecipe';
 import GetRecipe from './components/recipe/GetRecipe';
 import GetRecipes from './components/recipe/GetRecipes';
 import './css/index.css';

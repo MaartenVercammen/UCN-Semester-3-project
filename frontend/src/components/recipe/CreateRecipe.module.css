@@ -8,10 +8,6 @@
     gap: 1rem;
   }
 
-  h1{
-    text-align: center;
-  }
-
   li{
     display: flex;
     flex-flow: row nowrap;
