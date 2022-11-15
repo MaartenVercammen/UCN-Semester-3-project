@@ -1,0 +1,29 @@
+.container{
+    display: grid;
+    grid-auto-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+  }
+
+  .recipeImg {
+    width: 100vw;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+  }
+  img {
+    position: absolute;
+    left: -200px;
+    top: -300px;
+  }
+
+  .ingredientContainer {
+    display: flex;
+  }
+
+  .ingredientChild {
+    flex: .2;
+  }
+  
