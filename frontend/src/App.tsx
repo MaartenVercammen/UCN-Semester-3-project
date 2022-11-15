@@ -5,24 +5,14 @@ import CreateRecipe from './component/recipe/CreateRecipe';
 import Swipe from './component/swipe/swipe';
 import './css/index.css';
 
-const App:React.FC = () => {
+const App: React.FC = () => {
   return (
     <Routes>
-      <Route
-        path="/"
-        element={(
-          <Index/>
-  )}
-      />
-      <Route
-      path='/createRecipe'
-      element={<CreateRecipe/>}
-      />
-      <Route
-      path='/swipe'
-      element={<Swipe/>}
+      <Route path="/" element={<Index />} />
+      <Route path="/createRecipe" element={<CreateRecipe />} />
+      <Route path="/swipe" element={<Swipe />} />
     </Routes>
   );
-}
+};
 
 export default App;
