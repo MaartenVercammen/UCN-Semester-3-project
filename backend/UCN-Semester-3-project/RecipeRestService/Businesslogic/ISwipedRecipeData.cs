@@ -6,7 +6,7 @@ namespace RecipeRestService.Businesslogic
     {
         SwipedRecipe? Get(Guid id);
         //List<Recipe>? Get();
-        Guid Add(SwipedRecipe swipedRecipeToAdd);
+        SwipedRecipe? Add(SwipedRecipe swipedRecipeToAdd);
         bool Delete(Guid id); 
     }
 }

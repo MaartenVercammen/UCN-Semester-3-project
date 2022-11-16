@@ -25,17 +25,18 @@ namespace RecipeRestService.Businesslogic
             return foundRecipe;
         }
 
-        public Guid Add(SwipedRecipe swipedRecipeToAdd)
+        public SwipedRecipe? Add(SwipedRecipe swipedRecipeToAdd)
         {
-            Guid guid;
             try
             {
-                guid = _SwipedRecipeAccess.CreateSR(swipedRecipeToAdd).RecipeId;
-            } catch(Exception e) {
-                guid = Guid.Empty;
+                _SwipedRecipeAccess.CreateSR(swipedRecipeToAdd);
+            }
+            catch (Exception e)
+            {
+                swipedRecipeToAdd = null;
             }
             // change this
-            return guid;
+            return swipedRecipeToAdd;
         }
 
         public bool Delete(Guid id)

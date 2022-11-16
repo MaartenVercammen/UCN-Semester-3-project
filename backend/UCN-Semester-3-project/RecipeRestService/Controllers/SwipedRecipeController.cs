@@ -43,23 +43,19 @@ namespace RecipeRestService.Controllers
 
 
         [HttpPost]
-        public ActionResult<string> Post(SwipedRecipeDto inSwipedRecipe)
+        public ActionResult<SwipedRecipeDto> Post(SwipedRecipeDto inSwipedRecipeDto)
         {
-            ActionResult foundReturn;
-            Guid insertedGuid = Guid.Empty;
-            if (inSwipedRecipe != null)
+            ActionResult<SwipedRecipeDto> foundReturn;
+            SwipedRecipe? foundSwipedRecipe;
+            if (inSwipedRecipeDto != null)
             {
-                _swControl.Add(SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipe));
-            }
-            if(insertedGuid!= Guid.Empty)
-            {
-                foundReturn = Ok(inSwipedRecipe);
+                foundSwipedRecipe = _swControl.Add(SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto));
+                foundReturn= Ok(foundSwipedRecipe);
             }
             else
             {
                 foundReturn = new StatusCodeResult(500);
             }
-
             return foundReturn;
         }
 
