@@ -2,6 +2,9 @@
   "profiles": {
     "RecipeDataTest": {
       "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
     }
   }
 }
