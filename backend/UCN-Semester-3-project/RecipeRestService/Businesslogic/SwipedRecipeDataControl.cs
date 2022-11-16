@@ -3,40 +3,53 @@ using RecipesData.Model;
 
 namespace RecipeRestService.Businesslogic
 {
-    public class SwipedRecipeDataControl : ISwipedRecipeAccess
+    public class SwipedRecipeDataControl : ISwipedRecipeData
     {
-        ISwipedRecipeAccess _swipedRecipeAccess;
+        ISwipedRecipeAccess _SwipedRecipeAccess;
         public SwipedRecipeDataControl(IConfiguration inConfiguration)
         {
-            _swipedRecipeAccess = new SwipedRecipeDataAccess(configuration);
+            _SwipedRecipeAccess = new SwipedRecipeDatabaseAccess(inConfiguration);
         }
 
         public SwipedRecipe? Get(Guid id)
         {
-            Recipe? foundRecipe;
-            try{
-                foundRecipe = _swipedRecipeAccess.GetSwipedRecipeById(id);
+            SwipedRecipe? foundRecipe;
+            try
+            {
+                foundRecipe = _SwipedRecipeAccess.GetSRById(id);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 foundRecipe = null;
             }
             return foundRecipe;
         }
 
-        public void AddSwipedRecipe(SwipedRecipe swipedRecipe)
+        public Guid Add(SwipedRecipe swipedRecipeToAdd)
         {
-            throw new NotImplementedException();
+            Guid guid;
+            try
+            {
+                guid = _SwipedRecipeAccess.CreateSR(swipedRecipeToAdd).RecipeId;
+            } catch(Exception e) {
+                guid = Guid.Empty;
+            }
+            // change this
+            return guid;
         }
 
-        bool Put(SwipedRecipe SwipedRecipeToUpdate)
+        public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
-        }
-
-        bool Delete(Guid id)
-        {
-            throw new NotImplementedException();
+            bool removed;
+            try
+            {
+                removed = _SwipedRecipeAccess.DeleteSR(id);
+            }
+            catch (Exception e)
+            {
+                removed = false;
+            }
+            return removed;
         }
     }
 }

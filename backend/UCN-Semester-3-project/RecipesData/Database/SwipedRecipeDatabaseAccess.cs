@@ -24,7 +24,7 @@ namespace RecipesData.Database
             _connectionString = connetionstring;
         }
 
-        public SwipedRecipe GetSwipedRecipeById(Guid id)
+        public SwipedRecipe GetSRById(Guid id)
         {
             String guidString = id.ToString();
             SwipedRecipe sRecipe = new SwipedRecipe();
@@ -51,9 +51,9 @@ namespace RecipesData.Database
             return sRecipe;
         }
 
-        public void CreateSwipedRecipe(SwipedRecipe swipedRecipe)
+        public SwipedRecipe CreateSR(SwipedRecipe swipedRecipe)
         {
-            //bool successful = false;
+            SwipedRecipe sRecipe = new SwipedRecipe();
             string querySwipedRecipe = "insert into SwipedRecipe values (@UserId, @RecipeId, @IsLiked)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -67,14 +67,18 @@ namespace RecipesData.Database
                     command.Parameters.AddWithValue("@IsLiked", swipedRecipe.IsLiked);
 
                     command.ExecuteNonQuery();
+                    sRecipe.UserId = swipedRecipe.UserId;
+                    sRecipe.RecipeId = swipedRecipe.RecipeId;
+                    sRecipe.IsLiked = swipedRecipe.IsLiked;
                 }
                 connection.Close();
             }
-            //return successful;
+            return sRecipe;
         }
 
-        public void DeleteSwipedRecipe(Guid id)
+        public bool DeleteSR(Guid id)
         {
+            bool removed = false;
             string guidString = id.ToString();
 
             string query = "delete from SwipedRecipe where recipeId = @id";
@@ -88,9 +92,11 @@ namespace RecipesData.Database
                     command.Parameters.AddWithValue("@id", id);
 
                     command.ExecuteNonQuery();
+                    removed = true;
                 }
                 connection.Close();
             }
+            return removed;
         }
 
         // private functions

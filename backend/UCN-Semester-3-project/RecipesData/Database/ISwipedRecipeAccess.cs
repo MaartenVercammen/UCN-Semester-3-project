@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RecipesData.Model;
 
 namespace RecipesData.Database
 {
     public interface ISwipedRecipeAccess
     {
-        SwipedRecipe GetSwipedRecipeById(Guid id);
+        SwipedRecipe GetSRById(Guid id);
 
-        void CreateSwipedRecipe(SwipedRecipe swipedRecipe);
+        SwipedRecipe CreateSR(SwipedRecipe swipedRecipe);
 
-        void DeleteSwipedRecipe(Guid id);
+        bool DeleteSR(Guid id);
     }
 }

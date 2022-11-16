@@ -18,23 +18,23 @@ namespace RecipeDataTest
         }
 
         [Fact]
-        public void TestGetSwipedRecipeById() 
+        public void TestGetSRById() 
         {
             Guid recipeId = new Guid("04c74da5-3035-4a4a-b732-77b40fa4ab17");
-            SwipedRecipe retrievedSRecipe =  _swipedRecipeAccess.GetSwipedRecipeById(recipeId);
+            SwipedRecipe retrievedSRecipe =  _swipedRecipeAccess.GetSRById(recipeId);
             Assert.Equal(recipeId, retrievedSRecipe.RecipeId);
         }
 
         [Fact]
-        public void CreateSwipedRecipe()
+        public void CreateSR()
         {
             Guid recipeId = new Guid("b4ea22a7-8fea-4e27-b359-7dd2ce8da8ae");
             User author = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
             SwipedRecipe swipedRecipe = new SwipedRecipe(author.UserId, recipeId, true);
-            _swipedRecipeAccess.CreateSwipedRecipe(swipedRecipe);
-            //SwipedRecipe retrievedSRecipe = _swipedRecipeAccess.GetSwipedRecipeById(author.UserId);
+            _swipedRecipeAccess.CreateSR(swipedRecipe);
+            //SwipedRecipe retrievedSRecipe = _swipedRecipeAccess.GetSRById(author.UserId);
             Assert.Equal(recipeId, swipedRecipe.RecipeId);
-            _swipedRecipeAccess.DeleteSwipedRecipe(recipeId);
+            _swipedRecipeAccess.DeleteSR(recipeId);
         }
 
         
