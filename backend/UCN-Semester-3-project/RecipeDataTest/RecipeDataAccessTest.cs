@@ -14,7 +14,7 @@ namespace RecipeDataTest
         {
             this.extraOutput = output;
             _recipeAccess = new RecipeDatabaseAccess(_connectionString);
-
+            //IRecipeAccess recipeAccess = new RecipeDatabaseAccess(_connectionString);
         }
 
         [Fact]
@@ -32,6 +32,23 @@ namespace RecipeDataTest
             recipe.Instructions.Add(instruction2);
             Guid id = access.CreateRecipe(recipe);
             Assert.NotEqual(Guid.Empty, id);
+        }
+
+        [Fact]
+        public void TestGetRecipeById()
+        {
+            Guid id = new Guid("42108066-b596-480f-a3b2-16ddb3f56183");
+            Recipe recipe = null;
+            recipe = _recipeAccess.GetRecipeById(id);
+            Assert.NotNull(recipe);
+        }
+
+        [Fact]
+        public void TestGetAllRecipes()
+        {
+            List<Recipe> recipes = new List<Recipe>();
+            recipes = _recipeAccess.GetRecipes();
+            Assert.True(recipes.Count > 0);
         }
     }
 }

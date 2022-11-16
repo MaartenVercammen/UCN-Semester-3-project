@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "red9hCI6eLGazpnVqMeeXMBic0cuzNMU6dAtM6Q8P5nssno5qQnaRTifhU/zglSAB/lnm3wHmjsu6s17VWNnvQ==",
+  "dgSpecHash": "uo2z8oBBobl0X96HnZ42DmSjxNMhTfYisksBU3zdeUii3BnJLILwY/shxdu8yuikGaceWUYMzUoUiAD582iGaw==",
   "success": true,
-  "projectFilePath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
+  "projectFilePath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\geeni\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
@@ -109,5 +109,12 @@
     "C:\\Users\\geeni\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.3\\xunit.runner.visualstudio.2.4.3.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

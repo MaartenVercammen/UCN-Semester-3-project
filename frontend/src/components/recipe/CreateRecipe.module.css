@@ -1,0 +1,36 @@
+  .container{
+    display: grid;
+    grid-auto-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+    gap: 1rem;
+  }
+
+  li{
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem;
+  }
+
+label{
+  margin-right: 0.5rem;
+}
+
+input{
+  width: 100%;
+}
+
+  input:valid{
+    border-color: green;
+  }
+
+  input:invalid{
+    border-color: red;
+  }
+
+  button{
+    padding: 0.3rem;
+    margin: 0.5rem;
+  }
