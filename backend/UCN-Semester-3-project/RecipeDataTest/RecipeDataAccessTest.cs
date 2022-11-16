@@ -50,5 +50,13 @@ namespace RecipeDataTest
             recipes = _recipeAccess.GetRecipes();
             Assert.True(recipes.Count > 0);
         }
+
+        [Fact]
+        public void TestGetAllRecipeIds()
+        {
+            List<Guid> ids = new List<Guid>();
+            ids = _recipeAccess.GetGuids();
+            Assert.True(ids.Count > 0);
+        }
     }
 }

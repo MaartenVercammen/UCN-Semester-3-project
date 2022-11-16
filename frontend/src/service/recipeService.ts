@@ -6,11 +6,14 @@ import { Recipe } from '../types';
 const createRecipe = (recipe: Recipe) => instance.post('/Recipes', JSON.stringify(recipe));
 const getRecipe = (recipeId: string) => instance.get<Recipe>('/Recipes/' + recipeId);
 const getRecipes = () => instance.get<Recipe[]>('/Recipes');
+const getRandomRecipe = () => instance.get<Recipe>('/Random');
 
 const RecipeService = {
   createRecipe,
   getRecipe,
-  getRecipes
+  getRecipes,
+  getRandomRecipe,
+
 };
 
 export default RecipeService;

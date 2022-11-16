@@ -19,5 +19,7 @@ namespace RecipesData.Database
         bool UpdateRecipe(Recipe recipe);
 
         bool DeleteRecipe(int id);
+
+        List<Guid> GetGuids();
     }
 }

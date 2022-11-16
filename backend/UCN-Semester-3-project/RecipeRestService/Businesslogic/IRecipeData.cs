@@ -9,5 +9,6 @@ namespace RecipeRestService.Businesslogic
         Guid Add(Recipe recipeToAdd);
         bool Put(Recipe recipeToUpdate);
         bool Delete(int id); 
+        Recipe GetRandomRecipe();
     }
 }
