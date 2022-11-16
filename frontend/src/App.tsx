@@ -17,7 +17,6 @@ const App: React.FC = () => {
       <Route path="/createRecipe" element={<CreateRecipe />} />
       <Route path="/recipes" element={<GetRecipes />} />
       <Route path="/recipes/:id" element={<GetRecipe />} />
-      <Route path="/swipe" element={<Swipe />} />
     </Routes>
   );
 };
