@@ -1,6 +1,10 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "OJ/LjPyk+nxiUE72UsHaw77JKTkxqVhuaJ4ZzSv09dDtiNSHlER/fFbmMF7/yPlIBrbjqaKVJs1fhKTCpiUv5g==",
+=======
+  "dgSpecHash": "red9hCI6eLGazpnVqMeeXMBic0cuzNMU6dAtM6Q8P5nssno5qQnaRTifhU/zglSAB/lnm3wHmjsu6s17VWNnvQ==",
+>>>>>>> origin/dev
   "success": true,
   "projectFilePath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeDataTest/RecipeDataTest.csproj",
   "expectedPackageFiles": [

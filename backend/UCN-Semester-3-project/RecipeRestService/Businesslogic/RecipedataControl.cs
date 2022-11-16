@@ -1,5 +1,4 @@
 ﻿using RecipesData.Database;
-using RecipesData.Model;
 
 namespace RecipeRestService.Businesslogic
 {
@@ -11,9 +10,17 @@ namespace RecipeRestService.Businesslogic
             _RecipeAccess = new RecipeDatabaseAccess(inConfiguration);
         }
 
-        public  Guid Add(Recipe recipeToAdd)
+        public Guid Add(Recipe recipeToAdd)
         {
-            throw new NotImplementedException();
+            Guid guid;
+            try
+            {
+                guid = _RecipeAccess.CreateRecipe(recipeToAdd);
+            }catch(Exception ex)
+            {
+                guid = Guid.Empty;
+            }
+            return guid;
         }
 
         public bool Delete(int id)
@@ -53,6 +60,7 @@ namespace RecipeRestService.Businesslogic
         {
             throw new NotImplementedException();
         }
+
 
     }
 }
