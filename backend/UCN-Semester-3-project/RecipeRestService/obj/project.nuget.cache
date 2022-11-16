@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "haaj+66NpY4B8NebK9+DMgABKtlQ9brafms4XsazicucRkTKlP4pr6ALRzl+aRpyUcjON6d/xkW3bCjyl0v9QA==",
+  "dgSpecHash": "eet74JPySBl83FDJ+9DusOL3cDiHJsIIZd4xPNr6cqBF4+5wmmiNsNx8va8dHq+3arP5Co7bmdCdvxfFjO/sjA==",
   "success": true,
-  "projectFilePath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
+  "projectFilePath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\6.0.0\\microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
@@ -24,12 +24,5 @@
     "C:\\Users\\geeni\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
     "C:\\Users\\geeni\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    }
-  ]
+  "logs": []
 }

@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+}
+
+.carddeck {
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  margin-top: 6vh;
+  padding-bottom: 500px;
+  overflow: hidden;
+}
+
+.swipe {
+  position: absolute;
+}
+
+button {
+  border-radius: 100%;
+  width: 60px;
+  height: 60px;
+  border: none;
+  outline: none;
+}
+
+.buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 2rem;
+}
+
+.emptylist {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
