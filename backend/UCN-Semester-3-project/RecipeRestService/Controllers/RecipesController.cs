@@ -89,5 +89,18 @@ namespace RecipeRestService.Controllers
             }
             return foundReturn;
         }
+
+        [HttpGet, Route("/Random")]
+        public ActionResult<RecipeDto> GetRandomRecipe()
+        {
+            ActionResult foundReturn;
+            Recipe recipe = _rControl.GetRandomRecipe();
+            if(recipe!=null){
+                foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
+            }else{
+                foundReturn = new StatusCodeResult(200);
+            }
+            return foundReturn;
+        }
     }
 }

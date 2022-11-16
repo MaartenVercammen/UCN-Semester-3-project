@@ -61,6 +61,17 @@ namespace RecipeRestService.Businesslogic
             throw new NotImplementedException();
         }
 
-
+        public Recipe GetRandomRecipe(){
+            List<Guid> guids = new List<Guid>();
+            try{
+                guids = _RecipeAccess.GetGuids();
+                Random rnd = new Random();
+                int randomnumber = rnd.Next(0, guids.Count - 1);
+                return _RecipeAccess.GetRecipeById(guids[randomnumber]);
+            }
+            catch (Exception e){
+                return null;
+            }
+        }
     }
 }

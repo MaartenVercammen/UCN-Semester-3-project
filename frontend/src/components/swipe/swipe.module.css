@@ -14,6 +14,7 @@
   cursor: pointer;
   margin-top: 6vh;
   padding-bottom: 500px;
+   overflow: hidden;
 }
 
 .swipe {

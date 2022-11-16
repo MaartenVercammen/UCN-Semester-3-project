@@ -15,7 +15,7 @@ namespace RecipesData.Model
         public string Name { get; set; }
         [MinLength(5), Required]
         public string Description { get; set; }
-        [RegularExpression("http(s*)://(.*)[.png, .web, .jpeg]"), Required]
+        [RegularExpression("http(s*)://(.*)[.png, .web, .jpeg .jpg]"), Required]
         public string PictureURL { get; set; }
         [Range(1, int.MaxValue), Required]
         public int Time { get; set; }

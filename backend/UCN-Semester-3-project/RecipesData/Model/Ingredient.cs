@@ -9,7 +9,7 @@ namespace RecipesData.Model
 {
     public class Ingredient
     {
-        [MinLength(5), Required]
+        [MinLength(1), Required]
         public string name { get; set; }
         [Range(1, int.MaxValue), Required]
         public int amount { get; set; }
