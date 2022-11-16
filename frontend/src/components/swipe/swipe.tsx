@@ -3,29 +3,28 @@ import TinderCard from 'react-tinder-card';
 import useKeypress from 'react-use-keypress';
 import Card from './Card';
 import style from './swipe.module.css';
-import RecipeService  from '../../service/recipeService';
+import RecipeService from '../../service/recipeService';
 import { Recipe } from '../../types';
 
 const Swipe: React.FC = () => {
   const [currentindex, setcurrentindex] = useState<number>(0);
-  const [cards, setcards] = useState<Recipe[]>([]);
+  const [cards, setcards] = useState<(Recipe | undefined)[]>([]);
   const [refs, setRefs] = useState<React.RefObject<any>[]>([]);
-  
+
   useEffect(() => {
     getCard();
     getCard();
     getCard();
-  }, [])
+  }, []);
 
   const getCard = async () => {
     const res = await RecipeService.getRandomRecipe();
-    const recipe: Recipe = res.data; 
+    const recipe: Recipe = res.data;
     cards.push(recipe);
     const list = cards;
     setcards(list);
-    setRefs([...refs, React.createRef()])
-  }
-  
+    setRefs([...refs, React.createRef()]);
+  };
 
   const updateindex = () => {
     const newval = currentindex + 1;
@@ -33,6 +32,11 @@ const Swipe: React.FC = () => {
   };
 
   const onSwipe = (direction: string) => {
+    setTimeout(() => {
+      cards[currentindex] = undefined;
+      setcards([...cards]);
+    }, 500);
+
     getCard();
     updateindex();
     if (direction === 'left') onSwipeLeft();
@@ -42,10 +46,6 @@ const Swipe: React.FC = () => {
   const swipe = async (dir) => {
     await refs[currentindex].current.swipe(dir);
   };
-
-  const onleftScreen = (element: Element) => {
-    element.style
-  }
 
   useKeypress(['ArrowLeft', 'ArrowRight'], (event) => {
     if (event.key === 'ArrowLeft') {
@@ -68,19 +68,28 @@ const Swipe: React.FC = () => {
       {currentindex >= 0 ? (
         <>
           <div className={style.carddeck}>
-            {cards.map((item, index) => (
-              <div style={{position: 'absolute', zIndex: -index, left: 'calc(100vw/2 - 125px)'}}>
-              <TinderCard
-                ref={refs[index]}
-                className={style.swipe}
-                preventSwipe={['up', 'down']}
-                onSwipe={(dir) => onSwipe(dir)}
-                onCardLeftScreen(() => onleftScreen(this))
-              >
-                <Card title={item.name} img={item.pictureURL} time={item.time} />
-              </TinderCard>
-              </div>
-            ))}
+            {cards.map((item, index) => {
+              if (item != undefined) {
+                return (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      zIndex: 9999 - index,
+                      left: 'calc(100vw/2 - 125px)'
+                    }}
+                  >
+                    <TinderCard
+                      ref={refs[index]}
+                      className={style.swipe}
+                      preventSwipe={['up', 'down']}
+                      onSwipe={(dir) => onSwipe(dir)}
+                    >
+                      <Card title={item.name} img={item.pictureURL} time={item.time} />
+                    </TinderCard>
+                  </div>
+                );
+              }
+            })}
           </div>
           <div className={style.buttons}>
             <button onClick={(e) => swipe('left')}> &#10060;</button>
