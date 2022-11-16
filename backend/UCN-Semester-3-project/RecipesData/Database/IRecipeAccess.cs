@@ -14,13 +14,10 @@ namespace RecipesData.Database
 
         List<Recipe> GetRecipes();
 
-        int CreateRecipe(Recipe recipe);
+        Guid CreateRecipe(Recipe recipe);
 
         bool UpdateRecipe(Recipe recipe);
 
         bool DeleteRecipe(int id);
-         */
-
-        Guid CreateRecipe(Recipe recipe);
     }
 }

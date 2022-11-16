@@ -1,4 +1,5 @@
 ﻿using RecipesData.Database;
+using RecipesData.Model;
 
 namespace RecipeRestService.Businesslogic
 {
@@ -55,7 +56,6 @@ namespace RecipeRestService.Businesslogic
             }
             return foundRecipes;
         }
-
         public bool Put(Recipe recipeToUpdate)
         {
             throw new NotImplementedException();

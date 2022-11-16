@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {}
+    "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {}
   },
   "projects": {
-    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
+    "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
+        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
         "projectName": "RecipesData",
-        "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
-        "packagesPath": "/Users/tomassabol/.nuget/packages/",
-        "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/obj/",
+        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+        "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
+        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/tomassabol/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\geeni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,11 +69,7 @@
               "privateAssets": "all"
             }
           },
-<<<<<<< HEAD
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
-=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
->>>>>>> origin/dev
         }
       }
     }
