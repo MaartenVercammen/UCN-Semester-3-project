@@ -2,7 +2,7 @@ use ucn;
 
 drop table if exists bambooSessionUser;
 drop table if exists bambooSession;
-drop table if exists list;
+drop table if exists swipedRecipe;
 drop table if exists ingredient;
 drop table if exists instruction;
 
@@ -52,7 +52,7 @@ create table instruction (
     primary key (recipeId, step)
 );
 
-create table list (
+create table swipedRecipe (
     userId varchar(255) not null,
     foreign key (userId) references "user"(userId),
     recipeId varchar(255) not null,
