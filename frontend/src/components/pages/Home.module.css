@@ -1,0 +1,7 @@
+.homePage {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 575px;
+    margin-left: auto;
+    margin-right: auto;
+}
