@@ -51,6 +51,60 @@ namespace RecipesData.Database
             return sRecipe;
         }
 
+        public List<SwipedRecipe> GetSRByUser(Guid userId)
+        {
+            String guidString = userId.ToString();
+            List<SwipedRecipe> sRecipeList = new List<SwipedRecipe>();
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM SwipedRecipe WHERE userId = @userId";
+                    command.Parameters.AddWithValue("@userId", guidString);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sRecipeList.Add(BuildObject(reader));
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+            return sRecipeList;
+        }
+
+        public List<SwipedRecipe> GetLikedByUser(Guid userId)
+        {
+            String guidString = userId.ToString();
+            List<SwipedRecipe> sRecipeList = new List<SwipedRecipe>();
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM SwipedRecipe WHERE userId = @userId AND isLiked = 1";
+                    command.Parameters.AddWithValue("@userId", guidString);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sRecipeList.Add(BuildObject(reader));
+                        }
+                        reader.Close();
+                    }
+                    connection.Close();
+                }
+            }
+            return sRecipeList;
+        }
+
         public SwipedRecipe CreateSR(SwipedRecipe swipedRecipe)
         {
             SwipedRecipe sRecipe = new SwipedRecipe();

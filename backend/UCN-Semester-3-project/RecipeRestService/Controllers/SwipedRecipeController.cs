@@ -41,6 +41,72 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
+        [HttpGet, Route("user/{id}")]
+        public ActionResult<List<SwipedRecipeDto>> GetPerUser(string id)
+        {
+            Guid userId = Guid.Parse(id);
+            ActionResult<List<SwipedRecipeDto>> foundReturn;
+            // retrieve and convert data
+            List<SwipedRecipe>? foundRecipes = _swControl.GetPerUser(userId);
+            List<SwipedRecipeDto>? foundDts = null;
+            if (foundRecipes != null)
+            {
+                foundDts = SwipedRecipeDtoConvert.FromSwipedRecipeCollection(foundRecipes);
+            }
+            // evaluate
+            if (foundDts != null)
+            {
+                if (foundDts.Count > 0)
+                {
+                    foundReturn = Ok(foundDts);                 // Statuscode 200
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
+                }
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            // send response back to client
+            return foundReturn;
+
+        }
+
+        [HttpGet, Route("user/{id}/liked")]
+        public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
+        {
+            Guid userId = Guid.Parse(id);
+            ActionResult<List<SwipedRecipeDto>> foundReturn;
+            // retrieve and convert data
+            List<SwipedRecipe>? foundRecipes = _swControl.GetLikedPerUser(userId);
+            List<SwipedRecipeDto>? foundDts = null;
+            if (foundRecipes != null)
+            {
+                foundDts = SwipedRecipeDtoConvert.FromSwipedRecipeCollection(foundRecipes);
+            }
+            // evaluate
+            if (foundDts != null)
+            {
+                if (foundDts.Count > 0)
+                {
+                    foundReturn = Ok(foundDts);                 // Statuscode 200
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
+                }
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            // send response back to client
+            return foundReturn;
+
+        }
+
 
         [HttpPost]
         public ActionResult<SwipedRecipeDto> Post(SwipedRecipeDto inSwipedRecipeDto)

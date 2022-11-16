@@ -11,6 +11,9 @@ namespace RecipesData.Database
     {
         SwipedRecipe GetSRById(Guid id);
 
+        List<SwipedRecipe> GetSRByUser(Guid userId);
+        List<SwipedRecipe> GetLikedByUser(Guid userId);
+
         SwipedRecipe CreateSR(SwipedRecipe swipedRecipe);
 
         bool DeleteSR(Guid id);

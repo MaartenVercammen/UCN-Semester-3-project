@@ -18,11 +18,39 @@ namespace RecipeRestService.Businesslogic
             {
                 foundRecipe = _SwipedRecipeAccess.GetSRById(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 foundRecipe = null;
             }
             return foundRecipe;
+        }
+
+        public List<SwipedRecipe>? GetPerUser(Guid userId)
+        {
+            List<SwipedRecipe>? foundRecipes;
+            try
+            {
+                foundRecipes = _SwipedRecipeAccess.GetSRByUser(userId);
+            }
+            catch (Exception)
+            {
+                foundRecipes = null;
+            }
+            return foundRecipes;
+        }
+
+        public List<SwipedRecipe>? GetLikedPerUser(Guid userId)
+        {
+            List<SwipedRecipe>? foundRecipes;
+            try
+            {
+                foundRecipes = _SwipedRecipeAccess.GetLikedByUser(userId);
+            }
+            catch (Exception)
+            {
+                foundRecipes = null;
+            }
+            return foundRecipes;
         }
 
         public SwipedRecipe? Add(SwipedRecipe swipedRecipeToAdd)
@@ -31,9 +59,9 @@ namespace RecipeRestService.Businesslogic
             {
                 _SwipedRecipeAccess.CreateSR(swipedRecipeToAdd);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                swipedRecipeToAdd = null;
+                return null;
             }
             // change this
             return swipedRecipeToAdd;
@@ -46,7 +74,7 @@ namespace RecipeRestService.Businesslogic
             {
                 removed = _SwipedRecipeAccess.DeleteSR(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 removed = false;
             }
