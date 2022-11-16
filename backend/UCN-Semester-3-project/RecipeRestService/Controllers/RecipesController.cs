@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipesData.Model;
-using System.ComponentModel.DataAnnotations;
 
 namespace RecipeRestService.Controllers
 {
@@ -21,11 +20,54 @@ namespace RecipeRestService.Controllers
             _rControl = new RecipedataControl(_configuration);
         }
 
-
-        [HttpGet]
-        public IActionResult Get()
+        [HttpGet, Route("{id}")]
+        public ActionResult<RecipeDto> Get(string id)
         {
-            return new StatusCodeResult(500);
+            Guid recipeId = Guid.Parse(id);
+
+            ActionResult<RecipeDto> foundReturn;
+            Recipe? foundRecipe = _rControl.Get(recipeId);
+            if (foundRecipe != null)
+            {
+                foundReturn = Ok(RecipeDtoConvert.FromRecipe(foundRecipe));
+            }
+            else
+            {
+                foundReturn = NotFound();
+            }
+            return foundReturn;
+        }
+
+         [HttpGet]
+        public ActionResult<List<RecipeDto>> Get()
+        {
+            ActionResult<List<RecipeDto>> foundReturn;
+            // retrieve and convert data
+            List<Recipe>? foundRecipes = _rControl.Get();
+            List<RecipeDto>? foundDts = null;
+            if (foundRecipes != null)
+            {
+                foundDts = RecipeDtoConvert.FromRecipeCollection(foundRecipes);
+            }
+            // evaluate
+            if (foundDts != null)
+            {
+                if (foundDts.Count > 0)
+                {
+                    foundReturn = Ok(foundDts);                 // Statuscode 200
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
+                }
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            // send response back to client
+            return foundReturn;
+
         }
 
         [HttpPost]
@@ -35,15 +77,7 @@ namespace RecipeRestService.Controllers
             Guid insertedGuid = Guid.Empty;
             if(inRecipe != null)
             {
-                Recipe recipe = RecipeDtoConvert.ToRecipe(inRecipe);
-                ValidationContext context = new ValidationContext(recipe);
-                ICollection<ValidationResult> results = new List<ValidationResult>();
-                bool isValid = Validator.TryValidateObject(recipe, context, results);
-                if (isValid)
-                {
-                    insertedGuid = _rControl.Add(recipe);
-                }
-                
+                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
             }
             if(insertedGuid!= Guid.Empty)
             {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj": {}
+    "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj": {}
   },
   "projects": {
-    "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj": {
+    "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
+        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
         "projectName": "RecipeRestService",
-        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
+        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
         "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\obj\\",
+        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
-                "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
+              "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
+                "projectPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
               }
             }
           }
@@ -80,14 +80,14 @@
         }
       }
     },
-    "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
+    "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
         "projectName": "RecipesData",
-        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
         "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
+        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\spike\\merge conflic\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

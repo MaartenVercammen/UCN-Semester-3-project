@@ -24,7 +24,43 @@ namespace RecipeRestService.Businesslogic
             return guid;
         }
 
-        //implement IRecipeData
+        public bool Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Recipe? Get(Guid id)
+        {
+            Recipe? foundRecipe;
+            try
+            {
+                foundRecipe = _RecipeAccess.GetRecipeById(id);
+            }
+            catch (Exception)
+            {
+                foundRecipe = null;
+            }
+            return foundRecipe;
+        }
+
+        public List<Recipe>? Get()
+        {
+            List<Recipe>? foundRecipes;
+            try
+            {
+                foundRecipes = _RecipeAccess.GetRecipes();
+            }
+            catch (Exception)
+            {
+                foundRecipes = null;
+            }
+            return foundRecipes;
+        }
+        public bool Put(Recipe recipeToUpdate)
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }
