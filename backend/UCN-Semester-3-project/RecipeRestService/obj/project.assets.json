@@ -915,11 +915,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj",
       "projectName": "RecipeRestService",
       "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj",
       "packagesPath": "/Users/tomassabol/.nuget/packages/",
       "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/obj/",
+=======
+      "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
+      "projectName": "RecipeRestService",
+      "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
+      "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
+      "outputPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\obj\\",
+>>>>>>> dev
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/tomassabol/.nuget/NuGet/NuGet.Config"
@@ -934,8 +942,13 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+<<<<<<< HEAD
             "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
               "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj"
+=======
+            "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
+              "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
+>>>>>>> dev
             }
           }
         }

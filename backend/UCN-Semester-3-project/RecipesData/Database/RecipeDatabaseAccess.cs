@@ -83,7 +83,7 @@ namespace RecipesData.Database
         public Guid CreateRecipe(Recipe recipe)
         {
             Guid outid = Guid.NewGuid();
-            recipe.RecipeId= outid;
+            recipe.RecipeId = outid;
 
             string queryRecipe = "insert into recipe (recipeId, name, description, pictureURL, time, portionNum, authorId) output INSERTED.recipeId values (@id, @name, @description, @pictureURL, @time, @portionNum, @authorId)";
             string queryIngredient = "insert into ingredient(name, amount, unit, recipeId) values (@name, @amount, @unit, @recipeId)";
@@ -153,7 +153,24 @@ namespace RecipesData.Database
             return outid;
         }
 
+        public List<Guid> GetGuids(){
+            List<Guid> guids = new List<Guid>();
+            string query = "select recipeId from recipe";
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                conn.Open();
 
+                SqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = query;
+                SqlDataReader reader = cmd.ExecuteReader();
+                while(reader.Read()){
+                    Guid id = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
+                    guids.Add(id);
+                }
+
+            }
+            return guids;
+        }
 
         bool IRecipeAccess.UpdateRecipe(Recipe recipe)
         {

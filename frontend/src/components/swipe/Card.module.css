@@ -1,0 +1,15 @@
+.container {
+  width: 250px;
+  height: 400px;
+  user-select: none;
+  border-radius: 2rem;
+  background-size: cover;
+  background-position: center;
+}
+
+.cardcontent {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  color: black;
+}

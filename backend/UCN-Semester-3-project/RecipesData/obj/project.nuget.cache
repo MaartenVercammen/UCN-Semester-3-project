@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "UD1om70HXDifHsmN/nNyb59fAiEXAekT1FXe0Ar+VZXm4XPtI1OmFbGbSMMifeCyQgfHbd5wfrw5SyHjVyGVvA==",
   "success": true,
   "projectFilePath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
+=======
+  "dgSpecHash": "txzQbxKtZYK4iazflyfKGNTE0EUbEOvOZ8ktRU99SbgRk6w/7mJAvnk6fvL7Xdr5QhBPJnlXShEDJ8XXNgisvw==",
+  "success": true,
+  "projectFilePath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+>>>>>>> dev
   "expectedPackageFiles": [
     "/Users/tomassabol/.nuget/packages/microsoft.extensions.configuration.abstractions/6.0.0/microsoft.extensions.configuration.abstractions.6.0.0.nupkg.sha512",
     "/Users/tomassabol/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
