@@ -6771,25 +6771,11 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "C:\\Users\\ttomy\\.nuget\\packages\\": {}
-=======
     "C:\\Users\\budai\\.nuget\\packages\\": {}
->>>>>>> dev
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
-      "projectName": "RecipeDataTest",
-      "projectPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
-      "packagesPath": "C:\\Users\\ttomy\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\obj\\",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "C:\\Users\\ttomy\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
       "projectUniqueName": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
       "projectName": "RecipeDataTest",
       "projectPath": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
@@ -6798,7 +6784,6 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\budai\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> dev
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6812,13 +6797,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-<<<<<<< HEAD
-            "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
-              "projectPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
-=======
             "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
               "projectPath": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
->>>>>>> dev
             }
           }
         }
