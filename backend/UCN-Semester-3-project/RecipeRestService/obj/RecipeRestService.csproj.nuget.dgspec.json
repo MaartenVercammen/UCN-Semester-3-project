@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj": {}
   },
   "projects": {
@@ -13,19 +12,6 @@
         "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj",
         "packagesPath": "/Users/tomassabol/.nuget/packages/",
         "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/obj/",
-=======
-    "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj": {}
-  },
-  "projects": {
-    "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
-        "projectName": "RecipeRestService",
-        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\RecipeRestService.csproj",
-        "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeRestService\\obj\\",
->>>>>>> dev
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/tomassabol/.nuget/NuGet/NuGet.Config"
@@ -40,13 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-<<<<<<< HEAD
               "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
                 "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj"
-=======
-              "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
-                "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
->>>>>>> dev
               }
             }
           }
@@ -93,7 +74,6 @@
         }
       }
     },
-<<<<<<< HEAD
     "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -102,16 +82,6 @@
         "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
         "packagesPath": "/Users/tomassabol/.nuget/packages/",
         "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/obj/",
-=======
-    "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
-        "projectName": "RecipesData",
-        "projectPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
-        "packagesPath": "C:\\Users\\geeni\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\2022-2023\\sem1\\project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
->>>>>>> dev
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/tomassabol/.nuget/NuGet/NuGet.Config"

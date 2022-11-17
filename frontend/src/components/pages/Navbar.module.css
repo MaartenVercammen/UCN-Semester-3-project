@@ -2,8 +2,9 @@
     overflow: hidden;
     bottom: 0;
     position: fixed;
-    width: 575px;
-    height: 100px;
+    max-width: 575px;
+    width: 100vw;
+    height: 10vh;
     display: flex;
     align-items: center;
     background-color: #D8A8DC;

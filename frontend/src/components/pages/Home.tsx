@@ -8,7 +8,9 @@ const Home: React.FC = () => {
   return (
     <div className={style.homePage}>
       <Header />
-      <Swipe />
+      <div className={style.swipeCard}>
+        <Swipe />
+      </div>
       <Navbar />
     </div>
   );
