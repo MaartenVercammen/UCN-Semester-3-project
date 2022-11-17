@@ -144,7 +144,7 @@ namespace RecipesData.Database
                     transaction.Commit();
 
                 }
-                catch(Exception ex)
+                catch(Exception)
                 {
                     transaction.Rollback();
                 }

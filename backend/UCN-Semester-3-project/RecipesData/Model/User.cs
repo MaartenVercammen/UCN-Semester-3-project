@@ -22,8 +22,8 @@ namespace RecipesData.Model
         public string Address { get; set; }
         public Role Role { get; set; }
         public List<Recipe> Recipes { get; set; }
-        public List<Recipe> LikedRecipes { get; set; }
-        public List<Recipe> DislikedRecipes { get; set; }
+        public List<SwipedRecipe> LikedRecipes { get; set; }
+        public List<SwipedRecipe> DislikedRecipes { get; set; }
         public List<BambooSession> OwnedBambooSessions { get; set; }
 
         public User(Guid userId, string email, string firstName, string lastName, string password, string address, Role role)

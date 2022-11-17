@@ -1,6 +1,22 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+    "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
+        "projectName": "RecipeDataTest",
+        "projectPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj",
+        "packagesPath": "C:\\Users\\ttomy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ttomy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
     "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipeDataTest\\RecipeDataTest.csproj": {}
   },
   "projects": {
@@ -15,6 +31,7 @@
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\budai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> dev
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +45,13 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
+<<<<<<< HEAD
+              "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
+                "projectPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
+=======
               "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
                 "projectPath": "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj"
+>>>>>>> dev
               }
             }
           }
@@ -89,6 +111,19 @@
         }
       }
     },
+<<<<<<< HEAD
+    "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+        "projectName": "RecipesData",
+        "projectPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj",
+        "packagesPath": "C:\\Users\\ttomy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ttomy\\source\\repos\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ttomy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
     "C:\\Users\\budai\\Desktop\\uni trash\\3rd semester\\Project\\Project\\UCN-Semester-3-project\\backend\\UCN-Semester-3-project\\RecipesData\\RecipesData.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -100,6 +135,7 @@
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\budai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> dev
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

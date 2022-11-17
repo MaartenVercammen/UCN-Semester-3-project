@@ -17,7 +17,8 @@ namespace RecipeRestService.Businesslogic
             try
             {
                 guid = _RecipeAccess.CreateRecipe(recipeToAdd);
-            }catch(Exception ex)
+            }
+            catch(Exception)
             {
                 guid = Guid.Empty;
             }
