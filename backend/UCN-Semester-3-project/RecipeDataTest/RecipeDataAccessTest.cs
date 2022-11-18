@@ -52,10 +52,10 @@ namespace RecipeDataTest
         }
 
         [Fact]
-        public void TestGetAllRecipeIds()
+        public void TestGetNotSwipedGuidsByUserId()
         {
             List<Guid> ids = new List<Guid>();
-            ids = _recipeAccess.GetGuids();
+            ids = _recipeAccess.GetNotSwipedGuidsByUserId(Guid.Parse("00000000-0000-0000-0000-000000000000"));
             Assert.True(ids.Count > 0);
         }
     }
