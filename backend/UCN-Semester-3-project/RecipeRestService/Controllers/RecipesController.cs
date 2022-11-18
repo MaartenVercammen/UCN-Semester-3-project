@@ -94,7 +94,7 @@ namespace RecipeRestService.Controllers
         public ActionResult<RecipeDto> GetRandomRecipe()
         {
             ActionResult foundReturn;
-            Recipe recipe = _rControl.GetRandomRecipe();
+            Recipe recipe = _rControl.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000")); //TODO: add userId of active user
             if(recipe!=null){
                 foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
             }else{
