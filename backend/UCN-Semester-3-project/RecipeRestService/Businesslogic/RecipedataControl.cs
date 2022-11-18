@@ -62,10 +62,10 @@ namespace RecipeRestService.Businesslogic
             throw new NotImplementedException();
         }
 
-        public Recipe GetRandomRecipe(){
+        public Recipe GetRandomRecipe(Guid userId){
             List<Guid> guids = new List<Guid>();
             try{
-                guids = _RecipeAccess.GetGuids();
+                guids = _RecipeAccess.GetNotSwipedGuidsByUserId(userId);
                 Random rnd = new Random();
                 int randomnumber = rnd.Next(0, guids.Count - 1);
                 return _RecipeAccess.GetRecipeById(guids[randomnumber]);

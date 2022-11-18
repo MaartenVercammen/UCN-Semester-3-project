@@ -153,15 +153,16 @@ namespace RecipesData.Database
             return outid;
         }
 
-        public List<Guid> GetGuids(){
+        public List<Guid> GetNotSwipedGuidsByUserId(Guid userId){
             List<Guid> guids = new List<Guid>();
-            string query = "select recipeId from recipe";
+            string query = "select * from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("id", userId);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while(reader.Read()){
                     Guid id = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
