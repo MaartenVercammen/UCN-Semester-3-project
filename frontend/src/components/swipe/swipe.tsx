@@ -84,6 +84,7 @@ const Swipe: React.FC = () => {
               if (item != undefined) {
                 return (
                   <div
+                    key={item.recipeId}
                     style={{
                       position: 'absolute',
                       zIndex: 9999 - index,
