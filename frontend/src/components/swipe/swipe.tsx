@@ -75,15 +75,21 @@ const Swipe: React.FC = () => {
     }
   };
 
+  const RecipesLeft = (): boolean => {
+    const c = cards.filter((i) => i != undefined);
+    return c.length > 0;
+  };
+
   return (
     <div className={style.container}>
-      {currentindex >= 0 ? (
+      {RecipesLeft() ? (
         <>
           <div className={style.carddeck}>
             {cards.map((item, index) => {
               if (item != undefined) {
                 return (
                   <div
+                    key={item.recipeId}
                     style={{
                       position: 'absolute',
                       zIndex: 9999 - index,
