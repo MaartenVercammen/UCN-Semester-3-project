@@ -24,7 +24,12 @@ namespace RecipesData.Database
             _connectionString = connetionstring;
         }
 
-        public SwipedRecipe GetSRById(Guid id)
+        /// <summary>
+        /// Retrieves a SwipedRecipe identified by a recipe's Guid
+        /// </summary>
+        /// <param name="id">The recipe's Guid</param>
+        /// <returns>The SwipedRecipe with the given Guid</returns>
+        public SwipedRecipe GetSwipedRecipeById(Guid id)
         {
             String guidString = id.ToString();
             SwipedRecipe sRecipe = new SwipedRecipe();
@@ -51,7 +56,12 @@ namespace RecipesData.Database
             return sRecipe;
         }
 
-        public List<SwipedRecipe> GetSRByUser(Guid userId)
+        /// <summary>
+        /// Retrieves a list of SwipedRecipes identified by the user's Guid
+        /// </summary>
+        /// <param name="userId">The user's Guid</param>
+        /// <returns>A list of the user's all SwipedRecipe</returns>
+        public List<SwipedRecipe> GetSwipeRecipesByUser(Guid userId)
         {
             String guidString = userId.ToString();
             List<SwipedRecipe> sRecipeList = new List<SwipedRecipe>();
@@ -78,6 +88,11 @@ namespace RecipesData.Database
             return sRecipeList;
         }
 
+        /// <summary>
+        /// Retrives a list of recipes that the user liked
+        /// </summary>
+        /// <param name="userId">The user's Guid</param>
+        /// <returns>A list of the user's all SwipedRecipes where isLiked is ture</returns>
         public List<SwipedRecipe> GetLikedByUser(Guid userId)
         {
             String guidString = userId.ToString();
@@ -105,7 +120,12 @@ namespace RecipesData.Database
             return sRecipeList;
         }
 
-        public SwipedRecipe CreateSR(SwipedRecipe swipedRecipe)
+        /// <summary>
+        /// Inserts a new SwipedRecipe in the database
+        /// </summary>
+        /// <param name="swipedRecipe">The SwipedRecipe that is inserted into the database</param>
+        /// <returns>The instance that was inserted into the database</returns>
+        public SwipedRecipe CreateSwipedRecipe(SwipedRecipe swipedRecipe)
         {
             SwipedRecipe sRecipe = new SwipedRecipe();
             string querySwipedRecipe = "insert into SwipedRecipe values (@UserId, @RecipeId, @IsLiked)";
@@ -130,6 +150,11 @@ namespace RecipesData.Database
             return sRecipe;
         }
 
+        /// <summary>
+        /// Removes a SwipedRecipe from the database
+        /// </summary>
+        /// <param name="id">The Guid of the Recipe that is associated with this SwipedRecipe</param>
+        /// <returns>True if the removal was successful</returns>
         public bool DeleteSR(Guid id)
         {
             bool removed = false;
@@ -154,6 +179,11 @@ namespace RecipesData.Database
         }
 
         // private functions
+        /// <summary>
+        /// Instantiates a new SwipedRecipe object
+        /// </summary>
+        /// <param name="reader">The SqlDataReader that reads the data from the database</param>
+        /// <returns>The instantiated SwipedRecipe object</returns>
         private SwipedRecipe BuildObject(SqlDataReader reader)
         {
             SwipedRecipe swipedRecipe = new SwipedRecipe();

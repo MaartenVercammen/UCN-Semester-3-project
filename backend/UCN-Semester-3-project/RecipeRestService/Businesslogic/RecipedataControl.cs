@@ -18,16 +18,26 @@ namespace RecipeRestService.Businesslogic
             {
                 guid = _RecipeAccess.CreateRecipe(recipeToAdd);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 guid = Guid.Empty;
             }
             return guid;
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            bool IsCompleted = false;
+            try
+            {
+                IsCompleted = _RecipeAccess.DeleteRecipe(id);
+
+            }
+            catch (Exception e)
+            {
+                IsCompleted = false;
+            }
+            return IsCompleted;
         }
 
         public Recipe? Get(Guid id)
@@ -63,15 +73,16 @@ namespace RecipeRestService.Businesslogic
         }
 
         // TODO: Fix this method - retrieve random from db
-        public Recipe GetRandomRecipe(){
+        public Recipe GetRandomRecipe(Guid userId){
             List<Recipe> recipes = new List<Recipe>();
             try{
-                recipes = _RecipeAccess.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000"));
+                recipes = _RecipeAccess.GetRandomRecipe(userId);
                 Random rnd = new Random();
                 int randomnumber = rnd.Next(0, recipes.Count - 1);
                 return _RecipeAccess.GetRecipeById(recipes[randomnumber].RecipeId);
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
                 return null;
             }
         }

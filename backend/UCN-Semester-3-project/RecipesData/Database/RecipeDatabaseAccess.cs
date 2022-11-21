@@ -25,8 +25,10 @@ namespace RecipesData.Database
         }
 
         /// <summary>
-        /// This method gets a recipe by it's id from the database
+        /// Retrieves a recipe identified by it's Guid.
         /// </summary>
+        /// <param name="id">The recipe's Guid</param>
+        /// <returns>The recipe with the given Guid</returns>
         public Recipe GetRecipeById(Guid id)
         {
             String guidString = id.ToString();
@@ -54,6 +56,10 @@ namespace RecipesData.Database
             return recipe;
         }
 
+        /// <summary>
+        /// Retrieves a list of all the Recipes in the database
+        /// </summary>
+        /// <returns>A list of recipes</returns>
         public List<Recipe> GetRecipes()
         {
             List<Recipe> foundRecipes;
@@ -137,6 +143,11 @@ namespace RecipesData.Database
             return foundRecipes;
         }
 
+        /// <summary>
+        /// Insterts a recipe into the database
+        /// </summary>
+        /// <param name="recipe">The recipe that is inserted into the database</param>
+        /// <returns>The Guid of the inserted recipe</returns>
         public Guid CreateRecipe(Recipe recipe)
         {
             Guid outid = Guid.NewGuid();
@@ -174,7 +185,7 @@ namespace RecipesData.Database
                     outid = Guid.Parse(outidstring);
 
                     //create ingredients
-                    for(int i = 0; i < recipe.Ingredients.Count; i++)
+                    for (int i = 0; i < recipe.Ingredients.Count; i++)
                     {
                         cmd.Parameters.Clear();
                         Ingredient ingredient = recipe.Ingredients[i];
@@ -201,26 +212,33 @@ namespace RecipesData.Database
                     transaction.Commit();
 
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     transaction.Rollback();
                 }
-                
+
             }
             return outid;
         }
 
-        public List<Guid> GetGuids(){
+        /// <summary>
+        /// Retrieves all the Guids from the database
+        /// </summary>
+        /// <returns>A list of Guids</returns>
+        public List<Guid> GetNotSwipedGuidsByUserId(Guid userId)
+        {
             List<Guid> guids = new List<Guid>();
-            string query = "select recipeId from recipe";
+            string query = "select * from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
 
                 SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandText = query;
+                cmd.Parameters.AddWithValue("id", userId);
                 SqlDataReader reader = cmd.ExecuteReader();
-                while(reader.Read()){
+                while (reader.Read())
+                {
                     Guid id = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
                     guids.Add(id);
                 }
@@ -228,17 +246,62 @@ namespace RecipesData.Database
             }
             return guids;
         }
+        
+        /// <summary>
+        /// Updates a recipe
+        /// </summary>
+        /// <param name="recipe">The recipe that is updated</param>
+        /// <returns>True if the recipe was successfully updated</returns>
 
-        bool IRecipeAccess.UpdateRecipe(Recipe recipe)
+        public bool UpdateRecipe(Recipe recipe)
         {
             throw new NotImplementedException();
         }
 
-        bool IRecipeAccess.DeleteRecipe(int id)
+        public bool DeleteRecipe(Guid id)
         {
-            throw new NotImplementedException();
+            bool deleteSuccesFull = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.Transaction = conn.BeginTransaction();
+
+                try
+                {
+                    //delete ingredient from recipe
+                    cmd.CommandText = "DELETE FROM ingredient WHERE recipeId = @id";
+                    cmd.Parameters.AddWithValue("id", id);
+
+                    cmd.ExecuteNonQuery();
+
+                    //delete instructions from recipe
+                    cmd.CommandText = "DELETE FROM instruction WHERE recipeId = @id";
+
+                    cmd.ExecuteNonQuery();
+
+                    //delete recipe
+                    cmd.CommandText = "DELETE FROM recipe WHERE recipeId = @id";
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    deleteSuccesFull = rowsAffected > 0;
+                    cmd.Transaction.Commit();
+
+                }
+                catch (Exception) { cmd.Transaction.Rollback(); }
+
+
+                conn.Close();
+            }
+
+            return deleteSuccesFull;
         }
 
+        /// <summary>
+        /// Retrives the instructions of a recipe
+        /// </summary>
+        /// <param name="con">The Sqlconnection</param>
+        /// <param name="recipe">The queried recipe</param>
         private void getInstructionsByRecipe(SqlConnection con, Recipe recipe)
         {
             using (SqlCommand instructionCommand = con.CreateCommand())
@@ -260,7 +323,11 @@ namespace RecipesData.Database
 
 
         // private 
-
+        /// <summary>
+        /// Retrieves the ingredients of a recipe
+        /// </summary>
+        /// <param name="con">The Sqlconnection</param>
+        /// <param name="recipe">The queried recipe</param>
         private void GetIngredientsByRecipe(SqlConnection con, Recipe recipe)
         {
             using (SqlCommand command = con.CreateCommand())
@@ -279,6 +346,11 @@ namespace RecipesData.Database
             }
         }
 
+        /// <summary>
+        /// This is the same as the other at line 210
+        /// </summary>
+        /// <param name="con"></param>
+        /// <param name="recipe"></param>
         private void GetInstructionsByRecipe(SqlConnection con, Recipe recipe)
         {
             using (SqlCommand instructionCommand = con.CreateCommand())
@@ -296,6 +368,12 @@ namespace RecipesData.Database
                 reader.Close();
             }
         }
+
+        /// <summary>
+        /// Instantiates a new Recipe object from the database
+        /// </summary>
+        /// <param name="reader">The SqlDataReader that reads the data from the database</param>
+        /// <returns>The instantiated recipe object</returns>
         private Recipe BuildRecipeObject(SqlDataReader reader)
         {
             Recipe recipe = new Recipe();
@@ -308,6 +386,11 @@ namespace RecipesData.Database
             return recipe;
         }
 
+        /// <summary>
+        /// Instantioates a new Ingredient object
+        /// </summary>
+        /// <param name="reader">The SqlDataReader that reads the data from the database</param>
+        /// <returns>The instantiated Ingerdient object</returns>
         private Ingredient BuildIngredientObject(SqlDataReader reader)
         {
             Ingredient ingredient = new Ingredient();
@@ -317,12 +400,17 @@ namespace RecipesData.Database
             return ingredient;
         }
 
+        /// <summary>
+        /// Instantioates a new Instruction object
+        /// </summary>
+        /// <param name="reader">The SqlDataReader that reads the data from the database</param>
+        /// <returns>The instantiated Instruction object</returns>
         private Instruction BuildInstructionObject(SqlDataReader reader)
         {
             Instruction instruction = new Instruction();
             instruction.Step = reader.GetInt32(reader.GetOrdinal("step"));
             instruction.Description = reader.GetString(reader.GetOrdinal("description"));
             return instruction;
-        }        
+        }
     }
 }
