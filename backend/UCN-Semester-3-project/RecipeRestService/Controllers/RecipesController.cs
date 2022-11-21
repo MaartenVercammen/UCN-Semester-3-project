@@ -38,7 +38,7 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
-         [HttpGet]
+        [HttpGet]
         public ActionResult<List<RecipeDto>> Get()
         {
             ActionResult<List<RecipeDto>> foundReturn;
@@ -75,11 +75,11 @@ namespace RecipeRestService.Controllers
         {
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
-            if(inRecipe != null)
+            if (inRecipe != null)
             {
                 insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
             }
-            if(insertedGuid!= Guid.Empty)
+            if (insertedGuid != Guid.Empty)
             {
                 foundReturn = Ok(insertedGuid);
             }
@@ -90,14 +90,36 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
+        [HttpDelete, Route("{id}")]
+        public ActionResult Delete(string id)
+        {
+            Guid recipeId = Guid.Parse(id);
+
+            ActionResult foundReturn;
+            bool IsCompleted = _rControl.Delete(recipeId);
+            if (IsCompleted)
+            {
+                foundReturn = new StatusCodeResult(200);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+
+        }
+
         [HttpGet, Route("/Random")]
         public ActionResult<RecipeDto> GetRandomRecipe()
         {
             ActionResult foundReturn;
             Recipe recipe = _rControl.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000")); //TODO: add userId of active user
-            if(recipe!=null){
+            if (recipe != null)
+            {
                 foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
-            }else{
+            }
+            else
+            {
                 foundReturn = new StatusCodeResult(200);
             }
             return foundReturn;

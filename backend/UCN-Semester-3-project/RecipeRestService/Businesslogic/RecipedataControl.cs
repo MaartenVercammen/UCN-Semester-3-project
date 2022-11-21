@@ -18,16 +18,26 @@ namespace RecipeRestService.Businesslogic
             {
                 guid = _RecipeAccess.CreateRecipe(recipeToAdd);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 guid = Guid.Empty;
             }
             return guid;
         }
 
-        public bool Delete(int id)
+        public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            bool IsCompleted = false;
+            try
+            {
+                IsCompleted = _RecipeAccess.DeleteRecipe(id);
+
+            }
+            catch (Exception e)
+            {
+                IsCompleted = false;
+            }
+            return IsCompleted;
         }
 
         public Recipe? Get(Guid id)
@@ -62,15 +72,18 @@ namespace RecipeRestService.Businesslogic
             throw new NotImplementedException();
         }
 
-        public Recipe GetRandomRecipe(Guid userId){
+        public Recipe GetRandomRecipe(Guid userId)
+        {
             List<Guid> guids = new List<Guid>();
-            try{
+            try
+            {
                 guids = _RecipeAccess.GetNotSwipedGuidsByUserId(userId);
                 Random rnd = new Random();
                 int randomnumber = rnd.Next(0, guids.Count - 1);
                 return _RecipeAccess.GetRecipeById(guids[randomnumber]);
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
                 return null;
             }
         }
