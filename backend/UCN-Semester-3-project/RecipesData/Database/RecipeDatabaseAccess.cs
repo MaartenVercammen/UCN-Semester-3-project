@@ -178,9 +178,17 @@ namespace RecipesData.Database
             throw new NotImplementedException();
         }
 
-        bool IRecipeAccess.DeleteRecipe(int id)
+        bool IRecipeAccess.DeleteRecipe(Guid id)
         {
-            throw new NotImplementedException();
+            bool deleteSuccesFull = false;
+            using(SqlCommand cmd = new SqlCommand()){
+                cmd.CommandText = "DELETE FROM recipe WHERE recipeId = @id";
+                cmd.Parameters.AddWithValue("id", id);
+                
+                int rowsAffected = cmd.ExecuteNonQuery();
+                deleteSuccesFull = rowsAffected > 0;
+            } 
+            return deleteSuccesFull; 
         }
 
         private void getInstructionsByRecipe(SqlConnection con, Recipe recipe)
