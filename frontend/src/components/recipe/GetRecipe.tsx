@@ -56,7 +56,7 @@ const GetRecipe: React.FC = () => {
           </div>
         ))}
       </div>
-      <button onClick={(e) => deleteRecipe()}>Delete</button> //TODO: Add styling
+      <button onClick={(e) => deleteRecipe()}>Delete</button> {/**TODO: Add styling **/}
     </div>
   );
 };

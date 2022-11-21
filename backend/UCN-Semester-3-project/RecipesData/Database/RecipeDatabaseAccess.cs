@@ -210,7 +210,7 @@ namespace RecipesData.Database
                     cmd.Transaction.Commit();
 
                 }
-                catch (Exception e) { cmd.Transaction.Rollback(); }
+                catch (Exception) { cmd.Transaction.Rollback(); }
 
 
                 conn.Close();
