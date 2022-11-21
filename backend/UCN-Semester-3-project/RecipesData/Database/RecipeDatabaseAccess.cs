@@ -117,7 +117,7 @@ namespace RecipesData.Database
                     outid = Guid.Parse(outidstring);
 
                     //create ingredients
-                    for(int i = 0; i < recipe.Ingredients.Count; i++)
+                    for (int i = 0; i < recipe.Ingredients.Count; i++)
                     {
                         cmd.Parameters.Clear();
                         Ingredient ingredient = recipe.Ingredients[i];
@@ -144,16 +144,17 @@ namespace RecipesData.Database
                     transaction.Commit();
 
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     transaction.Rollback();
                 }
-                
+
             }
             return outid;
         }
 
-        public List<Guid> GetNotSwipedGuidsByUserId(Guid userId){
+        public List<Guid> GetNotSwipedGuidsByUserId(Guid userId)
+        {
             List<Guid> guids = new List<Guid>();
             string query = "select * from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
             using (SqlConnection conn = new SqlConnection(_connectionString))
@@ -164,7 +165,8 @@ namespace RecipesData.Database
                 cmd.CommandText = query;
                 cmd.Parameters.AddWithValue("id", userId);
                 SqlDataReader reader = cmd.ExecuteReader();
-                while(reader.Read()){
+                while (reader.Read())
+                {
                     Guid id = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
                     guids.Add(id);
                 }
@@ -173,14 +175,48 @@ namespace RecipesData.Database
             return guids;
         }
 
-        bool IRecipeAccess.UpdateRecipe(Recipe recipe)
+        public bool UpdateRecipe(Recipe recipe)
         {
             throw new NotImplementedException();
         }
 
-        bool IRecipeAccess.DeleteRecipe(int id)
+        public bool DeleteRecipe(Guid id)
         {
-            throw new NotImplementedException();
+            bool deleteSuccesFull = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.Transaction = conn.BeginTransaction();
+
+                try
+                {
+                    //delete ingredient from recipe
+                    cmd.CommandText = "DELETE FROM ingredient WHERE recipeId = @id";
+                    cmd.Parameters.AddWithValue("id", id);
+
+                    cmd.ExecuteNonQuery();
+
+                    //delete instructions from recipe
+                    cmd.CommandText = "DELETE FROM instruction WHERE recipeId = @id";
+
+                    cmd.ExecuteNonQuery();
+
+                    //delete recipe
+                    cmd.CommandText = "DELETE FROM recipe WHERE recipeId = @id";
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    deleteSuccesFull = rowsAffected > 0;
+                    cmd.Transaction.Commit();
+
+                }
+                catch (Exception) { cmd.Transaction.Rollback(); }
+
+
+                conn.Close();
+            }
+
+            return deleteSuccesFull;
         }
 
         private void getInstructionsByRecipe(SqlConnection con, Recipe recipe)
@@ -267,6 +303,6 @@ namespace RecipesData.Database
             instruction.Step = reader.GetInt32(reader.GetOrdinal("step"));
             instruction.Description = reader.GetString(reader.GetOrdinal("description"));
             return instruction;
-        }        
+        }
     }
 }

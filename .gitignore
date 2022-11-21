@@ -12,3 +12,8 @@ obj/
 dist/
 node_modules/
 .env
+
+backend/UCN-Semester-3-project/RecipeDataTest/obj/Debug/net6.0/RecipeDataTest.csproj.AssemblyReference.cache
+backend/UCN-Semester-3-project/RecipeRestService/obj/Debug/net6.0/RecipeRestService.assets.cache
+backend/UCN-Semester-3-project/RecipeRestService/obj/Debug/net6.0/RecipeRestService.csproj.AssemblyReference.cache
+backend/UCN-Semester-3-project/RecipeRestService/obj/Debug/net6.0/RecipeRestService.GeneratedMSBuildEditorConfig.editorconfig
