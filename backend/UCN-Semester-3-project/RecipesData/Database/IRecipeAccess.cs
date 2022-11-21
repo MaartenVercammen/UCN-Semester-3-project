@@ -17,8 +17,8 @@ namespace RecipesData.Database
 
         bool UpdateRecipe(Recipe recipe);
 
-        bool DeleteRecipe(int id);
+        bool DeleteRecipe(Guid id);
 
-        List<Guid> GetGuids();
+        List<Guid> GetNotSwipedGuidsByUserId(Guid userId);
     }
 }

@@ -29,7 +29,7 @@ namespace RecipesData.Database
         /// </summary>
         /// <param name="id">The recipe's Guid</param>
         /// <returns>The SwipedRecipe with the given Guid</returns>
-        public SwipedRecipe GetSRById(Guid id)
+        public SwipedRecipe GetSwipedRecipeById(Guid id)
         {
             String guidString = id.ToString();
             SwipedRecipe sRecipe = new SwipedRecipe();
@@ -61,7 +61,7 @@ namespace RecipesData.Database
         /// </summary>
         /// <param name="userId">The user's Guid</param>
         /// <returns>A list of the user's all SwipedRecipe</returns>
-        public List<SwipedRecipe> GetSRByUser(Guid userId)
+        public List<SwipedRecipe> GetSwipeRecipesByUser(Guid userId)
         {
             String guidString = userId.ToString();
             List<SwipedRecipe> sRecipeList = new List<SwipedRecipe>();
@@ -125,7 +125,7 @@ namespace RecipesData.Database
         /// </summary>
         /// <param name="swipedRecipe">The SwipedRecipe that is inserted into the database</param>
         /// <returns>The instance that was inserted into the database</returns>
-        public SwipedRecipe CreateSR(SwipedRecipe swipedRecipe)
+        public SwipedRecipe CreateSwipedRecipe(SwipedRecipe swipedRecipe)
         {
             SwipedRecipe sRecipe = new SwipedRecipe();
             string querySwipedRecipe = "insert into SwipedRecipe values (@UserId, @RecipeId, @IsLiked)";

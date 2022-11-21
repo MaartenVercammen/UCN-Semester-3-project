@@ -16,7 +16,7 @@ namespace RecipeRestService.Businesslogic
             SwipedRecipe? foundRecipe;
             try
             {
-                foundRecipe = _SwipedRecipeAccess.GetSRById(id);
+                foundRecipe = _SwipedRecipeAccess.GetSwipedRecipeById(id);
             }
             catch (Exception)
             {
@@ -30,7 +30,7 @@ namespace RecipeRestService.Businesslogic
             List<SwipedRecipe>? foundRecipes;
             try
             {
-                foundRecipes = _SwipedRecipeAccess.GetSRByUser(userId);
+                foundRecipes = _SwipedRecipeAccess.GetSwipeRecipesByUser(userId);
             }
             catch (Exception)
             {
@@ -57,7 +57,7 @@ namespace RecipeRestService.Businesslogic
         {
             try
             {
-                _SwipedRecipeAccess.CreateSR(swipedRecipeToAdd);
+                _SwipedRecipeAccess.CreateSwipedRecipe(swipedRecipeToAdd);
             }
             catch (Exception)
             {
