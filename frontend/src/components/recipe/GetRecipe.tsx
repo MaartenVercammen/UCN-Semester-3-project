@@ -17,6 +17,11 @@ const GetRecipe: React.FC = () => {
     setInstructions(data.instructions);
   };
 
+  const deleteRecipe = async () => {
+    const res = await RecipeService.deleteRecipe(recipe.recipeId);
+    console.log(res.data);
+  };
+
   useEffect(() => {
     getSingleData();
   }, []);
@@ -51,6 +56,7 @@ const GetRecipe: React.FC = () => {
           </div>
         ))}
       </div>
+      <button onClick={(e) => deleteRecipe()}>Delete</button> //TODO: Add styling
     </div>
   );
 };

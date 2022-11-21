@@ -7,13 +7,14 @@ const createRecipe = (recipe: Recipe) => instance.post('/Recipes', JSON.stringif
 const getRecipe = (recipeId: string) => instance.get<Recipe>('/Recipes/' + recipeId);
 const getRecipes = () => instance.get<Recipe[]>('/Recipes');
 const getRandomRecipe = () => instance.get<Recipe>('/Random');
+const deleteRecipe = (recipeId: string) => instance.delete('/Recipes/' + recipeId);
 
 const RecipeService = {
   createRecipe,
   getRecipe,
   getRecipes,
   getRandomRecipe,
-
+  deleteRecipe
 };
 
 export default RecipeService;
