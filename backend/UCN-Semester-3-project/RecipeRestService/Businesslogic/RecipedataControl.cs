@@ -49,7 +49,7 @@ namespace RecipeRestService.Businesslogic
             List<Recipe>? foundRecipes;
             try
             {
-                foundRecipes = _RecipeAccess.GetRecipes();
+                foundRecipes = _RecipeAccess.GetRecipesSimplified();
             }
             catch (Exception)
             {
@@ -62,13 +62,14 @@ namespace RecipeRestService.Businesslogic
             throw new NotImplementedException();
         }
 
+        // TODO: Fix this method - retrieve random from db
         public Recipe GetRandomRecipe(){
-            List<Guid> guids = new List<Guid>();
+            List<Recipe> recipes = new List<Recipe>();
             try{
-                guids = _RecipeAccess.GetGuids();
+                recipes = _RecipeAccess.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000"));
                 Random rnd = new Random();
-                int randomnumber = rnd.Next(0, guids.Count - 1);
-                return _RecipeAccess.GetRecipeById(guids[randomnumber]);
+                int randomnumber = rnd.Next(0, recipes.Count - 1);
+                return _RecipeAccess.GetRecipeById(recipes[randomnumber].RecipeId);
             }
             catch (Exception e){
                 return null;

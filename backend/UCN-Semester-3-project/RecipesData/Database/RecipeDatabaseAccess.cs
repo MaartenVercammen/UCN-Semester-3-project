@@ -77,7 +77,64 @@ namespace RecipesData.Database
                 con.Close();
             }
             return foundRecipes;
+        }
 
+        public List<Recipe> GetRandomRecipe(Guid userId)
+        {
+            List<Recipe> foundRecipes = new List<Recipe>();
+            Recipe recipe = new Recipe();
+            String userIdString = userId.ToString();            
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE recipe.authorId = @userId AND isLiked IS NULL";
+
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        recipe = BuildRecipeObject(reader);
+                        foundRecipes.Add(recipe);
+                    }
+                    reader.Close();
+                }
+            }
+            return foundRecipes;
+        }
+
+        public List<Recipe> GetRecipesSimplified() 
+        {
+            List<Recipe> foundRecipes;
+            Recipe readRecipe;
+            //
+            string queryString = "SELECT recipeId, name, description, pictureUrl, time FROM recipe";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            {
+                con.Open();
+                // Execute read
+                SqlDataReader recipeReader = readCommand.ExecuteReader();
+                // Collect data
+                foundRecipes = new List<Recipe>();
+                while (recipeReader.Read())
+                {
+                    readRecipe = new Recipe();
+                    readRecipe.RecipeId = Guid.Parse(recipeReader.GetString(recipeReader.GetOrdinal("recipeId")));
+                    readRecipe.Name = recipeReader.GetString(recipeReader.GetOrdinal("name"));
+                    readRecipe.Description = recipeReader.GetString(recipeReader.GetOrdinal("description"));
+                    readRecipe.PictureURL = recipeReader.GetString(recipeReader.GetOrdinal("pictureUrl"));
+                    readRecipe.Time = recipeReader.GetInt32(recipeReader.GetOrdinal("time"));
+
+                    foundRecipes.Add(readRecipe);
+                }
+
+                con.Close();
+            }
+            return foundRecipes;
         }
 
         public Guid CreateRecipe(Recipe recipe)
