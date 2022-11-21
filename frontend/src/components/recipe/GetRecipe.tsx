@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
 import { Ingredient, Instruction, Recipe } from '../../types';
 import style from './GetRecipe.module.css';
@@ -8,6 +9,8 @@ const GetRecipe: React.FC = () => {
   const [recipe, setRecipe] = useState<any>([]);
   const [ingredients, setIngredients] = useState<any>([]);
   const [instructions, setInstructions] = useState<any>([]);
+
+  const navigation = useNavigate();
 
   const getSingleData = async () => {
     const response = await RecipeService.getRecipe(window.location.pathname.split('/')[2]);
@@ -20,6 +23,7 @@ const GetRecipe: React.FC = () => {
   const deleteRecipe = async () => {
     const res = await RecipeService.deleteRecipe(recipe.recipeId);
     console.log(res.data);
+    navigation('/app');
   };
 
   useEffect(() => {
