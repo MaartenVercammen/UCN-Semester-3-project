@@ -4,7 +4,7 @@ import useKeypress from 'react-use-keypress';
 import Card from './Card';
 import style from './swipe.module.css';
 import RecipeService from '../../service/recipeService';
-import { Recipe } from '../../types';
+import { Recipe, SwipedRecipe } from '../../types';
 
 const Swipe: React.FC = () => {
   const [currentindex, setcurrentindex] = useState<number>(0);
@@ -55,12 +55,24 @@ const Swipe: React.FC = () => {
     }
   });
 
-  const onSwipeRight = () => {
-    //TODO on swipe right
+  const onSwipeRight = async () => {
+    const recipe: Recipe | undefined = cards[currentindex];
+    // TODI: change this to get the current user id
+    const authorId: string = '00000000-0000-0000-0000-000000000000';
+    if (recipe != undefined) {
+      const swipedRecipe: SwipedRecipe = { authorId, recipeId: recipe.recipeId, isLiked: true };
+      const res = await RecipeService.swipeRecipe(swipedRecipe);
+    }
   };
 
-  const onSwipeLeft = () => {
-    //TODO on swipe left
+  const onSwipeLeft = async () => {
+    const recipe: Recipe | undefined = cards[currentindex];
+    // TODI: change this to get the current user id
+    const authorId: string = '00000000-0000-0000-0000-000000000000';
+    if (recipe != undefined) {
+      const swipedRecipe: SwipedRecipe = { authorId, recipeId: recipe.recipeId, isLiked: false };
+      const res = await RecipeService.swipeRecipe(swipedRecipe);
+    }
   };
 
   return (

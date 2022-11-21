@@ -1,4 +1,4 @@
-header {
+nav {
     display: flex;
     height: 8rem;
     justify-content: center;
@@ -7,6 +7,7 @@ header {
   .logo {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   
   .panda {

@@ -20,3 +20,14 @@ export interface Instruction{
   step: number;
   description: string;
 }
+
+export interface SwipedRecipe{
+  authorId: string;
+  recipeId: string;
+  isLiked: boolean;
+}
+
+export interface User{
+  userId: string;
+  // TODO: finish when implementing user
+}

@@ -13,6 +13,10 @@ namespace RecipesData.Database
 
         List<Recipe> GetRecipes();
 
+        List<Recipe> GetRecipesSimplified();
+
+        List<Recipe> GetRandomRecipe(Guid userId);
+
         Guid CreateRecipe(Recipe recipe);
 
         bool UpdateRecipe(Recipe recipe);

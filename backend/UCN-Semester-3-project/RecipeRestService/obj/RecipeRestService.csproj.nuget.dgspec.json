@@ -1,0 +1,141 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj": {}
+  },
+  "projects": {
+    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj",
+        "projectName": "RecipeRestService",
+        "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/RecipeRestService.csproj",
+        "packagesPath": "/Users/tomassabol/.nuget/packages/",
+        "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipeRestService/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/tomassabol/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
+                "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.17.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
+        "projectName": "RecipesData",
+        "projectPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/RecipesData.csproj",
+        "packagesPath": "/Users/tomassabol/.nuget/packages/",
+        "outputPath": "/Users/tomassabol/Desktop/UCN-Semester-3-project/backend/UCN-Semester-3-project/RecipesData/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/tomassabol/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
