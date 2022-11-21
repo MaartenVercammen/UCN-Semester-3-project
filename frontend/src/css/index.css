@@ -1,9 +1,12 @@
 :root {
-  --color-main: #D3A9D9;
+  --color-main: #d3a9d9;
 }
 
-html, body{
+html,
+body {
   margin: 0;
   padding: 0;
-  font-family: Helvetica;
+  font-family: 'Coco Gothic', sans-serif;
+  overflow-x: hidden;
+  height: 100%;
 }

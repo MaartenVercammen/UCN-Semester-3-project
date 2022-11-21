@@ -1,20 +1,34 @@
-﻿using RecipesData.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace RecipeRestService.DTO
+namespace RecipesData.Model
 {
-    public class RecipeDto
+    public class Recipe
     {
         public Guid RecipeId { get; set; }
+        [MinLength(5), MaxLength(50), Required]
         public string Name { get; set; }
+        [MinLength(5), Required]
         public string Description { get; set; }
+        [RegularExpression("http(s*)://(.*)[.png, .web, .jpeg .jpg]"), Required]
         public string PictureURL { get; set; }
+        [Range(1, int.MaxValue), Required]
         public int Time { get; set; }
+        [Range(1, int.MaxValue), Required]
         public int PortionNum { get; set; }
-        public Guid Author { get; set; }
+        [Required]
+        public User Author { get; set; }
+        [MinLength(1), Required]
         public List<Ingredient> Ingredients { get; set; }
+        [MinLength(1), Required]
         public List<Instruction> Instructions { get; set; }
 
-        public RecipeDto(Guid recipeId, string name, string description, string pictureURL, int time, int portionNum, Guid author)
+        public Recipe(Guid recipeId, string name, string description, string pictureURL, int time, int portionNum, User author)
         {
             this.RecipeId = recipeId;
             this.Name = name;
@@ -27,7 +41,7 @@ namespace RecipeRestService.DTO
             this.Author = author;
         }
 
-        public RecipeDto(string name, string description, string pictureURL, int time, int portionNum, Guid author)
+        public Recipe(string name, string description, string pictureURL, int time, int portionNum, User author)
         {
             this.RecipeId = Guid.NewGuid();
             this.Name = name;
@@ -40,7 +54,7 @@ namespace RecipeRestService.DTO
             this.Author = author;
         }
 
-        public RecipeDto()
+        public Recipe()
         {
             this.Ingredients = new List<Ingredient>();
             this.Instructions = new List<Instruction>();
@@ -48,4 +62,3 @@ namespace RecipeRestService.DTO
 
     }
 }
-

@@ -5,8 +5,8 @@ import { createRoot } from "react-dom/client";
 import App from './App';
 import './css/index.css';
 
-createRoot(document.getElementById('root') || new HTMLElement()).render(<React.StrictMode>
+createRoot(document.getElementById('root') || new HTMLElement()).render(
       <BrowserRouter>
           <App />
       </BrowserRouter>
-  </React.StrictMode>)
+  )

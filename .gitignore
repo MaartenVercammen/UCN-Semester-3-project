@@ -1,4 +1,15 @@
-**/.vs
-backend/UCN-Semester-3-project/.vs
+
+#code editors
 .vs
-.DS_Store
+.vscode
+.idea
+
+#dotnet object en bin
+bin/
+obj/
+*.user
+
+#react deployment
+dist/
+node_modules/
+.env
