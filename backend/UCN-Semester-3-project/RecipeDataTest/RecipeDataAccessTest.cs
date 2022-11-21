@@ -18,7 +18,8 @@ namespace RecipeDataTest
         }
 
         [Fact]
-        public void CreateRecipe(){
+        public void CreateRecipe()
+        {
             User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
             RecipeDatabaseAccess access = new RecipeDatabaseAccess(_connectionString);
             Ingredient ingredient1 = new Ingredient("banana", 5, "kg");
@@ -32,6 +33,8 @@ namespace RecipeDataTest
             recipe.Instructions.Add(instruction2);
             Guid id = access.CreateRecipe(recipe);
             Assert.NotEqual(Guid.Empty, id);
+
+            access.DeleteRecipe(id);
         }
 
         [Fact]
@@ -58,5 +61,28 @@ namespace RecipeDataTest
             ids = _recipeAccess.GetNotSwipedGuidsByUserId(Guid.Parse("00000000-0000-0000-0000-000000000000"));
             Assert.True(ids.Count > 0);
         }
+
+        [Fact]
+        public void TestDeleteRecipeById()
+        {
+            User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
+            RecipeDatabaseAccess access = new RecipeDatabaseAccess(_connectionString);
+            Ingredient ingredient1 = new Ingredient("banana", 5, "kg");
+            Ingredient ingredient2 = new Ingredient("sugar", 500, "g");
+            Instruction instruction1 = new Instruction(1, "peel the banana");
+            Instruction instruction2 = new Instruction(2, "Add suggar");
+            Recipe recipe = new Recipe("Bananabread", "best bananabread in the world", "http://picture.png", 30, 4, auhtor);
+            recipe.Ingredients.Add(ingredient1);
+            recipe.Ingredients.Add(ingredient2);
+            recipe.Instructions.Add(instruction1);
+            recipe.Instructions.Add(instruction2);
+            Guid id = access.CreateRecipe(recipe);
+            Assert.NotEqual(Guid.Empty, id);
+
+            bool succes = access.DeleteRecipe(id);
+            Assert.True(succes);
+
+        }
+
     }
 }
