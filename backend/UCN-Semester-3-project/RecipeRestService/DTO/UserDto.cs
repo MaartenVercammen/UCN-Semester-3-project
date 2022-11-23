@@ -6,7 +6,7 @@ namespace RecipesData.Model
         VERIFIEDUSER,
         ADMIN
     }
-    public class User
+    public class UserDto
     {
         public Guid UserId { get; set; }
         public string Email { get; set; }
@@ -15,15 +15,15 @@ namespace RecipesData.Model
         public string Password { get; set; }
         public string Address { get; set; }
         public Role Role { get; set; }
-        
-        
-        // TODO: implement this
+
+
+        // TODO: Add recipes, liked recipes, disliked recipes, owned bamboo sessions
         //public List<Recipe> Recipes { get; set; }
         //public List<SwipedRecipe> LikedRecipes { get; set; }
         //public List<SwipedRecipe> DislikedRecipes { get; set; }
         //public List<BambooSession> OwnedBambooSessions { get; set; }
 
-        public User(Guid userId, string email, string firstName, string lastName, string password, string address)
+        public UserDto(Guid userId, string email, string firstName, string lastName, string password, string address)
         {
             this.UserId = userId;
             this.Email = email;
@@ -33,7 +33,7 @@ namespace RecipesData.Model
             this.Address = address;
         }
 
-        public User(string email, string firstName, string lastName, string password, string address)
+        public UserDto(string email, string firstName, string lastName, string password, string address)
         {
             this.UserId = Guid.NewGuid();
             this.Email = email;
@@ -43,7 +43,7 @@ namespace RecipesData.Model
             this.Address = address;
         }
 
-        public User()
+        public UserDto()
         {
         }
 

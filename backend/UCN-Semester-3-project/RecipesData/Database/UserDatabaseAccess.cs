@@ -63,7 +63,7 @@ namespace RecipesData.Database
             List<User> foundUsers;
             User readUser;
 
-              string queryString = "SELECT userId FROM user";
+            string queryString = "SELECT userId FROM [user]";
             using (SqlConnection con = new SqlConnection(_connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
             {

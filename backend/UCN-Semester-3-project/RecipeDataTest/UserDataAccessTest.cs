@@ -22,9 +22,24 @@ namespace RecipeDataTest
         public void TestGetUserById()
         {
             Guid id = new Guid("00000000-0000-0000-0000-000000000000");
-            User user = null;
+            User user;
             user = _userAccess.GetUserById(id);
             Assert.NotNull(user);
+        }
+
+        [Fact]
+        public void TestGetUsers()
+        {
+            List<User> users;
+            users = _userAccess.GetUsers();
+            Assert.NotNull(users);
+        }
+
+        public void TestGetUsersCount()
+        {
+            List<User> users;
+            users = _userAccess.GetUsers();
+            Assert.Equal(2, users.Count);
         }
 
     }

@@ -20,7 +20,7 @@ namespace RecipeDataTest
         [Fact]
         public void CreateRecipe()
         {
-            User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
+            User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street");
             RecipeDatabaseAccess access = new RecipeDatabaseAccess(_connectionString);
             Ingredient ingredient1 = new Ingredient("banana", 5, "kg");
             Ingredient ingredient2 = new Ingredient("sugar", 500, "g");
@@ -41,7 +41,7 @@ namespace RecipeDataTest
         public void TestGetRecipeById()
         {
             Guid id = new Guid("42108066-b596-480f-a3b2-16ddb3f56183");
-            Recipe recipe = null;
+            Recipe recipe;
             recipe = _recipeAccess.GetRecipeById(id);
             Assert.NotNull(recipe);
         }
@@ -65,7 +65,7 @@ namespace RecipeDataTest
         [Fact]
         public void TestDeleteRecipeById()
         {
-            User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
+            User auhtor = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street");
             RecipeDatabaseAccess access = new RecipeDatabaseAccess(_connectionString);
             Ingredient ingredient1 = new Ingredient("banana", 5, "kg");
             Ingredient ingredient2 = new Ingredient("sugar", 500, "g");
