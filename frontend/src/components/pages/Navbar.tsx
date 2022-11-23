@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
             </a>
           </li>
           <li className={style.navbarChild}>
-            <a href="/createrecipe">
+            <a href="/createRecipe">
               <FontAwesomeIcon icon={faPlus} className={style.icon} />
             </a>
           </li>
