@@ -17,25 +17,7 @@ namespace RecipeDataTest
             //IRecipeAccess recipeAccess = new RecipeDatabaseAccess(_connectionString);
         }
 
-        [Fact]
-        public void TestGetSRById() 
-        {
-            Guid recipeId = new Guid("04c74da5-3035-4a4a-b732-77b40fa4ab17");
-            SwipedRecipe retrievedSRecipe =  _swipedRecipeAccess.GetSwipedRecipeById(recipeId);
-            Assert.Equal(recipeId, retrievedSRecipe.RecipeId);
-        }
-
-        [Fact]
-        public void CreateSR()
-        {
-            Guid recipeId = new Guid("b4ea22a7-8fea-4e27-b359-7dd2ce8da8ae");
-            User author = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER);
-            SwipedRecipe swipedRecipe = new SwipedRecipe(author.UserId, recipeId, true);
-            _swipedRecipeAccess.CreateSwipedRecipe(swipedRecipe);
-            //SwipedRecipe retrievedSRecipe = _swipedRecipeAccess.GetSRById(author.UserId);
-            Assert.Equal(recipeId, swipedRecipe.RecipeId);
-            _swipedRecipeAccess.DeleteSR(recipeId);
-        }
+        // TODO: Do the tests
 
         
     }
