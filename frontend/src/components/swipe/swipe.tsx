@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useMemo, useRef, useState, useEffect, RefObject } from 'react';
 import TinderCard from 'react-tinder-card';
 import useKeypress from 'react-use-keypress';
 import Card from './Card';
@@ -7,9 +7,15 @@ import RecipeService from '../../service/recipeService';
 import { Recipe, SwipedRecipe } from '../../types';
 
 const Swipe: React.FC = () => {
-  const [currentindex, setcurrentindex] = useState<number>(0);
-  const [cards, setcards] = useState<(Recipe | undefined)[]>([]);
-  const [refs, setRefs] = useState<React.RefObject<any>[]>([]);
+  const [cards, setcards] = useState<Recipe[]>([]);
+  let swipeInAction = false;
+  const Refs = useMemo<React.RefObject<any>[]>(
+    () =>
+      Array(4)
+        .fill(0)
+        .map((i) => React.createRef()),
+    []
+  );
 
   useEffect(() => {
     getCard();
@@ -21,42 +27,40 @@ const Swipe: React.FC = () => {
     const res = await RecipeService.getRandomRecipe();
     const recipe: Recipe = res.data;
     cards.push(recipe);
-    const list = cards;
-    setcards(list);
-    setRefs([...refs, React.createRef()]);
+    setcards([...cards]);
   };
 
-  const updateindex = () => {
-    const newval = currentindex + 1;
-    setcurrentindex(newval);
-  };
-
-  const onSwipe = (direction: string) => {
-    setTimeout(() => {
-      cards[currentindex] = undefined;
+  const onSwipe = async (direction: string) => {
+    swipeInAction = true;
+    await setTimeout(() => {
+      cards.shift();
       setcards([...cards]);
-    }, 500);
+    }, 200);
 
-    getCard();
-    updateindex();
-    if (direction === 'left') onSwipeLeft();
-    if (direction === 'right') onSwipeRight();
+    if (direction === 'left') await onSwipeLeft();
+    if (direction === 'right') await onSwipeRight();
+    await getCard();
+    swipeInAction = false;
   };
 
   const swipe = async (dir) => {
-    await refs[currentindex].current.swipe(dir);
+    if (!swipeInAction){
+      await Refs[0].current.swipe(dir);
+    }
   };
 
-  useKeypress(['ArrowLeft', 'ArrowRight'], (event) => {
-    if (event.key === 'ArrowLeft') {
-      swipe('left');
-    } else {
-      swipe('right');
+  useKeypress(['ArrowLeft', 'ArrowRight'], async (event) => {
+    if (!swipeInAction) {
+      if (event.key === 'ArrowLeft') {
+        swipe('left');
+      } else {
+        await swipe('right');
+      }
     }
   });
 
   const onSwipeRight = async () => {
-    const recipe: Recipe | undefined = cards[currentindex];
+    const recipe: Recipe = cards[0];
     // TODI: change this to get the current user id
     const authorId: string = '00000000-0000-0000-0000-000000000000';
     if (recipe != undefined) {
@@ -66,7 +70,7 @@ const Swipe: React.FC = () => {
   };
 
   const onSwipeLeft = async () => {
-    const recipe: Recipe | undefined = cards[currentindex];
+    const recipe: Recipe = cards[0];
     // TODI: change this to get the current user id
     const authorId: string = '00000000-0000-0000-0000-000000000000';
     if (recipe != undefined) {
@@ -76,8 +80,7 @@ const Swipe: React.FC = () => {
   };
 
   const RecipesLeft = (): boolean => {
-    const c = cards.filter((i) => i != undefined);
-    return c.length > 0;
+    return cards.length > 0
   };
 
   return (
@@ -85,29 +88,25 @@ const Swipe: React.FC = () => {
       {RecipesLeft() ? (
         <>
           <div className={style.carddeck}>
-            {cards.map((item, index) => {
-              if (item != undefined) {
-                return (
-                  <div
-                    key={item.recipeId}
-                    style={{
-                      position: 'absolute',
-                      zIndex: 9999 - index,
-                      left: 'calc(100vw/2 - 125px)'
-                    }}
-                  >
-                    <TinderCard
-                      ref={refs[index]}
-                      className={style.swipe}
-                      preventSwipe={['up', 'down']}
-                      onSwipe={(dir) => onSwipe(dir)}
-                    >
-                      <Card title={item.name} img={item.pictureURL} time={item.time} />
-                    </TinderCard>
-                  </div>
-                );
-              }
-            })}
+            {cards.map((item, index) => (
+              <div
+                key={item.recipeId}
+                style={{
+                  position: 'absolute',
+                  zIndex: 4 - index,
+                  left: 'calc(100vw/2 - 125px)'
+                }}
+              >
+                <TinderCard
+                  ref={Refs[index]}
+                  className={style.swipe}
+                  preventSwipe={['up', 'down']}
+                  onSwipe={(dir) => onSwipe(dir)}
+                >
+                  <Card title={item.name} img={item.pictureURL} time={item.time} />
+                </TinderCard>
+              </div>
+            ))}
           </div>
           <div className={style.buttons}>
             <button onClick={(e) => swipe('left')}> &#10060;</button>
