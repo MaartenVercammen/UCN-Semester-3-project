@@ -101,7 +101,29 @@ namespace RecipesData.Database
 
         public bool UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            bool update = false;
+            string queryUser= "update  [user] set email=@email, firstName=@firstName, lastName=@lastName, password=@password, address=@address, role=@role where userId=@userId";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = queryUser;
+                    command.Parameters.AddWithValue("@userId", user.UserId.ToString());
+                    command.Parameters.AddWithValue("@email", user.Email);
+                    command.Parameters.AddWithValue("@firstName", user.FirstName);
+                    command.Parameters.AddWithValue("@lastName", user.LastName);
+                    command.Parameters.AddWithValue("@password", user.Password);
+                    command.Parameters.AddWithValue("@address", user.Address);
+                    command.Parameters.AddWithValue("@role", user.Role.ToString());
+
+                    command.ExecuteNonQuery();
+                    update = true;
+                }
+                connection.Close();
+            }
+            return update;
         }
 
         // private

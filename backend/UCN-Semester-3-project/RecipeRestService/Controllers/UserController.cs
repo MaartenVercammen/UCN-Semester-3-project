@@ -88,6 +88,27 @@ namespace UserRestService.Controllers
             return foundReturn;
         }
 
+        [HttpPut]
+        public ActionResult Edit(UserDto inUser)
+        {
+            ActionResult foundReturn;
+            bool updated = false;
+
+            if (inUser != null)
+            {
+                var userId = inUser.UserId;
+                updated = _rControl.Put(UserDtoConvert.ToUser(inUser));
+            }
+            if (updated)
+            {
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            return foundReturn;
+        }
         
     }
 }

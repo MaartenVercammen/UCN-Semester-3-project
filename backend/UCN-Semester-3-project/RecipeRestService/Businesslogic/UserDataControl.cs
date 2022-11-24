@@ -59,9 +59,19 @@ namespace RecipeRestService.Businesslogic
             return foundUsers;
         }
 
-        public bool Put(User UserToUpdate)
+        public bool Put(User userToUpdate)
         {
-            throw new NotImplementedException();
+            bool update = false;
+            try
+            {
+                update = _UserDatabaseAccess.UpdateUser(userToUpdate);
+                update = true;
+            }
+            catch (Exception)
+            {
+                update = false;
+            }
+            return update;
         }
     }
 }
