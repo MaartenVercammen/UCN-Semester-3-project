@@ -48,6 +48,7 @@ namespace RecipesData.Database
         public bool DeleteUser(Guid id)
         {
             bool deleteSuccesFull = false;
+            String guidString = id.ToString();
             using (SqlConnection conn = new SqlConnection(_connectionString))
             using (SqlCommand cmd = conn.CreateCommand())
             {
@@ -57,19 +58,17 @@ namespace RecipesData.Database
                 try
                 {
                     // delete recipes created by user
-                    cmd.CommandText = "DELETE FROM recipes WHERE authorId = @authorId";
-                    cmd.Parameters.AddWithValue("authorId", id);
+                    cmd.CommandText = "DELETE FROM recipe WHERE authorId = @id";
+                    cmd.Parameters.AddWithValue("id", guidString);
 
                     cmd.ExecuteNonQuery();
 
                     // delete swiped recipes by user
                     cmd.CommandText = "DELETE FROM swipedRecipe WHERE userId = @id";
-
                     cmd.ExecuteNonQuery();
 
                     // delete user
                     cmd.CommandText = "DELETE FROM [user] WHERE userId = @id";
-
                     int rowsAffected = cmd.ExecuteNonQuery();
                     deleteSuccesFull = rowsAffected > 0;
                     cmd.Transaction.Commit();

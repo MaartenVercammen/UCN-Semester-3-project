@@ -33,7 +33,7 @@ namespace RecipeRestService.Businesslogic
                 IsCompleted = _RecipeAccess.DeleteRecipe(id);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 IsCompleted = false;
             }
