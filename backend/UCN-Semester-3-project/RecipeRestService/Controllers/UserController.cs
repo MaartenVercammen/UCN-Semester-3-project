@@ -109,6 +109,23 @@ namespace UserRestService.Controllers
             }
             return foundReturn;
         }
+
+        [HttpDelete, Route("{id}")]
+        public ActionResult Delete(string id)
+        {
+            Guid recipeId = Guid.Parse(id);
+            ActionResult foundReturn;
+            bool deleted = _rControl.Delete(recipeId);
+            if (deleted)
+            {
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            return foundReturn;
+        }
         
     }
 }

@@ -21,7 +21,7 @@ namespace RecipesData.Database
         public Guid CreateUser(User user)
         {
             User u = new User();
-            string queryUser= "insert into [user] values (@userId, @email, @firstName, @lastName, @password, @address, @role)";
+            string queryUser = "insert into [user] values (@userId, @email, @firstName, @lastName, @password, @address, @role)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -47,7 +47,42 @@ namespace RecipesData.Database
 
         public bool DeleteUser(Guid id)
         {
-            throw new NotImplementedException();
+            bool deleteSuccesFull = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.Transaction = conn.BeginTransaction();
+
+                try
+                {
+                    // delete recipes created by user
+                    cmd.CommandText = "DELETE FROM recipes WHERE authorId = @authorId";
+                    cmd.Parameters.AddWithValue("authorId", id);
+
+                    cmd.ExecuteNonQuery();
+
+                    // delete swiped recipes by user
+                    cmd.CommandText = "DELETE FROM swipedRecipe WHERE userId = @id";
+
+                    cmd.ExecuteNonQuery();
+
+                    // delete user
+                    cmd.CommandText = "DELETE FROM [user] WHERE userId = @id";
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    deleteSuccesFull = rowsAffected > 0;
+                    cmd.Transaction.Commit();
+
+                }
+                catch (Exception)
+                {
+                    cmd.Transaction.Rollback();
+                }
+                conn.Close();
+            }
+
+            return deleteSuccesFull;
         }
 
         public User GetUserById(Guid id)
@@ -102,7 +137,7 @@ namespace RecipesData.Database
         public bool UpdateUser(User user)
         {
             bool update = false;
-            string queryUser= "update  [user] set email=@email, firstName=@firstName, lastName=@lastName, password=@password, address=@address, role=@role where userId=@userId";
+            string queryUser = "update  [user] set email=@email, firstName=@firstName, lastName=@lastName, password=@password, address=@address, role=@role where userId=@userId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -138,5 +173,6 @@ namespace RecipesData.Database
             user.Address = reader.GetString(reader.GetOrdinal("address"));
             return user;
         }
+
     }
 }

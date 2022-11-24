@@ -42,7 +42,17 @@ namespace RecipeRestService.Businesslogic
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            bool isCompleted = false;
+            try
+            {
+                isCompleted = _UserDatabaseAccess.DeleteUser(id);
+
+            }
+            catch (Exception e)
+            {
+                isCompleted = false;
+            }
+            return isCompleted;
         }
 
         public List<User>? Get()
