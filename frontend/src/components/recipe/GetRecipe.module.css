@@ -34,6 +34,7 @@
   display: flex;
   justify-content: center;
   padding: 2rem;
+  gap: 1rem;
 }
 
 .deleteBtn {
@@ -41,7 +42,7 @@
   font-weight: 400;
   font-size: 12px;
   color: #FF7F7F;
-  width: 16vw;
+  width: 6rem;
   height: 4vh;
   border: 2px;
   border: 10px;
@@ -58,7 +59,7 @@
   font-weight: 400;
   font-size: 12px;
   color: #F4D961;
-  width: 16vw;
+  width: 6rem;
   height: 4vh;
   border: 2px;
   border: 10px;

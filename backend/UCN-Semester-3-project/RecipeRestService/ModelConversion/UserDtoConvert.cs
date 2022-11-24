@@ -1,6 +1,5 @@
 using RecipeRestService.DTO;
 using RecipesData.Model;
-using System;
 
 namespace RecipeRestService.ModelConversion
 {
@@ -11,7 +10,7 @@ namespace RecipeRestService.ModelConversion
             UserDto? userDTO = null;
             if (inUser != null)
             {
-                userDTO = new UserDto(inUser.UserId, inUser.Email,  inUser.FirstName, inUser.LastName, inUser.Password, inUser.Address);
+                userDTO = new UserDto(inUser.UserId, inUser.Email,  inUser.FirstName, inUser.LastName, inUser.Password, inUser.Address, (DTO.Role)inUser.Role);
             }
             return userDTO;
         }
@@ -37,7 +36,7 @@ namespace RecipeRestService.ModelConversion
         
         public static User? ToUser(UserDto inDto)
         {
-            return new User(inDto.UserId, inDto.Email,  inDto.FirstName, inDto.LastName, inDto.Password, inDto.Address);
+            return new User(inDto.UserId, inDto.Email,  inDto.FirstName, inDto.LastName, inDto.Password, inDto.Address, (RecipesData.Model.Role)inDto.Role);
         }
     }
 }

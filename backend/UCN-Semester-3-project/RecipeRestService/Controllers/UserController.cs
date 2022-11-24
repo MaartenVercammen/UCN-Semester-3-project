@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
+using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipesData.Model;
-using UserRestService.Businesslogic;
 
 namespace UserRestService.Controllers
 {
@@ -67,7 +66,26 @@ namespace UserRestService.Controllers
             }
             // send response back to client
             return foundReturn;
+        }
 
+        [HttpPost]
+        public ActionResult Post([FromBody] UserDto inUser)
+        {
+            ActionResult foundReturn;
+            Guid insertedGuid = Guid.Empty;
+            if (inUser != null)
+            {
+                insertedGuid = _rControl.Add(UserDtoConvert.ToUser(inUser));
+            }
+            if (insertedGuid != Guid.Empty)
+            {
+                foundReturn = Ok(insertedGuid);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            return foundReturn;
         }
 
         

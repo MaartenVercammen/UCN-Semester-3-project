@@ -94,7 +94,7 @@ namespace RecipeRestService.Businesslogic
                 int randomnumber = rnd.Next(0, recipes.Count - 1);
                 return _RecipeAccess.GetRecipeById(recipes[randomnumber].RecipeId);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

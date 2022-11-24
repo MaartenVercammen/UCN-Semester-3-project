@@ -1,12 +1,6 @@
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RecipesData.Model;
 using System.Data.SqlClient;
-using System.Data;
 
 namespace RecipesData.Database
 {
@@ -26,7 +20,29 @@ namespace RecipesData.Database
 
         public Guid CreateUser(User user)
         {
-            throw new NotImplementedException();
+            User u = new User();
+            string queryUser= "insert into [user] values (@userId, @email, @firstName, @lastName, @password, @address, @role)";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = queryUser;
+                    command.Parameters.AddWithValue("@userId", user.UserId.ToString());
+                    command.Parameters.AddWithValue("@email", user.Email);
+                    command.Parameters.AddWithValue("@firstName", user.FirstName);
+                    command.Parameters.AddWithValue("@lastName", user.LastName);
+                    command.Parameters.AddWithValue("@password", user.Password);
+                    command.Parameters.AddWithValue("@address", user.Address);
+                    command.Parameters.AddWithValue("@role", user.Role.ToString());
+
+                    command.ExecuteNonQuery();
+                    u.UserId = user.UserId;
+                }
+                connection.Close();
+            }
+            return u.UserId;
         }
 
         public bool DeleteUser(Guid id)

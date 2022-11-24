@@ -1,10 +1,11 @@
-namespace RecipesData.Model
+using RecipesData.Model;
+namespace RecipeRestService.DTO
 {
     public enum Role 
     {
-        USER,
-        VERIFIEDUSER,
-        ADMIN
+        USER = 0,
+        VERIFIEDUSER = 1,
+        ADMIN = 2
     }
     public class UserDto
     {
@@ -23,7 +24,7 @@ namespace RecipesData.Model
         //public List<SwipedRecipe> DislikedRecipes { get; set; }
         //public List<BambooSession> OwnedBambooSessions { get; set; }
 
-        public UserDto(Guid userId, string email, string firstName, string lastName, string password, string address)
+        public UserDto(Guid userId, string email, string firstName, string lastName, string password, string address, Role role)
         {
             this.UserId = userId;
             this.Email = email;
@@ -31,11 +32,23 @@ namespace RecipesData.Model
             this.LastName = lastName;
             this.Password = password;
             this.Address = address;
+            this.Role = role;
         }
 
-        public UserDto(string email, string firstName, string lastName, string password, string address)
+        public UserDto(string email, string firstName, string lastName, string password, string address, Role role)
         {
             this.UserId = Guid.NewGuid();
+            this.Email = email;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Password = password;
+            this.Address = address;
+            this.Role = role;
+        }
+
+        public UserDto(Guid userId, string email, string firstName, string lastName, string password, string address)
+        {
+            this.UserId = userId;
             this.Email = email;
             this.FirstName = firstName;
             this.LastName = lastName;

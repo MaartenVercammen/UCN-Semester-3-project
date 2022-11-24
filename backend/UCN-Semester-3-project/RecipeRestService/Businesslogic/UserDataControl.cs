@@ -28,7 +28,16 @@ namespace RecipeRestService.Businesslogic
 
         public Guid Add(User UserToAdd)
         {
-            throw new NotImplementedException();
+            Guid guid;
+            try
+            {
+                guid = _UserDatabaseAccess.CreateUser(UserToAdd);
+            }
+            catch (Exception)
+            {
+                guid = Guid.Empty;
+            }
+            return guid;
         }
 
         public bool Delete(Guid id)

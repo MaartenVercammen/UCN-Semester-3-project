@@ -154,7 +154,7 @@ namespace RecipesData.Database
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT recipe.recipeId as recipeId, recipe.name as name, recipe.pictureUrl as pictureUrl, recipe.time as time FROM recipe inner JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId where swipedRecipe.userId = '00000000-0000-0000-0000-000000000000'";
+                    command.CommandText = "SELECT recipe.recipeId as recipeId, recipe.name as name, recipe.pictureUrl as pictureUrl, recipe.time as time FROM recipe inner JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId where swipedRecipe.userId = '00000000-0000-0000-0000-000000000000' and isLiked = 1";
 
                     command.Parameters.AddWithValue("@userId", userId);
 
