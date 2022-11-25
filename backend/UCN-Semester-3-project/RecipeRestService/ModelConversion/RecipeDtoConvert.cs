@@ -1,6 +1,5 @@
 using RecipeRestService.DTO;
 using RecipesData.Model;
-using System;
 
 namespace RecipeRestService.ModelConversion
 {
@@ -40,7 +39,7 @@ namespace RecipeRestService.ModelConversion
         public static Recipe? ToRecipe(RecipeDto inDto)
         {
             //TODO change user to get request to get ID;
-            return new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street", Role.USER));
+            return new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass", "street"));
         }
     }
 }
