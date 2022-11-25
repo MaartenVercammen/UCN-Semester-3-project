@@ -71,12 +71,12 @@ namespace RecipesData.Database
             {
                 con.Open();
                 // Execute read
-                SqlDataReader recipeReader = readCommand.ExecuteReader();
+                SqlDataReader reader = readCommand.ExecuteReader();
                 // Collect data
                 foundRecipes = new List<Recipe>();
-                while (recipeReader.Read())
+                while (reader.Read())
                 {
-                    readRecipe = GetRecipeById(Guid.Parse(recipeReader.GetString(recipeReader.GetOrdinal("recipeId"))));
+                    readRecipe = GetRecipeById(Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId"))));
                     foundRecipes.Add(readRecipe);
                 }
 
@@ -111,7 +111,7 @@ namespace RecipesData.Database
             return foundRecipes;
         }
 
-        public List<Recipe> GetRecipesSimplified() 
+        public List<Recipe> GetRecipesSimplified()
         {
             List<Recipe> foundRecipes;
             Recipe readRecipe;
@@ -122,10 +122,10 @@ namespace RecipesData.Database
             {
                 con.Open();
                 // Execute read
-                SqlDataReader recipeReader = readCommand.ExecuteReader();
+                SqlDataReader reader = readCommand.ExecuteReader();
                 // Collect data
                 foundRecipes = new List<Recipe>();
-                while (recipeReader.Read())
+                while (reader.Read())
                 {
                     readRecipe = BuildRecipeSimplified(recipeReader);
                     foundRecipes.Add(readRecipe);
@@ -137,7 +137,36 @@ namespace RecipesData.Database
             return foundRecipes;
         }
 
-        
+        public List<Recipe> GetLikedRecipes(Guid userId)
+        {
+            List<Recipe> foundRecipes = new List<Recipe>();
+            Recipe readRecipe;
+            String userIdString = userId.ToString();
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT recipe.recipeId as recipeId, recipe.name as name, recipe.pictureUrl as pictureUrl, recipe.time as time FROM recipe inner JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId where swipedRecipe.userId = '00000000-0000-0000-0000-000000000000'";
+
+                    command.Parameters.AddWithValue("@userId", userId);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        readRecipe = new Recipe();
+                    readRecipe.RecipeId = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
+                    readRecipe.Name = reader.GetString(reader.GetOrdinal("name"));
+                    readRecipe.PictureURL = reader.GetString(reader.GetOrdinal("pictureUrl"));
+                    readRecipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
+                        foundRecipes.Add(readRecipe);
+                    }
+                    reader.Close();
+                }
+            }
+            return foundRecipes;
+        }
 
         /// <summary>
         /// Inserts a recipe into the database
@@ -242,7 +271,7 @@ namespace RecipesData.Database
             }
             return guids;
         }
-        
+
         /// <summary>
         /// Updates a recipe
         /// </summary>

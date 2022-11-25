@@ -2,27 +2,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import RecipeService from '../../service/recipeService';
-import { Recipe } from '../../types';
+import { Recipe, User } from '../../types';
 import style from './GetRecipes.module.css';
 import { Link } from 'react-router-dom';
 
-const GetRecipes: React.FC = () => {
-  const [recipes, setRecipes] = useState<any>([]);
-
+const GetLikedRecipes: React.FC = () => {
+  const [recipes, setRecipes] = useState<(any)>([]);
+  const [user, setUser] = useState<any>([]);
+  
   const getData = async () => {
-    const response = await RecipeService.getRecipes();
+    const response = await RecipeService.getLiked(user.userId);
     const data = response.data;
     setRecipes(data);
+    console.log(data);
   };
-
+  
   useEffect(() => {
+    // TODO: get signed in user
+    user.userId = '00000000-0000-0000-0000-000000000000';
+    setUser(user);
     getData();
   }, []);
 
   return (
     <>
       <div className={style.pageContent}>
-        <h2>explore</h2>
+        <h2>liked recipes</h2>
         {recipes.map((recipe: Recipe) => (
           <Link to={'/recipes/' + recipe.recipeId}>
             <div className={style.recipe} key={recipe.recipeId} id={style.recipeChild}>
@@ -44,4 +49,4 @@ const GetRecipes: React.FC = () => {
   );
 };
 
-export default GetRecipes;
+export default GetLikedRecipes;
