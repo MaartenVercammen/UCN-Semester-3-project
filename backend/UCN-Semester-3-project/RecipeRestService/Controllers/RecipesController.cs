@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipesData.Database;
 using RecipesData.Model;
 
 namespace RecipeRestService.Controllers
@@ -17,7 +18,8 @@ namespace RecipeRestService.Controllers
         public RecipesController(IConfiguration inConfiguration)
         {
             _configuration = inConfiguration;
-            _rControl = new RecipedataControl(_configuration);
+            RecipeDatabaseAccess access = new RecipeDatabaseAccess(inConfiguration);
+            _rControl = new RecipedataControl(access);
         }
 
         [HttpGet, Route("{id}")]
@@ -68,38 +70,6 @@ namespace RecipeRestService.Controllers
             // send response back to client
             return foundReturn;
 
-        }
-
-        [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
-        public ActionResult<List<RecipeDto>> GetLiked(string userId)
-        {
-            Guid userIdGuid = Guid.Parse(userId);
-            ActionResult<List<RecipeDto>> foundReturn;
-            // retrieve and convert data
-            List<Recipe>? foundRecipes = _rControl.GetLiked(userIdGuid);
-            List<RecipeDto>? foundDts = null;
-            if (foundRecipes != null)
-            {
-                foundDts = RecipeDtoConvert.FromRecipeCollection(foundRecipes);
-            }
-            // evaluate
-            if (foundDts != null)
-            {
-                if (foundDts.Count > 0)
-                {
-                    foundReturn = Ok(foundDts);                 // Statuscode 200
-                }
-                else
-                {
-                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
-                }
-            }
-            else
-            {
-                foundReturn = new StatusCodeResult(500);        // Internal server error
-            }
-            // send response back to client
-            return foundReturn;
         }
 
         [HttpPost]

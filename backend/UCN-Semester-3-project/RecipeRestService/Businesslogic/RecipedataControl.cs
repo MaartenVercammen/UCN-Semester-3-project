@@ -6,9 +6,9 @@ namespace RecipeRestService.Businesslogic
     public class RecipedataControl : IRecipeData
     {
         IRecipeAccess _RecipeAccess;
-        public RecipedataControl(IConfiguration inConfiguration)
+        public RecipedataControl(IRecipeAccess access)
         {
-            _RecipeAccess = new RecipeDatabaseAccess(inConfiguration);
+            _RecipeAccess = access;
         }
 
         public Guid Add(Recipe recipeToAdd)
@@ -33,7 +33,7 @@ namespace RecipeRestService.Businesslogic
                 IsCompleted = _RecipeAccess.DeleteRecipe(id);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 IsCompleted = false;
             }
@@ -72,20 +72,7 @@ namespace RecipeRestService.Businesslogic
             throw new NotImplementedException();
         }
 
-        public List<Recipe>? GetLiked(Guid userId)
-        {
-            List<Recipe>? foundRecipes;
-            try
-            {
-                foundRecipes = _RecipeAccess.GetLikedRecipes(userId);
-            }
-            catch (Exception)
-            {
-                foundRecipes = null;
-            }
-            return foundRecipes;
-        }
-
+        // TODO: Fix this method - retrieve random from db
         public Recipe GetRandomRecipe(Guid userId){
             List<Recipe> recipes = new List<Recipe>();
             try{

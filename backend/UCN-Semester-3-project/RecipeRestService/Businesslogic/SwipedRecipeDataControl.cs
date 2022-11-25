@@ -6,9 +6,9 @@ namespace RecipeRestService.Businesslogic
     public class SwipedRecipeDataControl : ISwipedRecipeData
     {
         ISwipedRecipeAccess _SwipedRecipeAccess;
-        public SwipedRecipeDataControl(IConfiguration inConfiguration)
+        public SwipedRecipeDataControl(ISwipedRecipeAccess access)
         {
-            _SwipedRecipeAccess = new SwipedRecipeDatabaseAccess(inConfiguration);
+            _SwipedRecipeAccess = access;
         }
 
         public SwipedRecipe? Get(Guid id)
@@ -30,7 +30,7 @@ namespace RecipeRestService.Businesslogic
             List<SwipedRecipe>? foundRecipes;
             try
             {
-                foundRecipes = _SwipedRecipeAccess.GetSwipedRecipesByUser(userId);
+                foundRecipes = _SwipedRecipeAccess.GetSwipeRecipesByUser(userId);
             }
             catch (Exception)
             {

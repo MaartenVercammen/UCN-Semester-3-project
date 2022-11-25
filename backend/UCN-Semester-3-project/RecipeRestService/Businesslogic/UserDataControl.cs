@@ -6,10 +6,10 @@ namespace RecipeRestService.Businesslogic
 {
     public class UserDataControl : IUserData
     {
-        IUserAccess _UserDatabaseAccess;
-        public UserDataControl(IConfiguration inConfiguration)
+        IUserAccess _UserAccess;
+        public UserDataControl(IUserAccess access)
         {
-            _UserDatabaseAccess = new UserDatabaseAccess(inConfiguration);
+            _UserAccess = access;
         }
 
         public User? Get(Guid id)
@@ -17,7 +17,7 @@ namespace RecipeRestService.Businesslogic
             User? foundUser;
             try
             {
-                foundUser = _UserDatabaseAccess.GetUserById(id);
+                foundUser = _UserAccess.GetUserById(id);
             }
             catch (Exception)
             {
@@ -31,7 +31,7 @@ namespace RecipeRestService.Businesslogic
             Guid guid;
             try
             {
-                guid = _UserDatabaseAccess.CreateUser(UserToAdd);
+                guid = _UserAccess.CreateUser(UserToAdd);
             }
             catch (Exception)
             {
@@ -45,7 +45,7 @@ namespace RecipeRestService.Businesslogic
             bool IsCompleted = false;
             try
             {
-                IsCompleted = _UserDatabaseAccess.DeleteUser(id);
+                IsCompleted = _UserAccess.DeleteUser(id);
 
             }
             catch (Exception)
@@ -60,7 +60,7 @@ namespace RecipeRestService.Businesslogic
             List<User>? foundUsers;
             try
             {
-                foundUsers = _UserDatabaseAccess.GetUsers();
+                foundUsers = _UserAccess.GetUsers();
             }
             catch (Exception)
             {
@@ -74,7 +74,7 @@ namespace RecipeRestService.Businesslogic
             bool update = false;
             try
             {
-                update = _UserDatabaseAccess.UpdateUser(userToUpdate);
+                update = _UserAccess.UpdateUser(userToUpdate);
                 update = true;
             }
             catch (Exception)
