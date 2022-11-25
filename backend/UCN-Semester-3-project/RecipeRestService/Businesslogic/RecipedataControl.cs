@@ -6,9 +6,9 @@ namespace RecipeRestService.Businesslogic
     public class RecipedataControl : IRecipeData
     {
         IRecipeAccess _RecipeAccess;
-        public RecipedataControl(IConfiguration inConfiguration)
+        public RecipedataControl(IRecipeAccess access)
         {
-            _RecipeAccess = new RecipeDatabaseAccess(inConfiguration);
+            _RecipeAccess = access;
         }
 
         public Guid Add(Recipe recipeToAdd)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipesData.Database;
 using RecipesData.Model;
 
 namespace RecipeRestService.Controllers
@@ -17,7 +18,8 @@ namespace RecipeRestService.Controllers
         public SwipedRecipeController(IConfiguration inConfiguration)
         {
             _configuration = inConfiguration;
-            _swControl = new SwipedRecipeDataControl(_configuration);
+            SwipedRecipeDatabaseAccess access = new SwipedRecipeDatabaseAccess(inConfiguration);
+            _swControl = new SwipedRecipeDataControl(access);
         }
 
 

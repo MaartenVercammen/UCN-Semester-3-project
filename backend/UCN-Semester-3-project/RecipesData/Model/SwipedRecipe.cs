@@ -1,3 +1,5 @@
+using System;
+
 public class SwipedRecipe
 {
 	public Guid UserId {get;set;}
@@ -11,7 +13,7 @@ public class SwipedRecipe
 		this.IsLiked = isLiked;
 	}
 
-    public SwipedRecipe()
+	public SwipedRecipe()
     {
         
     }

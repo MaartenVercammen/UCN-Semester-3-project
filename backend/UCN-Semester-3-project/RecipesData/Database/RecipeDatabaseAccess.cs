@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using RecipesData.Model;
 using System.Data.SqlClient;
 using System.Data;
+using Dapper;
 
 namespace RecipesData.Database
 {

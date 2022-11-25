@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipesData.Database;
 using RecipesData.Model;
 
 namespace RecipeRestService.Controllers
@@ -17,7 +18,8 @@ namespace RecipeRestService.Controllers
         public RecipesController(IConfiguration inConfiguration)
         {
             _configuration = inConfiguration;
-            _rControl = new RecipedataControl(_configuration);
+            RecipeDatabaseAccess access = new RecipeDatabaseAccess(inConfiguration);
+            _rControl = new RecipedataControl(access);
         }
 
         [HttpGet, Route("{id}")]
