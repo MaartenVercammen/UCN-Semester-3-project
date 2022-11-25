@@ -11,6 +11,7 @@ namespace RecipesData.Model
     public class Recipe
     {
         public Guid RecipeId { get; set; }
+
         [MinLength(5), MaxLength(50), Required]
         public string Name { get; set; }
         [MinLength(5), Required]
