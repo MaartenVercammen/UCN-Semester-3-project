@@ -82,13 +82,11 @@ namespace RecipeRestService.Controllers
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
-            var token = Request.Headers["Authorization"];
-            Guid tokenId = new SecurityHelper(_configuration).GetUserFromJWT(token.ToString());
-            
-            Guid userIdGuid = Guid.Parse(userId);
-            if(tokenId.ToString() != userIdGuid.ToString()){
+            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, userId)){
                 return new StatusCodeResult(403);
             }
+
+            Guid userIdGuid = Guid.Parse(userId);
             ActionResult<List<RecipeDto>> foundReturn;
             // retrieve and convert data
             List<Recipe>? foundRecipes = _rControl.GetLiked(userIdGuid);
@@ -121,6 +119,8 @@ namespace RecipeRestService.Controllers
         [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
+            Guid userid = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            inRecipe.Author = userid;
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
             if (inRecipe != null)
@@ -142,7 +142,14 @@ namespace RecipeRestService.Controllers
         [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult Delete(string id)
         {
+            
             Guid recipeId = Guid.Parse(id);
+
+            Recipe recipe = _rControl.Get(recipeId);
+
+            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, recipe.Author.ToString())){
+                return new StatusCodeResult(403);
+            }
 
             ActionResult foundReturn;
             bool IsCompleted = _rControl.Delete(recipeId);

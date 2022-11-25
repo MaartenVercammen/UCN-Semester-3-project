@@ -30,5 +30,15 @@ namespace RecipeRestService.Security {
             var claimValue = securityToken.Claims.ElementAt(2).Value;
             return Guid.Parse(claimValue);
         }
+
+        public bool IsAllowedToUsePath(HttpRequest request, string userid){
+            var token = request.Headers["Authorization"];
+            Guid tokenId = new SecurityHelper(_configuration).GetUserFromJWT(token.ToString());
+            
+            if(tokenId.ToString() != userid){
+                return true;
+            }
+            return false;
+        }
     }
 }
