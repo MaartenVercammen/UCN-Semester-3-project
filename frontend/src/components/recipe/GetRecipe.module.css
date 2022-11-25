@@ -1,25 +1,25 @@
+.recipeContent h1 {
+  text-align: center;
+}
+
 .container {
   display: grid;
   grid-auto-columns: 1fr;
-  max-width: 600px;
+  max-width: 400px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 5rem;
-  margin-bottom: 5rem;
-  margin-left: 40%;
+  gap: 1rem;
 }
 
 .recipeImg {
-  width: 100vw;
-  height: 500px;
-  overflow: hidden;
-  position: relative;
+  height: 50vh;
 }
 
 .recipeImg img {
-  position: absolute;
-  left: -200px;
-  top: -300px;
+  height: 100%;
+  width: 100%;
+  object-fit: cover
 }
 
 .ingredientContainer {
@@ -28,4 +28,44 @@
 
 .ingredientChild {
   flex: .2;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.deleteBtn {
+  background-color: #FFF2F2;
+  font-weight: 400;
+  font-size: 12px;
+  color: #FF7F7F;
+  width: 16vw;
+  height: 4vh;
+  border: 2px;
+  border: 10px;
+  border-style: solid;
+  border-color: #FF7F7F;
+  border-radius: 20px;
+  border-width: .1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editBtn {
+  background-color: #FEFBEF;
+  font-weight: 400;
+  font-size: 12px;
+  color: #F4D961;
+  width: 16vw;
+  height: 4vh;
+  border: 2px;
+  border: 10px;
+  border-style: solid;
+  border-color: #F4D961;
+  border-radius: 20px;
+  border-width: .1em;
+  border-radius: 5px;
+  cursor: pointer;
 }

@@ -5,3 +5,10 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.homeContent {
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 79vh;
+}

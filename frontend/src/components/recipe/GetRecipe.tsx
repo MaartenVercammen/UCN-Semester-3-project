@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
@@ -21,9 +20,15 @@ const GetRecipe: React.FC = () => {
   };
 
   const deleteRecipe = async () => {
-    const res = await RecipeService.deleteRecipe(recipe.recipeId);
-    console.log(res.data);
-    navigation('/app');
+    if (confirm('Are you sure you want to delete this recipe?')) {
+      await RecipeService.deleteRecipe(recipe.recipeId);
+      navigation('/app');
+    }
+  };
+
+  // TODO: implement edit recipe
+  const editRecipe = async () => {
+    window.alert('not implemented yet');
   };
 
   useEffect(() => {
@@ -31,7 +36,7 @@ const GetRecipe: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className={style.recipeContent}>
       <div className={style.recipeImg}>
         <img src={recipe.pictureURL} alt="" />
       </div>
@@ -60,7 +65,12 @@ const GetRecipe: React.FC = () => {
           </div>
         ))}
       </div>
-      <button onClick={(e) => deleteRecipe()}>Delete</button> {/**TODO: Add styling **/}
+      <div className={style.buttonContainer}>
+        <button onClick={(e) => editRecipe()} className={style.editBtn}>edit</button>
+        <button onClick={(e) => deleteRecipe()} className={style.deleteBtn}>
+          delete
+        </button>{' '}
+      </div>
     </div>
   );
 };
