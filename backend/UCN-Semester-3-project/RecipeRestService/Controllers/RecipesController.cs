@@ -1,9 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
 
@@ -80,7 +82,13 @@ namespace RecipeRestService.Controllers
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
+            var token = Request.Headers["Authorization"];
+            Guid tokenId = new SecurityHelper(_configuration).GetUserFromJWT(token.ToString());
+            
             Guid userIdGuid = Guid.Parse(userId);
+            if(tokenId.ToString() != userIdGuid.ToString()){
+                return new StatusCodeResult(403);
+            }
             ActionResult<List<RecipeDto>> foundReturn;
             // retrieve and convert data
             List<Recipe>? foundRecipes = _rControl.GetLiked(userIdGuid);

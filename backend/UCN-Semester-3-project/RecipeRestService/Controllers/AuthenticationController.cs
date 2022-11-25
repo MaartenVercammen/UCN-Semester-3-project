@@ -28,7 +28,7 @@ namespace RecipeRestService.Controllers
         [HttpGet]
         public IActionResult Authorize()
         {
-            User user = new User(Guid.NewGuid(), "email", "Mark", "Markson", "Mark132", "Mark street 15234 Aalborg", Role.USER);
+            User user = new User(Guid.Parse("343c3bda-9482-4a8c-912d-75644cc458ea"), "email", "Mark", "Markson", "Mark132", "Mark street 15234 Aalborg", Role.USER);
             return Ok(GenerateToken(user));
         }
 
@@ -37,12 +37,14 @@ namespace RecipeRestService.Controllers
             string tokenString;
             string Issuer = "https://localhost:7088";
 
+            // DO NOT EDIT THIS, in case something goes wrong edit SecurityHelper.GetRoleFromJWT ElementAt index
             var claims = new[] {    
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
                 new Claim(ClaimTypes.NameIdentifier,
                 user.UserId.ToString())
             };
+            
 
             SecurityHelper securityHelper = new SecurityHelper(_configuration);
             // Create header with algorithm and token type - and secret added

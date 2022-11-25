@@ -1,5 +1,7 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using RecipesData.Model;
 
 namespace RecipeRestService.Security {
     public class SecurityHelper {
@@ -19,6 +21,14 @@ namespace RecipeRestService.Security {
                 SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
             }
             return SIGNING_KEY;
+        }
+
+        public Guid GetUserFromJWT(string token){
+            string tokenItself = token.Split(' ')[1];
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(tokenItself);
+            var claimValue = securityToken.Claims.ElementAt(2).Value;
+            return Guid.Parse(claimValue);
         }
     }
 }
