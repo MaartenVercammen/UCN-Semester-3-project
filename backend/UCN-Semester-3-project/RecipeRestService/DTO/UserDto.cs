@@ -1,12 +1,7 @@
 using RecipesData.Model;
+
 namespace RecipeRestService.DTO
 {
-    public enum Role 
-    {
-        USER = 0,
-        VERIFIEDUSER = 1,
-        ADMIN = 2
-    }
     public class UserDto
     {
         public Guid UserId { get; set; }
@@ -15,7 +10,7 @@ namespace RecipeRestService.DTO
         public string LastName { get; set; }
         public string Password { get; set; }
         public string Address { get; set; }
-        public Role Role { get; set; }
+        public string Role { get; set; }
 
 
         // TODO: Add recipes, liked recipes, disliked recipes, owned bamboo sessions
@@ -32,7 +27,7 @@ namespace RecipeRestService.DTO
             this.LastName = lastName;
             this.Password = password;
             this.Address = address;
-            this.Role = role;
+            this.Role = role.ToString();
         }
 
         public UserDto(string email, string firstName, string lastName, string password, string address, Role role)
@@ -43,7 +38,7 @@ namespace RecipeRestService.DTO
             this.LastName = lastName;
             this.Password = password;
             this.Address = address;
-            this.Role = role;
+            this.Role = role.ToString();
         }
 
         public UserDto(Guid userId, string email, string firstName, string lastName, string password, string address)

@@ -14,7 +14,6 @@ const GetLikedRecipes: React.FC = () => {
     const response = await RecipeService.getLiked(user.userId);
     const data = response.data;
     setRecipes(data);
-    console.log(data);
   };
   
   useEffect(() => {

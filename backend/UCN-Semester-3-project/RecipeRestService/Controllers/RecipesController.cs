@@ -126,5 +126,38 @@ namespace RecipeRestService.Controllers
             }
             return foundReturn;
         }
+
+        [HttpGet, Route("user/{id}/liked")]
+        public ActionResult<List<RecipeDto>> GetLikedRecipes(string id)
+         {
+            ActionResult<List<RecipeDto>> foundReturn;
+            // retrieve and convert data
+            Guid userId = Guid.Parse(id);
+            List<Recipe>? foundRecipes = _rControl.GetLikedByUser(userId);
+            List<RecipeDto>? foundDts = null;
+            if (foundRecipes != null)
+            {
+                foundDts = RecipeDtoConvert.FromRecipeCollection(foundRecipes);
+            }
+            // evaluate
+            if (foundDts != null)
+            {
+                if (foundDts.Count > 0)
+                {
+                    foundReturn = Ok(foundDts);                 // Statuscode 200
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
+                }
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            // send response back to client
+            return foundReturn;
+
+        }
     }
 }

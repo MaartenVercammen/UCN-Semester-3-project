@@ -8,15 +8,14 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import userEvent from '@testing-library/user-event';
 import React, { useEffect, useState } from 'react';
+import { User } from '../../types';
 import style from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
-  const [user, setUser] = useState<any>([]);
+  const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
-    // TODO: get signed in user
-    user.userId = '00000000-0000-0000-0000-000000000000';
-    setUser(user);
+    setUserId('00000000-0000-0000-0000-000000000000');
   }, []);
 
   return (
@@ -39,12 +38,12 @@ const Navbar: React.FC = () => {
             </a>
           </li>
           <li className={style.navbarChild}>
-            <a href="/app">
+            <a href={"/user/" + userId}>
               <FontAwesomeIcon icon={faUser} className={style.icon} />
             </a>
           </li>
           <li className={style.navbarChild}>
-            <a href={"/user/"+ user.userId + "/liked"}>
+            <a href={"/user/"+ userId + "/liked"}>
               <FontAwesomeIcon icon={faHeart} className={style.icon} />
             </a>
           </li>

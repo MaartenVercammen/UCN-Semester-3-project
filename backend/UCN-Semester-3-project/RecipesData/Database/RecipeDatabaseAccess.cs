@@ -235,6 +235,34 @@ namespace RecipesData.Database
             }
             return guids;
         }
+
+
+    public List<Recipe> GetLikedByUser(Guid userId)
+    {
+        List<Recipe> likedRecipes = new List<Recipe>();
+        Recipe recipe = new Recipe();
+        String userIdString = userId.ToString();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Open();
+            using (SqlCommand command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE recipe.authorId =@userId AND isLiked = 1";
+
+                command.Parameters.AddWithValue("@userId", userIdString);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    recipe = BuildRecipeSimplified(reader);
+                    likedRecipes.Add(recipe);
+                }
+                reader.Close();
+            }
+        }
+        return likedRecipes;
+    }
         
         /// <summary>
         /// Updates a recipe

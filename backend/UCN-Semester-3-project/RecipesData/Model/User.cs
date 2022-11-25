@@ -2,9 +2,9 @@ namespace RecipesData.Model
 {
     public enum Role 
     {
-        USER = 0,
-        VERIFIEDUSER = 1,
-        ADMIN = 2
+        USER,
+        VERIFIEDUSER,
+        ADMIN
     }
     public class User
     {

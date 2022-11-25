@@ -6,6 +6,7 @@ import Explore from './components/pages/Explore';
 import Home from './components/pages/Home';
 import Liked from './components/pages/Liked';
 import Recipe from './components/pages/Recipe';
+import UserTab from './components/pages/UserTab';
 import GetRecipes from './components/recipe/GetRecipes';
 import './css/index.css';
 
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <Route path="/recipes/:id" element={<Recipe />} />
       <Route path="/explore" element={<Explore />} />
       <Route path="/user/:id/liked" element={<Liked />} />
+      <Route path="/user/:id" element={<UserTab />} />
     </Routes>
   );
 };

@@ -73,7 +73,8 @@ namespace RecipeRestService.Businesslogic
         }
 
         // TODO: Fix this method - retrieve random from db
-        public Recipe GetRandomRecipe(Guid userId){
+        public Recipe GetRandomRecipe(Guid userId)
+        {
             List<Recipe> recipes = new List<Recipe>();
             try{
                 recipes = _RecipeAccess.GetRandomRecipe(userId);
@@ -85,6 +86,19 @@ namespace RecipeRestService.Businesslogic
             {
                 return null;
             }
+        }
+
+        public List<Recipe> GetLikedByUser(Guid userId)
+        {
+            List<Recipe> recipes = new List<Recipe>();
+            try{
+                recipes = _RecipeAccess.GetLikedByUser(userId);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return recipes;
         }
     }
 }
