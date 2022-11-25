@@ -129,6 +129,7 @@ namespace RecipesData.Database
                 {
                     readRecipe = BuildRecipeSimplified(recipeReader);
                     foundRecipes.Add(readRecipe);
+                    
                 }
 
                 con.Close();
