@@ -89,7 +89,6 @@ namespace RecipesData.Database
         {
             List<Recipe> foundRecipes = new List<Recipe>();
             Recipe recipe = new Recipe();
-            String userIdString = userId.ToString();
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -128,14 +127,9 @@ namespace RecipesData.Database
                 foundRecipes = new List<Recipe>();
                 while (reader.Read())
                 {
-                    readRecipe = new Recipe();
-                    readRecipe.RecipeId = Guid.Parse(reader.GetString(reader.GetOrdinal("recipeId")));
-                    readRecipe.Name = reader.GetString(reader.GetOrdinal("name"));
-                    readRecipe.Description = reader.GetString(reader.GetOrdinal("description"));
-                    readRecipe.PictureURL = reader.GetString(reader.GetOrdinal("pictureUrl"));
-                    readRecipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
-
+                    readRecipe = BuildRecipeSimplified(reader);
                     foundRecipes.Add(readRecipe);
+                    
                 }
 
                 con.Close();
@@ -175,7 +169,7 @@ namespace RecipesData.Database
         }
 
         /// <summary>
-        /// Insterts a recipe into the database
+        /// Inserts a recipe into the database
         /// </summary>
         /// <param name="recipe">The recipe that is inserted into the database</param>
         /// <returns>The Guid of the inserted recipe</returns>
@@ -194,9 +188,8 @@ namespace RecipesData.Database
                 conn.Open();
 
                 SqlCommand cmd = conn.CreateCommand();
-                SqlTransaction transaction;
 
-                transaction = conn.BeginTransaction();
+                var transaction = conn.BeginTransaction();
 
                 cmd.Connection = conn;
                 cmd.Transaction = transaction;
@@ -212,8 +205,8 @@ namespace RecipesData.Database
                     cmd.Parameters.AddWithValue("time", recipe.Time);
                     cmd.Parameters.AddWithValue("authorId", recipe.Author.UserId);
                     cmd.Parameters.AddWithValue("portionNum", recipe.PortionNum);
-                    string outidstring = (string)cmd.ExecuteScalar();
-                    outid = Guid.Parse(outidstring);
+                    string outIdString = (string)cmd.ExecuteScalar();
+                    outid = Guid.Parse(outIdString);
 
                     //create ingredients
                     for (int i = 0; i < recipe.Ingredients.Count; i++)
@@ -246,6 +239,7 @@ namespace RecipesData.Database
                 catch (Exception)
                 {
                     transaction.Rollback();
+                    outid = Guid.Empty;
                 }
 
             }
@@ -259,7 +253,7 @@ namespace RecipesData.Database
         public List<Guid> GetNotSwipedGuidsByUserId(Guid userId)
         {
             List<Guid> guids = new List<Guid>();
-            string query = "select * from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
+            string query = "select recipeId from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -327,32 +321,7 @@ namespace RecipesData.Database
 
             return deleteSuccesFull;
         }
-
-        /// <summary>
-        /// Retrives the instructions of a recipe
-        /// </summary>
-        /// <param name="con">The Sqlconnection</param>
-        /// <param name="recipe">The queried recipe</param>
-        private void getInstructionsByRecipe(SqlConnection con, Recipe recipe)
-        {
-            using (SqlCommand instructionCommand = con.CreateCommand())
-            {
-                instructionCommand.CommandText = "select * from instruction where recipeId = @id";
-
-                instructionCommand.Parameters.AddWithValue("@id", recipe.RecipeId);
-
-                SqlDataReader reader = instructionCommand.ExecuteReader();
-                while (reader.Read())
-                {
-                    Instruction instruction = BuildInstructionObject(reader);
-                    recipe.Instructions.Add(instruction);
-                }
-                reader.Close();
-            }
-        }
-
-
-
+        
         // private 
         /// <summary>
         /// Retrieves the ingredients of a recipe
@@ -442,6 +411,23 @@ namespace RecipesData.Database
             instruction.Step = reader.GetInt32(reader.GetOrdinal("step"));
             instruction.Description = reader.GetString(reader.GetOrdinal("description"));
             return instruction;
+        }
+        
+        /// <summary>
+        /// Builds a simplefied recipe
+        /// </summary>
+        /// <param name="recipeReader">Sql Data reader with the data</param>
+        /// <returns>Simplified Recipe</returns>
+        private static Recipe BuildRecipeSimplified(SqlDataReader recipeReader)
+        {
+            Recipe simplefiedRecipe;
+            simplefiedRecipe = new Recipe();
+            simplefiedRecipe.RecipeId = Guid.Parse(recipeReader.GetString(recipeReader.GetOrdinal("recipeId")));
+            simplefiedRecipe.Name = recipeReader.GetString(recipeReader.GetOrdinal("name"));
+            simplefiedRecipe.Description = recipeReader.GetString(recipeReader.GetOrdinal("description"));
+            simplefiedRecipe.PictureURL = recipeReader.GetString(recipeReader.GetOrdinal("pictureUrl"));
+            simplefiedRecipe.Time = recipeReader.GetInt32(recipeReader.GetOrdinal("time"));
+            return simplefiedRecipe;
         }
     }
 }
