@@ -127,7 +127,7 @@ namespace RecipesData.Database
                 foundRecipes = new List<Recipe>();
                 while (reader.Read())
                 {
-                    readRecipe = BuildRecipeSimplified(recipeReader);
+                    readRecipe = BuildRecipeSimplified(reader);
                     foundRecipes.Add(readRecipe);
                     
                 }
