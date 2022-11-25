@@ -1,6 +1,6 @@
 namespace RecipesData.Model
 {
-    public enum Role 
+    public enum Role
     {
         USER,
         VERIFIEDUSER,

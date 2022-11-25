@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
@@ -9,6 +10,7 @@ using RecipesData.Model;
 namespace RecipeRestService.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
@@ -22,6 +24,7 @@ namespace RecipeRestService.Controllers
             _rControl = new RecipedataControl(access);
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<RecipeDto> Get(string id)
         {
@@ -41,6 +44,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult<List<RecipeDto>> Get()
         {
             ActionResult<List<RecipeDto>> foundReturn;
@@ -72,6 +76,7 @@ namespace RecipeRestService.Controllers
 
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
@@ -105,6 +110,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
             ActionResult foundReturn;
@@ -125,6 +131,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult Delete(string id)
         {
             Guid recipeId = Guid.Parse(id);
@@ -143,6 +150,7 @@ namespace RecipeRestService.Controllers
 
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         [HttpGet, Route("/Random")]
         public ActionResult<RecipeDto> GetRandomRecipe()
         {

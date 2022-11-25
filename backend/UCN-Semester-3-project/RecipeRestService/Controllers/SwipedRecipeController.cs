@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
@@ -9,6 +10,7 @@ using RecipesData.Model;
 namespace RecipeRestService.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class SwipedRecipeController : ControllerBase
     {
@@ -22,7 +24,7 @@ namespace RecipeRestService.Controllers
             _swControl = new SwipedRecipeDataControl(access);
         }
 
-
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<SwipedRecipeDto> Get(string id)
         {
@@ -44,6 +46,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet, Route("user/{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult<List<SwipedRecipeDto>> GetPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
@@ -77,6 +80,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet, Route("user/{id}/liked")]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
@@ -111,6 +115,7 @@ namespace RecipeRestService.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult<SwipedRecipeDto> Post(SwipedRecipeDto inSwipedRecipeDto)
         {
             ActionResult<SwipedRecipeDto> foundReturn;
