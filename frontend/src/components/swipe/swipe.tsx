@@ -109,8 +109,8 @@ const Swipe: React.FC = () => {
             ))}
           </div>
           <div className={style.buttons}>
-            <button onClick={(e) => swipe('left')}> &#10060;</button>
-            <button onClick={(e) => swipe('right')}>&#128154;</button>
+            <button onClick={(e) => swipe('left')} className={style.swipeButton}> &#10060;</button>
+            <button onClick={(e) => swipe('right')} className={style.swipeButton}>&#128154;</button>
           </div>
         </>
       ) : (

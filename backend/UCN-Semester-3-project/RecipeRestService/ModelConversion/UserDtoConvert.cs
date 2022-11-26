@@ -7,7 +7,6 @@ namespace RecipeRestService.ModelConversion
     {
         public static UserDto? FromUser(User inUser)
         {
-            System.Console.WriteLine(inUser.Role.ToString());
             UserDto? userDTO = null;
             if (inUser != null)
             {

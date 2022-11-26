@@ -6,10 +6,12 @@ import { User } from '../types';
 
 const createUser = (user :User) => instance.post('/User', JSON.stringify(user));
 const getUser = (userId: string) => instance.get<User>('/User/' + userId);
+const deleteUser = (userId: string) => instance.delete('/User/' + userId);
 
 const UserService = {
   createUser,
-  getUser
+  getUser,
+  deleteUser,
 };
 
 export default UserService;

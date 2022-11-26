@@ -171,8 +171,6 @@ namespace RecipesData.Database
             user.Password = reader.GetString(reader.GetOrdinal("password"));
             user.Address = reader.GetString(reader.GetOrdinal("address"));
             user.Role = (Role)Enum.Parse(typeof(Role), reader.GetString(reader.GetOrdinal("role")).ToUpper());
-            //System.Console.WriteLine(Enum.Parse(typeof(Role), reader.GetString(reader.GetOrdinal("role")).ToUpper()));
-            System.Console.WriteLine(user.Role.ToString());
             return user;
         }
 
