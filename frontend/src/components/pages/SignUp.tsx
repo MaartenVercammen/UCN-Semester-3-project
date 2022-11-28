@@ -1,18 +1,42 @@
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
-import Login from './Login';
 import style from './SignUp.module.css';
+import {User, Role} from '../../types';
+import UserService from '../../service/userService';
+
 
 const SignUp: React.FC = () => {
-  const signUp = () => {
-    alert('not implemented yet');
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [role, setRole] = useState<Role>();
+  const [id, setID] = useState<string>();
+  
+const navigate = useNavigate();
+
+  const signUp = async (e) => {
+    e.preventDefault();
+    var id = crypto.randomUUID();
+    const user: User = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      address: address,
+      role: (Role.USER),
+      userId: id.toString(),
+    };
+    const res = await UserService.createUser(user);
+    navigate('/app');
   };
 
   const mainPage = () => {
-    window.location.href = '/main';
+    navigate('/main');
   }
 
   return (
@@ -22,46 +46,65 @@ const SignUp: React.FC = () => {
       <div onClick={mainPage} id={style.icon}><FontAwesomeIcon icon={faLessThan} /></div>
         <div className={style.signUpPage}>
           <h1 className={style.signUpTitle}>Sign up</h1>
-          <form className={style.signUpFormContainer}>
+          <form className={style.signUpFormContainer} onSubmit={signUp} id="signUpForm">
             <div className={style.nameContainer}>
               <input
                 type="First Name"
                 name="first name"
+                onChange={(e) => setFirstName(e.target.value)}
                 id="firstName"
                 className={style.signUpInput}
                 placeholder="first name"
+                required
+                min="5"
+                max="20"
               />
               <input
                 type="Last Name"
                 name="last name"
                 id="lastName"
+                onChange={(e) => setLastName(e.target.value)}
                 className={style.signUpInput}
                 placeholder="last name"
+                required
+                min="5"
+                max="20"
               />
             </div>
             <input
               type="email"
               name="email"
               id="email"
+              onChange={(e) => setEmail(e.target.value)}
               className={style.signUpInput}
               placeholder="email"
+              required
+              pattern="(.*)@(.*).(.*)"
+              min="5"
+              max="20"
             />
             <input
               type="password"
               name="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               className={style.signUpInput}
               placeholder="password"
+              min="5"
+              max="20"
             />
             <input
               type="address"
               name="address"
               id="address"
+              onChange={(e) => setAddress(e.target.value)}
               className={style.signUpInput}
               placeholder="address"
+              min="5"
+              max="20"
             />
           </form>
-          <button className={style.signUpButton} onClick={signUp}>
+          <button className={style.signUpButton} onClick={signUp} form="signUpForm">
             Sign up
           </button>
           <p className={style.loginRedirect}>

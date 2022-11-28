@@ -15,7 +15,6 @@ const GetUser: React.FC = () => {
     const response = await UserService.getUser('00000000-0000-0000-0000-000000000000');
     const data = response.data;
     setUser(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -92,8 +91,7 @@ const GetUser: React.FC = () => {
           </div>
         </>
       ) : (
-        // change to /login
-        <Navigate to="." />
+        <Navigate to="/main" />
       )}
     </>
   );
