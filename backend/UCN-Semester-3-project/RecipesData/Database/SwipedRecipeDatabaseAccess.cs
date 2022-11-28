@@ -29,7 +29,7 @@ namespace RecipesData.Database
         /// </summary>
         /// <param name="id">The recipe's Guid</param>
         /// <returns>The SwipedRecipe with the given Guid</returns>
-        public SwipedRecipe GetSwipedRecipeById(Guid id)
+        public SwipedRecipe GetSwipedRecipeById(Guid id, Guid userId)
         {
             String guidString = id.ToString();
             SwipedRecipe sRecipe = new SwipedRecipe();
@@ -39,8 +39,9 @@ namespace RecipesData.Database
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT * FROM SwipedRecipe WHERE recipeId = @recipeId";
+                    command.CommandText = "SELECT * FROM SwipedRecipe WHERE recipeId = @recipeId and userid = @user";
                     command.Parameters.AddWithValue("@recipeId", guidString);
+                    command.Parameters.AddWithValue("@user", userId);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {

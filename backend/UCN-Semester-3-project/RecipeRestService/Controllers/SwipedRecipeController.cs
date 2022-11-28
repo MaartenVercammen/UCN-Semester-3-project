@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
 
@@ -29,9 +30,10 @@ namespace RecipeRestService.Controllers
         public ActionResult<SwipedRecipeDto> Get(string id)
         {
             Guid swRecipeId = Guid.Parse(id);
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
 
             ActionResult<SwipedRecipeDto> foundReturn;
-            SwipedRecipe? foundSwipedRecipe = _swControl.Get(swRecipeId);
+            SwipedRecipe? foundSwipedRecipe = _swControl.Get(swRecipeId, userId);
 
             if (foundSwipedRecipe != null)
             {
@@ -50,6 +52,11 @@ namespace RecipeRestService.Controllers
         public ActionResult<List<SwipedRecipeDto>> GetPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
+
+            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, id)){
+                return new StatusCodeResult(403);
+            }
+
             ActionResult<List<SwipedRecipeDto>> foundReturn;
             // retrieve and convert data
             List<SwipedRecipe>? foundRecipes = _swControl.GetPerUser(userId);
@@ -84,6 +91,11 @@ namespace RecipeRestService.Controllers
         public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
+
+            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, id)){
+                return new StatusCodeResult(403);
+            }
+
             ActionResult<List<SwipedRecipeDto>> foundReturn;
             // retrieve and convert data
             List<SwipedRecipe>? foundRecipes = _swControl.GetLikedPerUser(userId);
@@ -119,6 +131,10 @@ namespace RecipeRestService.Controllers
         public ActionResult<SwipedRecipeDto> Post(SwipedRecipeDto inSwipedRecipeDto)
         {
             ActionResult<SwipedRecipeDto> foundReturn;
+
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            inSwipedRecipeDto.UserId = userId;
+
             SwipedRecipe? foundSwipedRecipe;
             if (inSwipedRecipeDto != null)
             {
