@@ -11,7 +11,7 @@ namespace RecipesData.Database
     {
         SwipedRecipe GetSwipedRecipeById(Guid id, Guid user);
 
-        List<SwipedRecipe> GetSwipedRecipesByUser(Guid userId);
+        List<SwipedRecipe> GetSwipeRecipesByUser(Guid userId);
         List<SwipedRecipe> GetLikedByUser(Guid userId);
 
         SwipedRecipe CreateSwipedRecipe(SwipedRecipe swipedRecipe);

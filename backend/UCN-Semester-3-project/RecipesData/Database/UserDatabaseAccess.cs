@@ -1,12 +1,6 @@
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RecipesData.Model;
 using System.Data.SqlClient;
-using System.Data;
 
 namespace RecipesData.Database
 {
@@ -26,12 +20,68 @@ namespace RecipesData.Database
 
         public Guid CreateUser(User user)
         {
-            throw new NotImplementedException();
+            User u = new User();
+            string queryUser = "insert into [user] values (@userId, @email, @firstName, @lastName, @password, @address, @role)";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = queryUser;
+                    command.Parameters.AddWithValue("@userId", user.UserId.ToString());
+                    command.Parameters.AddWithValue("@email", user.Email);
+                    command.Parameters.AddWithValue("@firstName", user.FirstName);
+                    command.Parameters.AddWithValue("@lastName", user.LastName);
+                    command.Parameters.AddWithValue("@password", user.Password);
+                    command.Parameters.AddWithValue("@address", user.Address);
+                    command.Parameters.AddWithValue("@role", user.Role.ToString());
+
+                    command.ExecuteNonQuery();
+                    u.UserId = user.UserId;
+                }
+                connection.Close();
+            }
+            return u.UserId;
         }
 
         public bool DeleteUser(Guid id)
         {
-            throw new NotImplementedException();
+            bool deleteSuccesFull = false;
+            String guidString = id.ToString();
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                conn.Open();
+                cmd.Transaction = conn.BeginTransaction();
+
+                try
+                {
+                    // delete recipes created by user
+                    cmd.CommandText = "DELETE FROM recipe WHERE authorId = @id";
+                    cmd.Parameters.AddWithValue("id", guidString);
+
+                    cmd.ExecuteNonQuery();
+
+                    // delete swiped recipes by user
+                    cmd.CommandText = "DELETE FROM swipedRecipe WHERE userId = @id";
+                    cmd.ExecuteNonQuery();
+
+                    // delete user
+                    cmd.CommandText = "DELETE FROM [user] WHERE userId = @id";
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    deleteSuccesFull = rowsAffected > 0;
+                    cmd.Transaction.Commit();
+
+                }
+                catch (Exception)
+                {
+                    cmd.Transaction.Rollback();
+                }
+                conn.Close();
+            }
+
+            return deleteSuccesFull;
         }
 
         public User GetUserById(Guid id)
@@ -63,7 +113,7 @@ namespace RecipesData.Database
             List<User> foundUsers;
             User readUser;
 
-              string queryString = "SELECT userId FROM user";
+            string queryString = "SELECT userId FROM [user]";
             using (SqlConnection con = new SqlConnection(_connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
             {
@@ -85,7 +135,29 @@ namespace RecipesData.Database
 
         public bool UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            bool update = false;
+            string queryUser = "update  [user] set email=@email, firstName=@firstName, lastName=@lastName, password=@password, address=@address, role=@role where userId=@userId";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = queryUser;
+                    command.Parameters.AddWithValue("@userId", user.UserId.ToString());
+                    command.Parameters.AddWithValue("@email", user.Email);
+                    command.Parameters.AddWithValue("@firstName", user.FirstName);
+                    command.Parameters.AddWithValue("@lastName", user.LastName);
+                    command.Parameters.AddWithValue("@password", user.Password);
+                    command.Parameters.AddWithValue("@address", user.Address);
+                    command.Parameters.AddWithValue("@role", user.Role.ToString());
+
+                    command.ExecuteNonQuery();
+                    update = true;
+                }
+                connection.Close();
+            }
+            return update;
         }
 
         // private
@@ -98,7 +170,10 @@ namespace RecipesData.Database
             user.LastName = reader.GetString(reader.GetOrdinal("lastName"));
             user.Password = reader.GetString(reader.GetOrdinal("password"));
             user.Address = reader.GetString(reader.GetOrdinal("address"));
+            user.Role = (Role)Enum.Parse(typeof(Role), reader.GetString(reader.GetOrdinal("role")).ToUpper());
             return user;
         }
+
+
     }
 }

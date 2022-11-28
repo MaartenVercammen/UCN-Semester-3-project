@@ -1,0 +1,83 @@
+.userContent {
+    display: grid;
+    grid-auto-columns: 1fr;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    color: #444444;
+}
+
+.userImg {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to bottom, transparent 70%, #faf9f9 50%), url('https://media-exp1.licdn.com/dms/image/D4E16AQHJK2DoaKf6zg/profile-displaybackgroundimage-shrink_350_1400/0/1665492280467?e=1674691200&v=beta&t=dX1kUHOleQSsrsBrSdjeYQGdVClEB4IRc-fND3kr1gc');
+}
+
+.userImg img {
+    filter: grayscale(100%);
+    border-radius: 50%;
+    width: 12rem;
+    margin-top: 10%;
+}
+
+.userDetails {
+    text-align: center;
+}
+
+.btnContainer {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.btn {
+    background-color: #FFF2F2;
+    font-weight: 400;
+    font-size: 12px;
+    width: 6rem;
+    height: 4vh;
+    border: 2px;
+    border: 10px;
+    border-style: solid;
+    border-radius: 20px;
+    border-width: .1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#editBtn {
+    background-color: #FEFBEF;
+    color: #F4D961;
+    border-color: #F4D961;
+}
+
+#deleteBtn {
+    background-color: #FFF2F2;
+    color: #FF7F7F;
+    border-color: #FF7F7F;
+}
+
+.usrLink {
+    display: grid;
+    gap: .6rem;
+    justify-content: center;
+}
+
+.usrLinkChild {
+    height: 2.8rem;
+    width: 24rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    margin-left: 1.5rem;
+    border: 10px;
+    border-style: solid;
+    border-color: #F0F0F0;
+    border-radius: 20px;
+    border-width: .1rem;
+    padding: 0 2rem;
+    cursor: pointer;
+}

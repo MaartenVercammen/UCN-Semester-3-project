@@ -62,7 +62,7 @@ namespace RecipesData.Database
         /// </summary>
         /// <param name="userId">The user's Guid</param>
         /// <returns>A list of the user's all SwipedRecipe</returns>
-        public List<SwipedRecipe> GetSwipedRecipesByUser(Guid userId)
+        public List<SwipedRecipe> GetSwipeRecipesByUser(Guid userId)
         {
             String guidString = userId.ToString();
             List<SwipedRecipe> sRecipeList = new List<SwipedRecipe>();

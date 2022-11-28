@@ -1,4 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+    import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from 'react';
 import RecipeService from '../../service/recipeService';
@@ -22,7 +22,7 @@ const GetRecipes: React.FC = () => {
   return (
     <>
       <div className={style.pageContent}>
-        <h2>explore</h2>
+        <h2 style={{color: '#DCBEA8',}}>explore</h2>
         {recipes.map((recipe: Recipe) => (
           <Link to={'/recipes/' + recipe.recipeId}>
             <div className={style.recipe} key={recipe.recipeId} id={style.recipeChild}>

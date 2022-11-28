@@ -31,7 +31,7 @@ namespace RecipeRestService.Businesslogic
             List<SwipedRecipe>? foundRecipes;
             try
             {
-                foundRecipes = _SwipedRecipeAccess.GetSwipedRecipesByUser(userId);
+                foundRecipes = _SwipedRecipeAccess.GetSwipeRecipesByUser(userId);
             }
             catch (Exception)
             {
