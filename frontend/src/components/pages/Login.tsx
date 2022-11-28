@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from './Header';
 import style from './Login.module.css';
+import userService from '../../service/userService';
 
 const Login: React.FC = () => {
+  const [password, setPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
-  const login = () => {
-    alert('not implemented yet');
+  const login = async () => {
+    const res = await userService.login(email, password);
+    const data = res.data;
+    const JWT = res.headers.JWT;
   }
 
   const signUp = () => {
@@ -25,6 +30,8 @@ const Login: React.FC = () => {
             id="email"
             className={style.loginInput}
             placeholder="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
@@ -32,6 +39,8 @@ const Login: React.FC = () => {
             id="password"
             className={style.loginInput}
             placeholder="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </form>
         <button className={style.loginButton} onClick={login}>Log in</button>

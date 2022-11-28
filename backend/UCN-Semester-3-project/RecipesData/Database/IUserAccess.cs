@@ -13,5 +13,7 @@ namespace RecipesData.Database
         bool UpdateUser(User user);
 
         bool DeleteUser(Guid id);
+
+        User getUserByEmail(string email);
     }
 }

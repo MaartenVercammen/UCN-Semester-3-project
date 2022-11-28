@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RecipeRestService.Security;
 using System.Security.Claims;
+using BusinessLogic.IUserData;
 
 namespace RecipeRestService.Controllers
 {
@@ -19,17 +20,34 @@ namespace RecipeRestService.Controllers
     public class AuthorizationConrtoller : ControllerBase
     {
 
-        private readonly IConfiguration _configuration;
-        public AuthorizationConrtoller(IConfiguration inConfiguration)
+        private readonly IUserData _access;
+        public AuthorizationConrtoller(IUserData access)
         {
-            _configuration = inConfiguration;
+            _access = access;
         }
 
-        [HttpGet]
-        public IActionResult Authorize()
+        [HttpPost]
+        public IActionResult<UserDto> Login()
         {
-            User user = new User(Guid.Parse("343c3bda-9482-4a8c-912d-75644cc458ea"), "email", "Mark", "Markson", "Mark132", "Mark street 15234 Aalborg", Role.USER);
-            return Ok(GenerateToken(user));
+            string password = Request.Headers["Password"];
+            string username = Request.Headers["Email"];
+
+            ActionResult actionResult;
+
+            try{
+                UserDto user = _access.Login(email, password);
+                if(user != null){
+                    Response.Headers["JWT"] = GenerateToken(user);
+                    actionResult = Ok(user);
+                }
+                else{
+                    actionResult = new StatusCodeResult(401);
+                }
+                
+            }catch(Exeption ex){
+                actionResult = new StatusCodeResult(500);
+            }
+            return actionResult;
         }
 
         private string GenerateToken(User user)

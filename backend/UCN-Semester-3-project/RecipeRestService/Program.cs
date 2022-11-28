@@ -5,6 +5,7 @@ using System.Text;
 using RecipeRestService.Security;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication;
+using RecipeRestService.Businesslogic;
 //using RecipesData.Model;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,9 @@ builder.Services.AddAuthentication(options => {
             ValidateLifetime = true
         };
     });
+
+builder.Services.AddSingleton<IUserData, UserDataControl>();
+builder.Services.AddSingleton<IUserAccess, UserDatabaseAccess>();
 
 var app = builder.Build();
 
