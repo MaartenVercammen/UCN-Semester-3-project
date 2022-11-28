@@ -15,7 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -75,6 +74,12 @@ builder.Services.AddSingleton<IBambooSessionData, BambooSessionDataControl>();
 builder.Services.AddSingleton<IBambooSessionAccess, BambooSessionDatabaseAccess>();
 builder.Services.AddSingleton<IRecipeAccess, RecipeDatabaseAccess>();
 
+//Dependencies into controller as singletons
+//This is needed for test mocking
+// p.s. the teachers where doing it wrong this is the right way TODO: delete this line
+builder.Services.AddSingleton<IRecipeData, RecipedataControl>();
+builder.Services.AddSingleton<IRecipeAccess, RecipeDatabaseAccess>();
+
 var app = builder.Build();
 
 app.UseCors(x => x
@@ -89,10 +94,8 @@ app.UseCors(x => x
 app.UseSwagger();
 app.UseSwaggerUI();
 
-
 // app.UseHttpsRedirection();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

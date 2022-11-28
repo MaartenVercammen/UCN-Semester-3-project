@@ -16,6 +16,7 @@ namespace RecipeDataTest.BusinessLogic
 
         // Valid object
         private readonly Recipe _validRecipe;
+        private readonly User _validUser;
 
 
         public RecipeDataControlTest(ITestOutputHelper output)
@@ -23,12 +24,12 @@ namespace RecipeDataTest.BusinessLogic
             _extraOutput = output;
             _sut = new RecipedataControl(_acces.Object);
             // Valid object
-            var validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
+            _validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
                 "street", Role.USER);
             var validIngredient = new Ingredient("banana", 5, "kg");
             var validInstruction = new Instruction(1, "peel the banana");
             _validRecipe = new Recipe( "Banana-bread", "best banana bread in the world",
-                "http://picture.png", 30, 4, validUser);
+                "http://picture.png", 30, 4, _validUser);
             _validRecipe.Ingredients.Add(validIngredient);
             _validRecipe.Instructions.Add(validInstruction);
         }
@@ -213,6 +214,40 @@ namespace RecipeDataTest.BusinessLogic
             Recipe recipe = _sut.GetRandomRecipe(id);
             //Assert
             Assert.Null(recipe);
+        }
+
+        [Fact]
+        public void GetLiked_WhenValidUserId_ReturnLikedRecipes()
+        {
+            //Arrange
+            var likedRecipes = new List<Recipe>()
+            {
+                _validRecipe,
+                _validRecipe,
+                _validRecipe,
+                _validRecipe
+            };
+            _acces.Setup(x => x.GetLikedRecipes(_validUser.UserId))
+                .Returns(likedRecipes);
+            //Act
+            List<Recipe> recipes = _sut.GetLiked(_validUser.UserId);
+
+            //Assert
+            Assert.NotNull(recipes);
+            Assert.Equal(recipes.Count, likedRecipes.Count);
+        }
+
+        [Fact]
+        public void GetLiked_WhenExceptionThrow_ReturnNull()
+        {
+            //Arrange
+            _acces.Setup(x => x.GetLikedRecipes(_validUser.UserId))
+                .Throws(new Exception());
+            //Act
+            List<Recipe> recipes = _sut.GetLiked(_validUser.UserId);
+
+            //Assert
+            Assert.Null(recipes);
         }
     }
 }

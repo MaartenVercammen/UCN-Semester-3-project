@@ -8,6 +8,7 @@ using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
+using UserRestService.Businesslogic;
 
 namespace RecipeRestService.Controllers
 {
@@ -16,17 +17,14 @@ namespace RecipeRestService.Controllers
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
-        private readonly RecipedataControl _rControl;
-        private readonly UserDataControl _uControl;
+        private readonly IUserData _uControl;
         private readonly IConfiguration _configuration;
+        private readonly IRecipeData _rControl;
 
-        public RecipesController(IConfiguration inConfiguration)
+        public RecipesController(IRecipeData recipeDataControl, IUserData userData)
         {
-            _configuration = inConfiguration;
-            RecipeDatabaseAccess access = new RecipeDatabaseAccess(inConfiguration);
-            _rControl = new RecipedataControl(access);
-            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
-            _uControl = new UserDataControl(uAccess);
+            _rControl = recipeDataControl;
+            _uControl = userData;
         }
 
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
@@ -182,7 +180,7 @@ namespace RecipeRestService.Controllers
             }
             else
             {
-                foundReturn = new StatusCodeResult(200);
+                foundReturn = new StatusCodeResult(204);
             }
             return foundReturn;
         }
