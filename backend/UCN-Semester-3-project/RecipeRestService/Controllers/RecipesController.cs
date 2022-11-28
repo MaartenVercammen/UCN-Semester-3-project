@@ -12,14 +12,11 @@ namespace RecipeRestService.Controllers
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
-        private readonly RecipedataControl _rControl;
-        private readonly IConfiguration _configuration;
+        private readonly IRecipeData _rControl;
 
-        public RecipesController(IConfiguration inConfiguration)
+        public RecipesController(IRecipeData recipeDataControl)
         {
-            _configuration = inConfiguration;
-            RecipeDatabaseAccess access = new RecipeDatabaseAccess(inConfiguration);
-            _rControl = new RecipedataControl(access);
+            _rControl = recipeDataControl;
         }
 
         [HttpGet, Route("{id}")]
@@ -105,13 +102,14 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
+        public ActionResult<Guid> Post([FromBody] RecipeDto? inRecipe)
         {
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
             if (inRecipe != null)
             {
-                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+                Recipe recipe = RecipeDtoConvert.ToRecipe(inRecipe);
+                insertedGuid = _rControl.Add(recipe);
             }
             if (insertedGuid != Guid.Empty)
             {
@@ -154,7 +152,7 @@ namespace RecipeRestService.Controllers
             }
             else
             {
-                foundReturn = new StatusCodeResult(200);
+                foundReturn = new StatusCodeResult(204);
             }
             return foundReturn;
         }
