@@ -6,9 +6,7 @@ import {
   faHeart
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import userEvent from '@testing-library/user-event';
 import React, { useEffect, useState } from 'react';
-import { User } from '../../types';
 import style from './Navbar.module.css';
 
 const Navbar: React.FC = () => {

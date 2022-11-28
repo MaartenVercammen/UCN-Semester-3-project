@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useHref, useNavigate } from 'react-router-dom';
-import RecipeService from '../../service/recipeService';
 import { Ingredient, Instruction, Recipe, User } from '../../types';
 import style from './GetUser.module.css';
 import UserService from '../../service/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faExternalLink } from '@fortawesome/free-solid-svg-icons';
-import App from '../../App';
-import Liked from '../pages/Liked';
 
 const GetUser: React.FC = () => {
   const [user, setUser] = useState<User>();
@@ -43,7 +40,7 @@ const GetUser: React.FC = () => {
           <div className={style.userContent}>
             <div className={style.userImg}>
               <img
-                src="https://media-exp1.licdn.com/dms/image/C5603AQHJsHSXxZvgRw/profile-displayphoto-shrink_400_400/0/1517652728490?e=1674691200&v=beta&t=edyTT84ZBDqPk-JglSjAUeNbZayBVUmLKpnAUCrxt2k"
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fyt3.ggpht.com%2Fa%2FAATXAJy4xq-6KE3NuFJ66mRZz7zmGDCsswMnrgwv1w%3Ds900-c-k-c0xffffffff-no-rj-mo&f=1&nofb=1&ipt=a27325248187d8a9d7f5bd32a673d12185ff26b1d524818319c441619de75895&ipo=images"
                 alt=""
               />
             </div>
