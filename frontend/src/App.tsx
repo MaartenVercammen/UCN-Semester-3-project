@@ -10,19 +10,31 @@ import Recipe from './components/pages/Recipe';
 import UserTab from './components/pages/UserTab';
 import GetRecipes from './components/recipe/GetRecipes';
 import './css/index.css';
+import ProtectedRoutes from './helper/protectedRoutes';
+import { Role } from './types';
 
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Index />} />
       <Route path="/app" element={<Home />} />
-      <Route path="/createRecipe" element={<Create />} />
-      <Route path="/recipes" element={<GetRecipes />} />
-      <Route path="/recipes/:id" element={<Recipe />} />
-      <Route path="/explore" element={<Explore />} />
-      <Route path="/user/:id/liked" element={<Liked />} />
-      <Route path="/user/:id" element={<UserTab />} />
       <Route path="/login" element={<Login />} />
+
+      <Route element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER, Role.USER ]} redirectPath="/login" />}>
+        <Route path="/recipes" element={<GetRecipes />} />
+        <Route path="/recipes/:id" element={<Recipe />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/user/:id/liked" element={<Liked />} />
+        <Route path="/user/:id" element={<UserTab />} />
+      </Route>
+
+      <Route element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/login" />}>
+        <Route path="/createRecipe" element={<Create />} />
+      </Route>
+      
+      <Route element={<ProtectedRoutes isAllowed={[Role.ADMIN]} redirectPath="/login" />}>
+        //admin only routes
+      </Route>
     </Routes>
   );
 };
