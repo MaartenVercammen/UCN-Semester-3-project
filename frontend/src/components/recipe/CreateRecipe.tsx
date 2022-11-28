@@ -60,6 +60,7 @@ const CreateRecipe: React.FC = () => {
           <label htmlFor="name">
             recipe name
             <input
+              className={style.createRecipeInput}
               type="text"
               id="name"
               name="name"
@@ -74,6 +75,7 @@ const CreateRecipe: React.FC = () => {
           <label htmlFor="description">
             description
             <input
+              className={style.createRecipeInput}
               type="text"
               id="description"
               name="description"
@@ -87,6 +89,7 @@ const CreateRecipe: React.FC = () => {
           <label htmlFor="pictureURL">
             picture url
             <input
+              className={style.createRecipeInput}
               type="text"
               id="pictureURL"
               name="pictureURL"
@@ -100,6 +103,7 @@ const CreateRecipe: React.FC = () => {
           <label htmlFor="time">
             time (min)
             <input
+              className={style.createRecipeInput}
               type="number"
               id="time"
               name="time"
@@ -113,6 +117,7 @@ const CreateRecipe: React.FC = () => {
           <label htmlFor="portionNum">
             portion size
             <input
+              className={style.createRecipeInput}
               type="number"
               id="portionNum"
               name="portionNum"
@@ -131,6 +136,7 @@ const CreateRecipe: React.FC = () => {
                 <label>
                   Name
                   <input
+                    className={style.createRecipeInput}
                     type="text"
                     value={ingredient.name}
                     onChange={(e) => {
@@ -146,6 +152,7 @@ const CreateRecipe: React.FC = () => {
                 <label>
                   amount
                   <input
+                    className={style.createRecipeInput}
                     type="number"
                     value={ingredient.amount}
                     onChange={(e) => {
@@ -164,6 +171,7 @@ const CreateRecipe: React.FC = () => {
                 <label>
                   unit
                   <input
+                    className={style.createRecipeInput}
                     type="text"
                     value={ingredient.unit}
                     onChange={(e) => {
@@ -175,15 +183,15 @@ const CreateRecipe: React.FC = () => {
                   ></input>
                 </label>
                 <div className={style.btnAddContainer}>
-                <button
-                  className={style.btnAdd}
-                  onClick={(e) => {
-                    const newIngredientList = IngredientsList.filter((_, i) => i != index);
-                    setIngredientsList([...newIngredientList]);
-                  }}
-                >
-                  X
-                </button>
+                  <button
+                    className={style.btnAdd}
+                    onClick={(e) => {
+                      const newIngredientList = IngredientsList.filter((_, i) => i != index);
+                      setIngredientsList([...newIngredientList]);
+                    }}
+                  >
+                    X
+                  </button>
                 </div>
               </li>
             ))}
@@ -218,28 +226,31 @@ const CreateRecipe: React.FC = () => {
                   minLength={5}
                   required
                 ></textarea>
-                  <button
-                    onClick={(e) => {
-                      const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
-                        (item, i) => ({
-                          ...item,
-                          step: i
-                        })
-                      );
+                <button
+                  onClick={(e) => {
+                    const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
+                      (item, i) => ({
+                        ...item,
+                        step: i
+                      })
+                    );
 
-                      setInstructionsList([...newInstructionsList]);
-                    }}
-                  >
-                    X
-                  </button>
+                    setInstructionsList([...newInstructionsList]);
+                  }}
+                >
+                  X
+                </button>
               </li>
             ))}
-            <div className={style.btnAddContainer}>
-          <button className={style.btnAdd}
-            onClick={() => setInstructionsList([...InstructionsList, { description: '', step: 0 }])}
-          >
-            Add
-          </button>
+          <div className={style.btnAddContainer}>
+            <button
+              className={style.btnAdd}
+              onClick={() =>
+                setInstructionsList([...InstructionsList, { description: '', step: 0 }])
+              }
+            >
+              Add
+            </button>
           </div>
         </ol>
         <button type="submit" form="createRecipeForm">

@@ -24,7 +24,7 @@ label {
   margin: 1rem 0;
 }
 
-input {
+ .createRecipeInput {
   width: 100%;
   border: 2px;
   border-style: solid;
@@ -35,11 +35,11 @@ input {
   height: 1.4rem;
 }
 
-input:valid {
+.createRecipeInput:valid {
   background-color: #EFF7ED;
 }
 
-input:invalid {
+.createRecipeInput:invalid {
   background-color: #F7EEF8;
 }
 

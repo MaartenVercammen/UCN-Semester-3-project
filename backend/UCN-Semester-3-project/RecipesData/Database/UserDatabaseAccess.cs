@@ -170,8 +170,10 @@ namespace RecipesData.Database
             user.LastName = reader.GetString(reader.GetOrdinal("lastName"));
             user.Password = reader.GetString(reader.GetOrdinal("password"));
             user.Address = reader.GetString(reader.GetOrdinal("address"));
+            user.Role = (Role)Enum.Parse(typeof(Role), reader.GetString(reader.GetOrdinal("role")).ToUpper());
             return user;
         }
+
 
     }
 }

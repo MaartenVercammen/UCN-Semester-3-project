@@ -10,7 +10,7 @@ namespace RecipeRestService.ModelConversion
             UserDto? userDTO = null;
             if (inUser != null)
             {
-                userDTO = new UserDto(inUser.UserId, inUser.Email,  inUser.FirstName, inUser.LastName, inUser.Password, inUser.Address, (DTO.Role)inUser.Role);
+                userDTO = new UserDto(inUser.UserId, inUser.Email,  inUser.FirstName, inUser.LastName, inUser.Password, inUser.Address, inUser.Role);
             }
             return userDTO;
         }
@@ -36,7 +36,7 @@ namespace RecipeRestService.ModelConversion
         
         public static User? ToUser(UserDto inDto)
         {
-            return new User(inDto.UserId, inDto.Email,  inDto.FirstName, inDto.LastName, inDto.Password, inDto.Address, (RecipesData.Model.Role)inDto.Role);
+            return new User(inDto.UserId, inDto.Email,  inDto.FirstName, inDto.LastName, inDto.Password, inDto.Address, (Role)Enum.Parse(typeof(Role), inDto.Role));
         }
     }
 }
