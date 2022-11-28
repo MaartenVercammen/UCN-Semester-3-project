@@ -53,7 +53,7 @@ namespace RecipeRestService.Controllers
         {
             Guid userId = Guid.Parse(id);
 
-            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, id)){
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
                 return new StatusCodeResult(403);
             }
 
@@ -92,7 +92,7 @@ namespace RecipeRestService.Controllers
         {
             Guid userId = Guid.Parse(id);
 
-            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, id)){
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
                 return new StatusCodeResult(403);
             }
 

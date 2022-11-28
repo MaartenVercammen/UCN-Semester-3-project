@@ -82,14 +82,14 @@ namespace RecipeRestService.Controllers
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
-            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, userId)){
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, userId)){
                 return new StatusCodeResult(403);
             }
 
             Guid userIdGuid = Guid.Parse(userId);
             ActionResult<List<RecipeDto>> foundReturn;
             // retrieve and convert data
-            List<Recipe>? foundRecipes = _rControl.GetLiked(userIdGuid);
+            List<Recipe>? foundRecipes = _rControl.GetLikedByUser(userIdGuid);
             List<RecipeDto>? foundDts = null;
             if (foundRecipes != null)
             {
@@ -147,7 +147,7 @@ namespace RecipeRestService.Controllers
 
             Recipe recipe = _rControl.Get(recipeId);
 
-            if(new SecurityHelper(_configuration).IsAllowedToUsePath(Request, recipe.Author.ToString())){
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, recipe.Author.ToString())){
                 return new StatusCodeResult(403);
             }
 
