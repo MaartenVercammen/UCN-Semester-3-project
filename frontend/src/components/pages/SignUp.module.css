@@ -12,14 +12,6 @@
     text-align: center;
 }
 
-.loginInput {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #dfdfdf;
-    background-color: #faf9f9;
-    height: 1.4rem;
-}
-
 #icon {
     margin-top: 3rem;
     margin-left: 4rem;
@@ -28,13 +20,26 @@
     color: #777777;
 }
 
-.loginFormContainer {
+.nameContainer {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.signUpInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+.signUpFormContainer {
     margin: 4rem 5rem;
     display: grid;
     gap: 1rem;
 }
 
-.loginButton {
+.signUpButton {
     width: 26rem;
     background-color: #D8A8DC;
     border: none;
@@ -51,7 +56,7 @@
     color: #989898;
 }
 
-.signUpRedirect a {
+.loginRedirect a {
     color: #DCBEA8;
     font-size: .9rem;
 }

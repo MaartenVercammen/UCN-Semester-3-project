@@ -12,12 +12,16 @@
     text-align: center;
 }
 
-.loginInput {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #dfdfdf;
-    background-color: #faf9f9;
-    height: 1.4rem;
+.userImg {
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(to bottom, transparent 70%, #faf9f9 50%), url('https://media-exp1.licdn.com/dms/image/D4E16AQHJK2DoaKf6zg/profile-displaybackgroundimage-shrink_350_1400/0/1665492280467?e=1674691200&v=beta&t=dX1kUHOleQSsrsBrSdjeYQGdVClEB4IRc-fND3kr1gc');
+}
+
+.userImg img {
+    border-radius: 50%;
+    width: 12rem;
+    margin-top: 10%;
 }
 
 #icon {
@@ -28,13 +32,26 @@
     color: #777777;
 }
 
-.loginFormContainer {
+.nameContainer {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.signUpInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+.signUpFormContainer {
     margin: 4rem 5rem;
     display: grid;
     gap: 1rem;
 }
 
-.loginButton {
+.signUpButton {
     width: 26rem;
     background-color: #D8A8DC;
     border: none;
@@ -51,7 +68,7 @@
     color: #989898;
 }
 
-.signUpRedirect a {
+.loginRedirect a {
     color: #DCBEA8;
     font-size: .9rem;
 }

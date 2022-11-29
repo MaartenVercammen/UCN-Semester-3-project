@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useHref, useNavigate } from 'react-router-dom';
-import RecipeService from '../../service/recipeService';
 import { Ingredient, Instruction, Recipe, User } from '../../types';
 import style from './GetUser.module.css';
 import UserService from '../../service/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faExternalLink } from '@fortawesome/free-solid-svg-icons';
-import App from '../../App';
-import Liked from '../pages/Liked';
 
 const GetUser: React.FC = () => {
   const [user, setUser] = useState<User>();
 
   const navigation = useNavigate();
+  const userId = '6409edb9-16d2-4dde-bdec-def45658aa5a';
 
   const getSingleData = async () => {
-    const response = await UserService.getUser('00000000-0000-0000-0000-000000000000');
+    const response = await UserService.getUser(userId);
     const data = response.data;
     setUser(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -26,7 +23,7 @@ const GetUser: React.FC = () => {
   }, []);
 
   const editUser = () => {
-    alert('not implemented yet');
+    navigation('/user/6409edb9-16d2-4dde-bdec-def45658aa5a/edit');
   };
 
   const deleteUser = () => {
@@ -38,31 +35,29 @@ const GetUser: React.FC = () => {
 
   return (
     <>
-      {user ? (
-        <>
           <div className={style.userContent}>
             <div className={style.userImg}>
               <img
-                src="https://media-exp1.licdn.com/dms/image/C5603AQHJsHSXxZvgRw/profile-displayphoto-shrink_400_400/0/1517652728490?e=1674691200&v=beta&t=edyTT84ZBDqPk-JglSjAUeNbZayBVUmLKpnAUCrxt2k"
+                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fyt3.ggpht.com%2Fa%2FAATXAJy4xq-6KE3NuFJ66mRZz7zmGDCsswMnrgwv1w%3Ds900-c-k-c0xffffffff-no-rj-mo&f=1&nofb=1&ipt=a27325248187d8a9d7f5bd32a673d12185ff26b1d524818319c441619de75895&ipo=images"
                 alt=""
               />
             </div>
             <div className={style.userDetails}>
-              {user.role === 'VERIFIEDUSER' ? (
+              {user?.role === 'VERIFIEDUSER' ? (
                 <p style={{ color: '#ACDCA8' }}>
                   <FontAwesomeIcon icon={faCheck} /> verified
                 </p>
               ) : null}
-              {user.role === 'USER' ? (
+              {user?.role === 'USER' ? (
                 <p style={{ color: '#DCBEA8' }}>
                   <FontAwesomeIcon icon={faTimes} /> unverified
                 </p>
               ) : null}
-              {user.role === 'ADMIN' ? <p style={{ color: '#DCBEA8' }}>administrator</p> : null}
+              {user?.role === 'ADMIN' ? <p style={{ color: '#DCBEA8' }}>administrator</p> : null}
               <h1>
-                {user.firstName} {user.lastName}
+                {user?.firstName} {user?.lastName}
               </h1>
-              <p>{user.email}</p>
+              <p>{user?.email}</p>
             </div>
             <div className={style.usrLink}>
               <Link to={'./liked'}>
@@ -93,11 +88,6 @@ const GetUser: React.FC = () => {
               </button>
             </div>
           </div>
-        </>
-      ) : (
-        // change to /login
-        <Navigate to="." />
-      )}
     </>
   );
 };

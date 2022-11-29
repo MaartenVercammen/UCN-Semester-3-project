@@ -7,6 +7,7 @@ import { User } from '../types';
 const createUser = (user :User) => instanceNoJWT.post('/User', JSON.stringify(user));
 const getUser = (userId: string) => instance.get<User>('/User/' + userId);
 const deleteUser = (userId: string) => instance.delete('/User/' + userId);
+const updateUser = (user: User) => instance.put('/User/', JSON.stringify(user));
 
 const login = (email: string, password: string) => instanceNoJWT.post<AxiosResponse<User>>("/AuthorizationConrtoller", {}, {
   headers:{
@@ -18,7 +19,8 @@ const UserService = {
   createUser,
   getUser,
   deleteUser,
-  login
+  login,
+  updateUser,
 };
 
 export default UserService;

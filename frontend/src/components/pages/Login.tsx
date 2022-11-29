@@ -1,9 +1,11 @@
+
 import React, {useState} from 'react';
 import Header from './Header';
 import style from './Login.module.css';
 import userService from '../../service/userService';
-import { useNavigate } from 'react-router-dom';
-import { AxiosHeaders } from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { faLessThan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");
@@ -21,12 +23,12 @@ const Login: React.FC = () => {
       sessionStorage.setItem('token', JWT);
     }
     navigate('/app');
-
   }
 
-  const signUp = () => {
-    alert('not implemented yet');
-  }
+  const startPage = () => {
+    navigate('/start');
+  };
+
 
   return (
     <>
@@ -55,9 +57,14 @@ const Login: React.FC = () => {
           />
         </form>
         <button className={style.loginButton} onClick={login}>Log in</button>
-        <p className={style.signUpRedirect}>Don't have an account? <a onClick={signUp}>Sign Up</a></p>
+        <p className={style.signUpRedirect}>
+            Don't have an account?{' '}
+            <Link to={'/signup'}>
+              <a>Sign Up</a>
+            </Link>
+          </p>
       </div>
-    </div>
+      </div>
     </>
   );
 };
