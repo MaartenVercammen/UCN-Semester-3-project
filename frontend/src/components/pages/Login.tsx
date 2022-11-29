@@ -17,15 +17,15 @@ const Login: React.FC = () => {
     alert('not implemented yet');
   };
 
-  const mainPage = () => {
-    navigate('/main');
+  const startPage = () => {
+    navigate('/start');
   };
 
   return (
     <>
       <Header />
       <div className={style.container}>
-        <div onClick={mainPage} id={style.icon}>
+        <div onClick={startPage} id={style.icon}>
           <FontAwesomeIcon icon={faLessThan} />
         </div>
         <div className={style.loginPage}>
