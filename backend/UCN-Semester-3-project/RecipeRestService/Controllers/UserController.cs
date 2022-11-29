@@ -30,7 +30,6 @@ namespace UserRestService.Controllers
         {
             Guid UserId = Guid.Parse(id);
             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
-
             //check if user is user role all others are allowed to see the other users
             if(role == Role.USER){
                 if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){

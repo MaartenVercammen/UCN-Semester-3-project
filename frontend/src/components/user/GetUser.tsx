@@ -8,14 +8,16 @@ import { faCheck, faTimes, faExternalLink } from '@fortawesome/free-solid-svg-ic
 
 const GetUser: React.FC = () => {
   const [user, setUser] = useState<User>();
-
   const navigation = useNavigate();
-  const userId = '6409edb9-16d2-4dde-bdec-def45658aa5a';
 
   const getSingleData = async () => {
-    const response = await UserService.getUser(userId);
-    const data = response.data;
-    setUser(data);
+    const tokenstring = sessionStorage.getItem('user');
+    if(tokenstring != undefined){
+      const user : User = JSON.parse(tokenstring);
+      const response = await UserService.getUser(user.userId);
+      const data = response.data;
+      setUser(data);
+    }
   };
 
   useEffect(() => {
@@ -23,7 +25,7 @@ const GetUser: React.FC = () => {
   }, []);
 
   const editUser = () => {
-    navigation('/user/6409edb9-16d2-4dde-bdec-def45658aa5a/edit');
+    navigation('/user/' +user?.userId+ '/edit');
   };
 
   const deleteUser = () => {

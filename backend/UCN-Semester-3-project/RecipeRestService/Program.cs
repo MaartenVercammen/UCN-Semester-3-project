@@ -78,8 +78,9 @@ app.UseCors(x => x
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .SetIsOriginAllowed(origin => true) // allow any origin
-                    .WithOrigins("https://localhost:3000") // Allow only this origin can also have multiple origins separated with comma
-                    .AllowCredentials());
+                    //.WithOrigins("https://localhost:3000") // Allow only this origin can also have multiple origins separated with comma
+                    .AllowCredentials()
+                    );
 
 // Configure the HTTP request pipeline.
 app.UseSwagger();
