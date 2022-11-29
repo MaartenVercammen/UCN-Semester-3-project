@@ -11,19 +11,20 @@ namespace RecipeRestService.Businesslogic
             _SwipedRecipeAccess = access;
         }
 
-        public SwipedRecipe? Get(Guid id)
+        public SwipedRecipe? Get(Guid id, Guid userId)
         {
-            SwipedRecipe? foundRecipe;
+            SwipedRecipe? foundSwipedRecipe;
             try
             {
-                foundRecipe = _SwipedRecipeAccess.GetSwipedRecipeById(id);
+                foundSwipedRecipe = _SwipedRecipeAccess.GetSwipedRecipeById(id, userId);
             }
             catch (Exception)
             {
-                foundRecipe = null;
+                foundSwipedRecipe = null;
             }
-            return foundRecipe;
+            return foundSwipedRecipe;
         }
+
 
         public List<SwipedRecipe>? GetPerUser(Guid userId)
         {

@@ -1,14 +1,18 @@
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
 
 namespace RecipeRestService.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
@@ -22,6 +26,7 @@ namespace RecipeRestService.Controllers
             _rControl = new RecipedataControl(access);
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<RecipeDto> Get(string id)
         {
@@ -41,6 +46,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult<List<RecipeDto>> Get()
         {
             ActionResult<List<RecipeDto>> foundReturn;
@@ -72,68 +78,18 @@ namespace RecipeRestService.Controllers
 
         }
 
-        [HttpPost]
-        public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
+        public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
-            ActionResult foundReturn;
-            Guid insertedGuid = Guid.Empty;
-            if (inRecipe != null)
-            {
-                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, userId)){
+                return new StatusCodeResult(403);
             }
-            if (insertedGuid != Guid.Empty)
-            {
-                foundReturn = Ok(insertedGuid);
-            }
-            else
-            {
-                foundReturn = new StatusCodeResult(500);
-            }
-            return foundReturn;
-        }
 
-        [HttpDelete, Route("{id}")]
-        public ActionResult Delete(string id)
-        {
-            Guid recipeId = Guid.Parse(id);
-
-            ActionResult foundReturn;
-            bool IsCompleted = _rControl.Delete(recipeId);
-            if (IsCompleted)
-            {
-                foundReturn = new StatusCodeResult(200);
-            }
-            else
-            {
-                foundReturn = new StatusCodeResult(500);
-            }
-            return foundReturn;
-
-        }
-
-        [HttpGet, Route("/Random")]
-        public ActionResult<RecipeDto> GetRandomRecipe()
-        {
-            ActionResult foundReturn;
-            Recipe recipe = _rControl.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000")); //TODO: add userId of active user
-            if (recipe != null)
-            {
-                foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
-            }
-            else
-            {
-                foundReturn = new StatusCodeResult(200);
-            }
-            return foundReturn;
-        }
-
-        [HttpGet, Route("user/{id}/liked")]
-        public ActionResult<List<RecipeDto>> GetLikedRecipes(string id)
-         {
+            Guid userIdGuid = Guid.Parse(userId);
             ActionResult<List<RecipeDto>> foundReturn;
             // retrieve and convert data
-            Guid userId = Guid.Parse(id);
-            List<Recipe>? foundRecipes = _rControl.GetLikedByUser(userId);
+            List<Recipe>? foundRecipes = _rControl.GetLikedByUser(userIdGuid);
             List<RecipeDto>? foundDts = null;
             if (foundRecipes != null)
             {
@@ -157,7 +113,75 @@ namespace RecipeRestService.Controllers
             }
             // send response back to client
             return foundReturn;
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
+        public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
+        {
+            Guid userid = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            inRecipe.Author = userid;
+            ActionResult foundReturn;
+            Guid insertedGuid = Guid.Empty;
+            if (inRecipe != null)
+            {
+                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+            }
+            if (insertedGuid != Guid.Empty)
+            {
+                foundReturn = Ok(insertedGuid);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+        }
+
+        [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
+        public ActionResult Delete(string id)
+        {
+            
+            Guid recipeId = Guid.Parse(id);
+
+            Recipe recipe = _rControl.Get(recipeId);
+
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, recipe.Author.ToString())){
+                return new StatusCodeResult(403);
+            }
+
+            ActionResult foundReturn;
+            bool IsCompleted = _rControl.Delete(recipeId);
+            if (IsCompleted)
+            {
+                foundReturn = new StatusCodeResult(200);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
 
         }
+
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [HttpGet, Route("/Random")]
+        public ActionResult<RecipeDto> GetRandomRecipe()
+        {
+            ActionResult foundReturn;
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Recipe recipe = _rControl.GetRandomRecipe(userId);
+            if (recipe != null)
+            {
+                foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(200);
+            }
+            return foundReturn;
+        }
+
     }
 }

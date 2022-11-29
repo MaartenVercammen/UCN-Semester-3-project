@@ -108,6 +108,29 @@ namespace RecipesData.Database
             }
         }
 
+        public User GetUserByEmail(string email)
+        {
+            User user = new User();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = "select * from [user] where email =@Email";
+                    command.Parameters.AddWithValue("@Email", email);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            user = BuildObject(reader);
+                        }
+                        reader.Close();
+                    }
+                }
+                return user;
+            }
+        }
+
         public List<User> GetUsers()
         {
             List<User> foundUsers;

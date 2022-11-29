@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
+import { Role, User } from '../../types';
 import style from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
@@ -15,6 +16,18 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     setUserId('00000000-0000-0000-0000-000000000000');
   }, []);
+
+  const Isallowed = (IsAllowed: Role[]) => {
+    const tokenstring = sessionStorage.getItem('user');
+    if(tokenstring !== null){
+      const loggedInUser: User = JSON.parse(tokenstring);
+      if(IsAllowed.includes(loggedInUser.role)){
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   return (
     <>
@@ -30,11 +43,13 @@ const Navbar: React.FC = () => {
               <FontAwesomeIcon icon={faMagnifyingGlass} className={style.icon} />
             </a>
           </li>
+          { Isallowed([Role.ADMIN, Role.VERIFIEDUSER]) &&
           <li className={style.navbarChild}>
             <a href="/createRecipe">
               <FontAwesomeIcon icon={faPlus} className={style.icon} />
             </a>
           </li>
+          }
           <li className={style.navbarChild}>
             <a href={"/user/" + userId}>
               <FontAwesomeIcon icon={faUser} className={style.icon} />

@@ -1,3 +1,4 @@
+using RecipeRestService.DTO;
 using RecipesData.Model;
 
 namespace UserRestService.Businesslogic

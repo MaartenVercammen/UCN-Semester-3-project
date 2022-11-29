@@ -9,7 +9,7 @@ namespace RecipesData.Database
 {
     public interface ISwipedRecipeAccess
     {
-        SwipedRecipe GetSwipedRecipeById(Guid id);
+        SwipedRecipe GetSwipedRecipeById(Guid id, Guid user);
 
         List<SwipedRecipe> GetSwipeRecipesByUser(Guid userId);
         List<SwipedRecipe> GetLikedByUser(Guid userId);

@@ -31,22 +31,6 @@ namespace RecipeDataTest
             _swipedRecipeLiked = new SwipedRecipe(_user.UserId, _recipe.RecipeId, true);
             _swipedRecipeDisliked = new SwipedRecipe(_user.UserId, _recipe.RecipeId, false);
         }
-
-        [Fact]
-        public void Get_WhenGivenId_ReturnsSwipedRecipe()
-        {
-            //TODO: resolve issue github https://github.com/MaartenVercammen/UCN-Semester-3-project/issues/58
-            //Arrange
-            Guid id = Guid.NewGuid();
-            SwipedRecipe inSwipedRecipe = _swipedRecipeLiked;
-            
-            _access.Setup(x => x.GetSwipedRecipeById(id))
-                .Returns(_swipedRecipeLiked);
-            //Act
-
-            //Assert
-        }
-
         
     }
 }

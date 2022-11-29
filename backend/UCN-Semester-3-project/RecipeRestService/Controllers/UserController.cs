@@ -1,13 +1,16 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
 
 namespace UserRestService.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
@@ -22,9 +25,18 @@ namespace UserRestService.Controllers
         }
 
         [HttpGet, Route("{id}")]
+        [Authorize(Roles = "User,Verfied,Admin")]
         public ActionResult<UserDto> Get(string id)
         {
             Guid UserId = Guid.Parse(id);
+            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
+
+            //check if user is user role all others are allowed to see the other users
+            if(role == Role.USER){
+                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+                    return new StatusCodeResult(403);
+                }
+            }
 
             ActionResult<UserDto> foundReturn;
             User? foundUser = _rControl.Get(UserId);
@@ -40,6 +52,7 @@ namespace UserRestService.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult<List<UserDto>> Get()
         {
             ActionResult<List<UserDto>> foundReturn;
@@ -71,6 +84,7 @@ namespace UserRestService.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Post([FromBody] UserDto inUser)
         {
             ActionResult foundReturn;
@@ -91,10 +105,20 @@ namespace UserRestService.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "User,Verfied,Admin")]
         public ActionResult Edit(UserDto inUser)
         {
             ActionResult foundReturn;
             bool updated = false;
+
+            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
+
+            //check if user or verified user are theimselves
+            if(role == Role.USER || role == Role.VERIFIEDUSER){
+                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, inUser.UserId.ToString())){
+                    return new StatusCodeResult(403);
+                }
+            }
 
             if (inUser != null)
             {
@@ -113,9 +137,19 @@ namespace UserRestService.Controllers
         }
 
         [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "User,Verfied,Admin")]
         public ActionResult Delete(string id)
         {
             Guid userId = Guid.Parse(id);
+
+             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);            
+
+            //check if user or verified user are theimselves
+            if(role == Role.USER || role == Role.VERIFIEDUSER){
+                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+                    return new StatusCodeResult(403);
+                }
+            }
 
             ActionResult foundReturn;
             bool IsCompleted = _rControl.Delete(userId);
