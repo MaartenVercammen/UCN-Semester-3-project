@@ -2,15 +2,26 @@ import React, {useState} from 'react';
 import Header from './Header';
 import style from './Login.module.css';
 import userService from '../../service/userService';
+import { useNavigate } from 'react-router-dom';
+import { AxiosHeaders } from 'axios';
 
 const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
+  const navigate = useNavigate();
+
   const login = async () => {
     const res = await userService.login(email, password);
-    const data = res.data;
-    const JWT = res.headers.JWT;
+    const data = res.data; //user
+    const JWT = res.headers.token; //token
+    console.log(JWT)
+    sessionStorage.setItem('user', JSON.stringify(data));
+    if(JWT != undefined){
+      sessionStorage.setItem('token', JWT);
+    }
+    navigate('/app');
+
   }
 
   const signUp = () => {

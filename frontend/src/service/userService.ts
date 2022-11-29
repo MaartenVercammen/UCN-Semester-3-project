@@ -1,17 +1,17 @@
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { json } from 'stream/consumers';
-import { instance } from '../axios';
+import { instance, instanceNoJWT } from '../axios';
 import { User } from '../types';
 
-const createUser = (user :User) => instance.post('/User', JSON.stringify(user));
+const createUser = (user :User) => instanceNoJWT.post('/User', JSON.stringify(user));
 const getUser = (userId: string) => instance.get<User>('/User/' + userId);
 const deleteUser = (userId: string) => instance.delete('/User/' + userId);
 
-const login = (email: string, password: string) => instance.post<User>("/login", null, {
+const login = (email: string, password: string) => instanceNoJWT.post<AxiosResponse<User>>("/AuthorizationConrtoller", {}, {
   headers:{
     Password: password,
-    Email: email
+    Email: email,
 }});
 
 const UserService = {

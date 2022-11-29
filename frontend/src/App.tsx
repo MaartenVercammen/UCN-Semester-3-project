@@ -17,22 +17,22 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Index />} />
-      <Route path="/app" element={<Home />} />
       <Route path="/login" element={<Login />} />
 
-      <Route element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER, Role.USER ]} redirectPath="/login" />}>
+      <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER, Role.USER ]} redirectPath="/login" />}>
         <Route path="/recipes" element={<GetRecipes />} />
         <Route path="/recipes/:id" element={<Recipe />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/user/:id/liked" element={<Liked />} />
         <Route path="/user/:id" element={<UserTab />} />
+        <Route path="/app" element={<Home />} />
       </Route>
 
-      <Route element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/login" />}>
+      <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/app" />}>
         <Route path="/createRecipe" element={<Create />} />
       </Route>
-      
-      <Route element={<ProtectedRoutes isAllowed={[Role.ADMIN]} redirectPath="/login" />}>
+
+      <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN]} redirectPath="/app" />}>
         //admin only routes
       </Route>
     </Routes>

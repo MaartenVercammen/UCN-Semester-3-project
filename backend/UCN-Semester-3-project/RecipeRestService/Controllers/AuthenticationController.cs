@@ -34,11 +34,12 @@ namespace RecipeRestService.Controllers
             [FromHeader(Name = "Email")] [Required] string email)
         {
             ActionResult actionResult;
-
+            
             try{
                 UserDto user = _access.Login(email, password);
                 if(user != null){
-                    Response.Headers["JWT"] = GenerateToken(UserDtoConvert.ToUser(user));
+                    Response.Headers["token"] = GenerateToken(UserDtoConvert.ToUser(user));
+                    Response.Headers["Access-Control-Expose-Headers"] = "token";
                     actionResult = Ok(user);
                 }
                 else{
