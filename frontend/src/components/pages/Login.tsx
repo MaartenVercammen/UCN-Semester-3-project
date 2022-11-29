@@ -17,7 +17,6 @@ const Login: React.FC = () => {
     const res = await userService.login(email, password);
     const data = res.data; //user
     const JWT = res.headers.token; //token
-    console.log(JWT)
     sessionStorage.setItem('user', JSON.stringify(data));
     if(JWT != undefined){
       sessionStorage.setItem('token', JWT);
