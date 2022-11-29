@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using RecipesData.Model;
 using System.Data.SqlClient;
+using System.Web.Helpers;
 
 namespace RecipesData.Database
 {
@@ -33,7 +34,7 @@ namespace RecipesData.Database
                     command.Parameters.AddWithValue("@email", user.Email);
                     command.Parameters.AddWithValue("@firstName", user.FirstName);
                     command.Parameters.AddWithValue("@lastName", user.LastName);
-                    command.Parameters.AddWithValue("@password", user.Password);
+                    command.Parameters.AddWithValue("@password", Crypto.HashPassword(user.Password));
                     command.Parameters.AddWithValue("@address", user.Address);
                     command.Parameters.AddWithValue("@role", user.Role.ToString());
 

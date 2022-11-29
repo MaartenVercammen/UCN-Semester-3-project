@@ -3,6 +3,7 @@ using RecipeRestService.Businesslogic;
 using RecipeRestService.ModelConversion;
 using RecipesData.Database;
 using RecipesData.Model;
+using System.Web.Helpers;
 
 namespace RecipeRestService.Businesslogic
 {
@@ -20,15 +21,17 @@ namespace RecipeRestService.Businesslogic
             try{
                 User user = _access.GetUserByEmail(email);
                 //TODO: hashing
-                if(user.Password == password){
+                if(Crypto.VerifyHashedPassword(user.Password, password))
+                {
                     return UserDtoConvert.FromUser(user);
                 }
-                else{
+                else
+                {
                     return null;
                 }
 
 
-            }catch(Exception ex) {
+            }catch(Exception) {
                 return null;
             }
         }   
