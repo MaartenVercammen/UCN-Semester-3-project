@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-import style from './Main.module.css';
+import style from './Start.module.css';
 
-const Main: React.FC = () => {
+const Start: React.FC = () => {
   return (
     <>
       <div className={style.container}>
@@ -19,4 +19,4 @@ const Main: React.FC = () => {
   );
 };
 
-export default Main;
+export default Start;

@@ -10,12 +10,12 @@ const GetUser: React.FC = () => {
   const [user, setUser] = useState<User>();
 
   const navigation = useNavigate();
+  const userId = '6409edb9-16d2-4dde-bdec-def45658aa5a';
 
   const getSingleData = async () => {
-    const response = await UserService.getUser('00000000-0000-0000-0000-000000000000');
+    const response = await UserService.getUser(userId);
     const data = response.data;
     setUser(data);
-    console.log(data);
   };
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const GetUser: React.FC = () => {
   }, []);
 
   const editUser = () => {
-    alert('not implemented yet');
+    navigation('/user/6409edb9-16d2-4dde-bdec-def45658aa5a/edit');
   };
 
   const deleteUser = () => {
@@ -35,8 +35,6 @@ const GetUser: React.FC = () => {
 
   return (
     <>
-      {user ? (
-        <>
           <div className={style.userContent}>
             <div className={style.userImg}>
               <img
@@ -45,21 +43,21 @@ const GetUser: React.FC = () => {
               />
             </div>
             <div className={style.userDetails}>
-              {user.role === 'VERIFIEDUSER' ? (
+              {user?.role === 'VERIFIEDUSER' ? (
                 <p style={{ color: '#ACDCA8' }}>
                   <FontAwesomeIcon icon={faCheck} /> verified
                 </p>
               ) : null}
-              {user.role === 'USER' ? (
+              {user?.role === 'USER' ? (
                 <p style={{ color: '#DCBEA8' }}>
                   <FontAwesomeIcon icon={faTimes} /> unverified
                 </p>
               ) : null}
-              {user.role === 'ADMIN' ? <p style={{ color: '#DCBEA8' }}>administrator</p> : null}
+              {user?.role === 'ADMIN' ? <p style={{ color: '#DCBEA8' }}>administrator</p> : null}
               <h1>
-                {user.firstName} {user.lastName}
+                {user?.firstName} {user?.lastName}
               </h1>
-              <p>{user.email}</p>
+              <p>{user?.email}</p>
             </div>
             <div className={style.usrLink}>
               <Link to={'./liked'}>
@@ -90,11 +88,6 @@ const GetUser: React.FC = () => {
               </button>
             </div>
           </div>
-        </>
-      ) : (
-        // change to /login
-        <Navigate to="." />
-      )}
     </>
   );
 };

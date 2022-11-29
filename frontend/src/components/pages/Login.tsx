@@ -1,34 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import style from './Login.module.css';
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { mainModule } from 'process';
 
 const Login: React.FC = () => {
-  const login = () => {
+
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const navigate = useNavigate();
+
+  const login = async (e) => {
+    e.preventDefault();
     alert('not implemented yet');
   };
 
-  const mainPage = () => {
-    window.location.href = '/main';
+  const startPage = () => {
+    navigate('/start');
   };
 
   return (
     <>
       <Header />
       <div className={style.container}>
-        <div onClick={mainPage} id={style.icon}>
+        <div onClick={startPage} id={style.icon}>
           <FontAwesomeIcon icon={faLessThan} />
         </div>
         <div className={style.loginPage}>
           <h1 className={style.loginTitle}>Log in</h1>
-          <form className={style.loginFormContainer}>
+          <form className={style.loginFormContainer} id='loginForm'>
             <input
               type="email"
               name="email"
               id="email"
+              onChange={(e) => setEmail(e.target.value)}
               className={style.loginInput}
               placeholder="email"
             />
@@ -36,11 +43,12 @@ const Login: React.FC = () => {
               type="password"
               name="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
               className={style.loginInput}
               placeholder="password"
             />
           </form>
-          <button className={style.loginButton} onClick={login}>
+          <button className={style.loginButton} onClick={login} form="loginForm">
             Log in
           </button>
           <p className={style.signUpRedirect}>

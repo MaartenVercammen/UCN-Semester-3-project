@@ -2,51 +2,74 @@ import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from './Header';
-import style from './SignUp.module.css';
-import {User, Role} from '../../types';
+import { User, Role } from '../../types';
 import UserService from '../../service/userService';
+import Header from '../pages/Header';
+import style from './EditUser.module.css';
 
-
-const SignUp: React.FC = () => {
+const EditUser: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [checkPassword, setCheckPassword] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [role, setRole] = useState<Role>();
   const [id, setID] = useState<string>();
-  
-const navigate = useNavigate();
 
-  const signUp = async (e) => {
-    e.preventDefault();
-    var id = crypto.randomUUID();
-    const user: User = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      address: address,
-      role: (Role.USER),
-      userId: id.toString(),
-    };
-    const res = await UserService.createUser(user);
-    navigate('/app');
+  const navigate = useNavigate();
+
+  const validateForm = () => {
+    let ok = true;
+    if (firstName.length, lastName.length, email.length, password.length, checkPassword.length, address.length === 0) {
+      ok = false;
+    }
+    return ok;
   };
 
+  const editUser = async (e) => {
+    e.preventDefault();
+    //todo: update id
+    const id = '6409edb9-16d2-4dde-bdec-def45658aa5a';
+    const user: User = (await UserService.getUser(id)).data;
+    if (password === checkPassword && validateForm()) {
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.email = email;
+      user.password = password;
+      user.address = address;
+      user.role = user.role;
+      const res = await UserService.updateUser(user);    
+      alert('Information updated');
+      navigate('/user/6409edb9-16d2-4dde-bdec-def45658aa5a');
+    } else if (password !== checkPassword) {
+      alert('Passwords do not match');
+    } else {
+      alert('Please fill out all fields');
+    }
+    };
+
+
   const startPage = () => {
-    navigate('/start');
-  }
+    navigate('/user/6409edb9-16d2-4dde-bdec-def45658aa5a');
+  };
 
   return (
     <>
       <Header />
       <div className={style.container}>
-      <div onClick={startPage} id={style.icon}><FontAwesomeIcon icon={faLessThan} /></div>
+        <div className={style.userImg}>
+          <img
+            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fyt3.ggpht.com%2Fa%2FAATXAJy4xq-6KE3NuFJ66mRZz7zmGDCsswMnrgwv1w%3Ds900-c-k-c0xffffffff-no-rj-mo&f=1&nofb=1&ipt=a27325248187d8a9d7f5bd32a673d12185ff26b1d524818319c441619de75895&ipo=images"
+            alt=""
+          />
+        </div>
+        <div onClick={startPage} id={style.icon}>
+          <FontAwesomeIcon icon={faLessThan} />
+        </div>
         <div className={style.signUpPage}>
-          <h1 className={style.signUpTitle}>Sign up</h1>
-          <form className={style.signUpFormContainer} onSubmit={signUp} id="signUpForm">
+          <h1 className={style.signUpTitle}>edit your account</h1>
+          <form className={style.signUpFormContainer} onSubmit={editUser} id="editForm">
             <div className={style.nameContainer}>
               <input
                 type="First Name"
@@ -57,7 +80,6 @@ const navigate = useNavigate();
                 placeholder="first name"
                 required
                 min="5"
-                max="20"
               />
               <input
                 type="Last Name"
@@ -68,7 +90,6 @@ const navigate = useNavigate();
                 placeholder="last name"
                 required
                 min="5"
-                max="20"
               />
             </div>
             <input
@@ -81,7 +102,6 @@ const navigate = useNavigate();
               required
               pattern="(.*)@(.*).(.*)"
               min="5"
-              max="20"
             />
             <input
               type="password"
@@ -90,8 +110,18 @@ const navigate = useNavigate();
               onChange={(e) => setPassword(e.target.value)}
               className={style.signUpInput}
               placeholder="password"
+              required
               min="5"
-              max="20"
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              onChange={(e) => setCheckPassword(e.target.value)}
+              className={style.signUpInput}
+              placeholder="confirm password"
+              required
+              min="5"
             />
             <input
               type="address"
@@ -100,20 +130,18 @@ const navigate = useNavigate();
               onChange={(e) => setAddress(e.target.value)}
               className={style.signUpInput}
               placeholder="address"
+              required
               min="5"
-              max="20"
             />
           </form>
-          <button className={style.signUpButton} onClick={signUp} form="signUpForm">
-            Sign up
+          <button className={style.signUpButton} onClick={editUser} form="editForm">
+            Update profile
           </button>
-          <p className={style.loginRedirect}>
-            Already have an account? <Link to={'/login'}><a>Log in</a></Link>
-          </p>
         </div>
       </div>
     </>
   );
 };
 
-export default SignUp;
+export default EditUser;
+

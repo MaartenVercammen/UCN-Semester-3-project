@@ -10,7 +10,6 @@
     margin-right: auto;
     color: #444444;
     text-align: center;
-    background: linear-gradient(to right, red, red, url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/be8c50110989141.5ff966f3f1437.jpg'));
     background:linear-gradient( rgba(68,68,68, 0.7) 100%, rgba(68,68,68, 0.7)100%),url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/be8c50110989141.5ff966f3f1437.jpg');
     background-size: cover;
 }
@@ -43,7 +42,7 @@
     border: none;
     border-radius: 12px;
     height: 2.5rem;
-    color: #D8A8DC;
+    color: #F0F0F0;
     border: 3px solid #D8A8DC;
     font-weight: 600;
     font-size: 1rem;
