@@ -14,7 +14,11 @@ const Navbar: React.FC = () => {
   const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
-    setUserId('00000000-0000-0000-0000-000000000000');
+    const tokenstring = sessionStorage.getItem('user');
+    if(tokenstring != undefined){
+      const user : User = JSON.parse(tokenstring);
+      setUserId(user.userId);
+    }
   }, []);
 
   const Isallowed = (IsAllowed: Role[]) => {

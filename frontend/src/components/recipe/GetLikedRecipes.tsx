@@ -8,20 +8,23 @@ import { Link } from 'react-router-dom';
 
 const GetLikedRecipes: React.FC = () => {
   const [recipes, setRecipes] = useState<(any)>([]);
-  const [user, setUser] = useState<any>([]);
-  
+  let userId: string = "";
+
+  useEffect(() => {
+    const tokenstring = sessionStorage.getItem('user');
+    if(tokenstring != undefined){
+      const user : User = JSON.parse(tokenstring);
+      userId = user.userId;
+    }
+    getData();
+  }, []);
+
+
   const getData = async () => {
-    const response = await RecipeService.getLiked(user.userId);
+    const response = await RecipeService.getLiked(userId);
     const data = response.data;
     setRecipes(data);
   };
-  
-  useEffect(() => {
-    // TODO: get signed in user
-    user.userId = '00000000-0000-0000-0000-000000000000';
-    setUser(user);
-    getData();
-  }, []);
 
   return (
     <>
