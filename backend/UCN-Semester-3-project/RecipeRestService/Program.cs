@@ -6,6 +6,9 @@ using RecipeRestService.Security;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication;
 using RecipeRestService.Businesslogic;
+using RecipesData.Database;
+using UserRestService.Businesslogic;
+
 //using RecipesData.Model;
 
 var builder = WebApplication.CreateBuilder(args);

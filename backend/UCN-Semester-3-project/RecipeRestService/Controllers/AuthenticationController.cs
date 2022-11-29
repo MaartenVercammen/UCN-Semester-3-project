@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RecipeRestService.Security;
 using System.Security.Claims;
-using BusinessLogic.IUserData;
+using UserRestService.Businesslogic;
 
 namespace RecipeRestService.Controllers
 {
@@ -20,31 +20,33 @@ namespace RecipeRestService.Controllers
     public class AuthorizationConrtoller : ControllerBase
     {
 
-        private readonly IUserData _access;
-        public AuthorizationConrtoller(IUserData access)
+        private readonly IAuthenticationData _access;
+        private readonly IConfiguration _configuration;
+        public AuthorizationConrtoller(IAuthenticationData access, IConfiguration configuration)
         {
             _access = access;
+            _configuration = configuration;
         }
 
         [HttpPost]
-        public IActionResult<UserDto> Login()
+        public ActionResult<UserDto> Login()
         {
             string password = Request.Headers["Password"];
-            string username = Request.Headers["Email"];
+            string email = Request.Headers["Email"];
 
             ActionResult actionResult;
 
             try{
                 UserDto user = _access.Login(email, password);
                 if(user != null){
-                    Response.Headers["JWT"] = GenerateToken(user);
+                    Response.Headers["JWT"] = GenerateToken(UserDtoConvert.ToUser(user));
                     actionResult = Ok(user);
                 }
                 else{
                     actionResult = new StatusCodeResult(401);
                 }
                 
-            }catch(Exeption ex){
+            }catch(Exception ex){
                 actionResult = new StatusCodeResult(500);
             }
             return actionResult;

@@ -1,15 +1,17 @@
 using RecipeRestService.DTO;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.ModelConversion;
+using RecipesData.Database;
+using RecipesData.Model;
 
 namespace RecipeRestService.Businesslogic
 {
     public class AuthenticationDataControl : IAuthenticationData
     {
 
-        private readonly IUserDataAccess _access
+        private readonly IUserAccess _access;
 
-        public AuthenticationDataControl(IUserDataAccess access)
+        public AuthenticationDataControl(IUserAccess access)
         {
             _access = access;
         }
@@ -19,14 +21,14 @@ namespace RecipeRestService.Businesslogic
                 User user = _access.GetUserByEmail(email);
                 //TODO: hashing
                 if(user.Password == password){
-                    return new UserDtoConvert().FromUser(user);
+                    return UserDtoConvert.FromUser(user);
                 }
                 else{
                     return null;
                 }
 
 
-            }catch() {
+            }catch(Exception ex) {
                 return null;
             }
         }   

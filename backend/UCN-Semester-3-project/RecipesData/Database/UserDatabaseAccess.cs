@@ -110,7 +110,6 @@ namespace RecipesData.Database
 
         public User GetUserByEmail(string email)
         {
-            string guidString = id.ToString();
             User user = new User();
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
