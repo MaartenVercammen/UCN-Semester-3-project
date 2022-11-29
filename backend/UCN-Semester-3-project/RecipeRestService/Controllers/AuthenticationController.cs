@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
@@ -7,11 +6,9 @@ using RecipeRestService.ModelConversion;
 using RecipesData.Model;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RecipeRestService.Security;
 using System.Security.Claims;
-using UserRestService.Businesslogic;
 
 namespace RecipeRestService.Controllers
 {
@@ -46,7 +43,7 @@ namespace RecipeRestService.Controllers
                     actionResult = new StatusCodeResult(401);
                 }
                 
-            }catch(Exception ex){
+            }catch(Exception){
                 actionResult = new StatusCodeResult(500);
             }
             return actionResult;
