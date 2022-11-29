@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 50rem;
+  text-align: center;
 }
 
 .main_container {
@@ -17,4 +18,22 @@
   max-width: 500px;
   height: auto;
   margin-left: 15em;
+}
+
+@media all and (max-width: 600px)
+{
+  .main {
+    height: 100vh;
+    display: block;
+    padding-top: 3rem;
+    margin-bottom: 10rem;
+  }
+
+  .main_container {
+    margin: 0 3rem;
+  }
+
+  .appDemo {
+    margin-left: 3rem;;
+  }
 }
