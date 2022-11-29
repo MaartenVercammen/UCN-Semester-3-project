@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
@@ -29,11 +30,9 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<UserDto> Login()
+        public ActionResult<UserDto> Login([FromHeader(Name = "Password")] [Required] string password,
+            [FromHeader(Name = "Email")] [Required] string email)
         {
-            string password = Request.Headers["Password"];
-            string email = Request.Headers["Email"];
-
             ActionResult actionResult;
 
             try{

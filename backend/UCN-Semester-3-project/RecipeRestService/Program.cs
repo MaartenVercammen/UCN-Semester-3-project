@@ -70,6 +70,7 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddSingleton<IUserData, UserDataControl>();
 builder.Services.AddSingleton<IUserAccess, UserDatabaseAccess>();
+builder.Services.AddSingleton<IAuthenticationData, AuthenticationDataControl>();
 
 var app = builder.Build();
 
