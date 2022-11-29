@@ -25,7 +25,7 @@ namespace UserRestService.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        [Authorize(Roles = "User,Verfied,Admin")]
+        [Authorize(Roles = "USER,VERIFIEDUSER,ADMIN")]
         public ActionResult<UserDto> Get(string id)
         {
             Guid UserId = Guid.Parse(id);
@@ -51,7 +51,7 @@ namespace UserRestService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         public ActionResult<List<UserDto>> Get()
         {
             ActionResult<List<UserDto>> foundReturn;
@@ -104,7 +104,7 @@ namespace UserRestService.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "User,Verfied,Admin")]
+        [Authorize(Roles = "USER,VERIFIEDUSER,ADMIN")]
         public ActionResult Edit(UserDto inUser)
         {
             ActionResult foundReturn;
@@ -136,7 +136,7 @@ namespace UserRestService.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        [Authorize(Roles = "User,Verfied,Admin")]
+        [Authorize(Roles = "USER,VERIFIEDUSER,ADMIN")]
         public ActionResult Delete(string id)
         {
             Guid userId = Guid.Parse(id);
