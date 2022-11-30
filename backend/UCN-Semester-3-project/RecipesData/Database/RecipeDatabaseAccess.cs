@@ -91,9 +91,9 @@ namespace RecipesData.Database
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT recipeId, name, description, pictureUrl, time FROM recipe where recipeId not in (select recipeId from swipedRecipe where swipedRecipe.userId = '6cc2fb6f-762d-4f17-a930-40dbd7aff7e3') order by NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY;";
+                    command.CommandText = "SELECT * FROM recipe where recipeId not in (select recipeId from swipedRecipe where swipedRecipe.userId = @userId) order by NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY";
 
-                    command.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@userId", userIdString);
 
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
