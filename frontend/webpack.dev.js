@@ -18,7 +18,7 @@ module.exports = {
       favicon: 'src/favicon.png',
     }),
     new Dotenv({
-      path: '.env.dev', // Path to .env file (this is the default)
+      path: '.env.development', // Path to .env file (this is the default)
     }),
   ],
   optimization: {
