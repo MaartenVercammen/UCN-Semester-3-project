@@ -35,6 +35,12 @@ const GetUser: React.FC = () => {
     }
   };
 
+  const logoutUser = () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    navigation("/start")
+  }
+
   return (
     <>
           <div className={style.userContent}>
@@ -87,6 +93,9 @@ const GetUser: React.FC = () => {
               </button>
               <button className={style.btn} id={style.deleteBtn} onClick={deleteUser}>
                 Delete
+              </button>
+              <button className={style.btn} id={style.logout} onClick={logoutUser}>
+                Logout
               </button>
             </div>
           </div>
