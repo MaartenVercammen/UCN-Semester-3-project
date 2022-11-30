@@ -15,7 +15,7 @@ namespace RecipesData.Database
 
         List<Recipe> GetRecipesSimplified();
 
-        List<Recipe> GetRandomRecipe(Guid userId);
+        Recipe GetRandomRecipe(Guid userId);
 
         Guid CreateRecipe(Recipe recipe);
 

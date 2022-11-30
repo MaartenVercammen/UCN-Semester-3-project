@@ -1,11 +1,11 @@
 
-import React, {useState} from 'react';
-import Header from './Header';
+import React, {useState, lazy} from 'react';
 import style from './Login.module.css';
 import userService from '../../service/userService';
 import { Link, useNavigate } from 'react-router-dom';
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+const Header = lazy(() => import('./Header'));
 
 const Login: React.FC = () => {
   const [password, setPassword] = useState<string>("");

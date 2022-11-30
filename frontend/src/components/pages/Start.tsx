@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {lazy} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from './Header';
 import style from './Start.module.css';
+const Header = lazy(() => import('./Header'));
 
 const Start: React.FC = () => {
   const navigate = useNavigate();
