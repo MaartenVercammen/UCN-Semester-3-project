@@ -1,8 +1,9 @@
-import React from 'react';
-import Swipe from '../swipe/swipe';
-import Header from './Header';
+import React, { lazy } from 'react';
 import style from './Home.module.css';
-import Navbar from './Navbar';
+const Header = lazy(() => import('./Header'));
+const Navbar = lazy(() => import('./Navbar'));
+const Swipe = lazy(() => import('../swipe/swipe'));
+
 
 const Home: React.FC = () => {
   return (
