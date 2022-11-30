@@ -1,10 +1,10 @@
-import React, { useMemo, useRef, useState, useEffect, RefObject } from 'react';
+import React, { useMemo, useRef, useState, useEffect, RefObject, lazy } from 'react';
 import TinderCard from 'react-tinder-card';
 import useKeypress from 'react-use-keypress';
-import Card from './Card';
 import style from './swipe.module.css';
 import RecipeService from '../../service/recipeService';
 import { Recipe, SwipedRecipe } from '../../types';
+const Card = lazy(() => import('./Card'));
 
 const Swipe: React.FC = () => {
   const [cards, setcards] = useState<Recipe[]>([]);

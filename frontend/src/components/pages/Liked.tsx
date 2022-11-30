@@ -1,10 +1,8 @@
-import React from 'react';
-import Swipe from '../swipe/swipe';
-import Header from './Header';
+import React, {lazy} from 'react';
 import style from './Home.module.css';
-import Navbar from './Navbar';
-import GetRecipe from '../recipe/GetRecipe';
-import GetLikedRecipes from '../recipe/GetLikedRecipes';
+const Header = lazy(() => import('./Header'));
+const Navbar = lazy(() => import('./Navbar'));
+const GetLikedRecipes = lazy(() => import('../recipe/GetLikedRecipes'));
 
 const Liked: React.FC = () => {
   return (

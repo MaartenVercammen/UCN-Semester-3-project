@@ -1,11 +1,11 @@
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useState, lazy } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from './Header';
 import style from './SignUp.module.css';
 import {User, Role} from '../../types';
 import UserService from '../../service/userService';
+const Header = lazy(() => import('./Header'));
 
 
 const SignUp: React.FC = () => {
