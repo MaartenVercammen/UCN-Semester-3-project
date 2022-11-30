@@ -11,4 +11,4 @@ obj/
 #react deployment
 dist/
 node_modules/
-.env
+.env.*
