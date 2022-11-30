@@ -58,6 +58,12 @@
     border-color: #FF7F7F;
 }
 
+#logout{
+    background-color: #FFF2F2;
+    color: #ff0000;
+    border-color: #ff0000;
+}
+
 .usrLink {
     display: grid;
     gap: .6rem;

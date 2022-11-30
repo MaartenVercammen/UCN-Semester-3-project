@@ -1,17 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import style from './Start.module.css';
 
 const Start: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className={style.container}>
       <div className={style.btnStyling}>
         <div className={style.header}><Header /></div>
         <div className={style.btnContainer}>
-            <Link to={'/login'}><button className={style.logInBtn}>Log in</button></Link>
-            <Link to={'/signup'}><button className={style.signUpBtn}>Sign up</button></Link>
+          <button className={style.logInBtn} onClick={() => navigate('/login')}>Log in</button>
+          <button className={style.signUpBtn} onClick={() => navigate('/signup')}>Sign up</button>
         </div>
         </div>
       </div>
