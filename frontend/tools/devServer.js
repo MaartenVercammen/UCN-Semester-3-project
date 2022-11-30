@@ -8,7 +8,7 @@ const config = require('../webpack.dev');
 const bundler = webpack(config);
 
 dotenv.config({
-  path: '.env',
+  path: '.env.development',
 });
 
 const server = new WebpackDevServer({

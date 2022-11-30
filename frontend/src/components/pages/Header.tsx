@@ -8,7 +8,7 @@ const Header: React.FC = () => {
         <nav>
           <div className={style.logo}>
             <img src={panda} alt='panda' className={style.panda}></img>
-            <h1 className={style.pandaLogo}>FoodPanda</h1>
+            <h1 className={style.pandaLogo}>FoodPanda<span>.dev</span></h1>
           </div>
         </nav>
     </header>
