@@ -36,9 +36,8 @@ const GetRecipe: React.FC = () => {
     const activeUser: User = JSON.parse(token || '{}');
     const id = activeUser.userId;
     const user: User = (await UserService.getUser(id)).data;
-    if (user.userId === recipe.userId) {
-      //navigation(`/app/edit/${recipe.recipeId}`);
-      alert('not implemented yet');
+    if (user.userId === recipe.author) {
+      navigation('./edit');
   } else {
       alert('You can only edit recipes you have created');
     }

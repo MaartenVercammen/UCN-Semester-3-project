@@ -1,0 +1,57 @@
+.container {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    max-width: 575px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #444444;
+    text-align: center;
+}
+
+.updateRecipeInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+.editRecipeForm  {
+    margin: 4rem 5rem;
+    display: grid;
+    gap: 1rem;
+}
+
+
+.ingredientContainer {
+    width: 50vh;
+    margin-left: 0rem;
+    display: block;
+}
+
+.btnAddContainer {
+    width: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-x button {
+    width: 50vw;
+    height: 1rem;
+}
+
+.editRecipeBtn {
+    width: 26rem;
+    background-color: #D8A8DC;
+    border: none;
+    border-radius: 12px;
+    height: 2.5rem;
+    color: #faf9f9;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}

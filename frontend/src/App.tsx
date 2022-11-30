@@ -15,6 +15,7 @@ import ProtectedRoutes from './helper/protectedRoutes';
 import { Role } from './types';
 import Start from './components/pages/Start';
 import EditUser from './components/user/EditUser';
+import UpdateRecipe from './components/recipe/UpdateRecipe';
 
 const App: React.FC = () => {
   return (
@@ -23,18 +24,21 @@ const App: React.FC = () => {
       <Route path="/login" element={<Login />} />
       <Route path='/signup' element={<SignUp />} />
       <Route path="/start" element={<Start />} />
+      
+      {/* TODO: add protection rules*/}
 
       <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER, Role.USER ]} redirectPath="/login" />}>
+        <Route path="/user/:id/edit" element={<EditUser />} />
         <Route path="/recipes" element={<GetRecipes />} />
         <Route path="/recipes/:id" element={<Recipe />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/user/:id/liked" element={<Liked />} />
         <Route path="/user/:id" element={<UserTab />} />
-        <Route path="/user/:id/edit" element={<EditUser />} />
         <Route path="/app" element={<Home />} />
       </Route>
 
       <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/app" />}>
+      <Route path='/recipes/:id/edit' element={<UpdateRecipe />} />
         <Route path="/createRecipe" element={<Create />} />
       </Route>
 

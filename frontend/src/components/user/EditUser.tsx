@@ -43,7 +43,7 @@ const EditUser: React.FC = () => {
       user.role = user.role;
       const res = await UserService.updateUser(user);    
       alert('Information updated');
-      navigate('/user/6409edb9-16d2-4dde-bdec-def45658aa5a');
+      navigate('/user/' + user.userId);
     } else if (password !== checkPassword) {
       alert('Passwords do not match');
     } else {
