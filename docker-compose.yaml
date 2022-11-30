@@ -8,6 +8,12 @@ services:
       - api
     ports:
       - "8080:80"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - API_URL=${API_URL}
+      - FRONTEND_DEV_PORT=${FRONTEND_DEV_PORT}
+      - FRONTEND_DEV_HOST=${FRONTEND_DEV_HOST}
+
 
   api:
     image: emvee/ucn-backend:latest
