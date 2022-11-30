@@ -30,7 +30,9 @@ const EditUser: React.FC = () => {
   const editUser = async (e) => {
     e.preventDefault();
     //todo: update id
-    const id = '6409edb9-16d2-4dde-bdec-def45658aa5a';
+    const token = sessionStorage.getItem('user');
+    const activeUser: User = JSON.parse(token || '{}');
+    const id = activeUser.userId;
     const user: User = (await UserService.getUser(id)).data;
     if (password === checkPassword && validateForm()) {
       user.firstName = firstName;

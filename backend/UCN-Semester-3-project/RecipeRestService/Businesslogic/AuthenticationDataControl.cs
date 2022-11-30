@@ -20,7 +20,6 @@ namespace RecipeRestService.Businesslogic
         public UserDto Login(string email, string password){
             try{
                 User user = _access.GetUserByEmail(email);
-                //TODO: hashing
                 if(Crypto.VerifyHashedPassword(user.Password, password))
                 {
                     return UserDtoConvert.FromUser(user);

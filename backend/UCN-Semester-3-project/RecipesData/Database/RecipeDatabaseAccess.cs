@@ -7,10 +7,12 @@ namespace RecipesData.Database
     public class RecipeDatabaseAccess : IRecipeAccess
     {
         readonly string _connectionString;
+        readonly UserDatabaseAccess _userDatabaseAccess;
 
         public RecipeDatabaseAccess(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("UcnConnection");
+            _userDatabaseAccess = new UserDatabaseAccess(_connectionString);
         }
 
         public RecipeDatabaseAccess(string connetionstring)
@@ -90,7 +92,7 @@ namespace RecipesData.Database
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE recipe.authorId = @userId AND isLiked IS NULL";
+                    command.CommandText = "SELECT * FROM recipe where recipeId not in (select recipeId from swipedRecipe where swipedRecipe.userId = @userId)";
 
                     command.Parameters.AddWithValue("@userId", userId);
 
@@ -248,7 +250,7 @@ namespace RecipesData.Database
             connection.Open();
             using (SqlCommand command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE recipe.authorId =@userId AND isLiked = 1";
+                command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE swipedRecipe.userId =@userId AND isLiked = 1";
 
                 command.Parameters.AddWithValue("@userId", userIdString);
 
@@ -375,6 +377,7 @@ namespace RecipesData.Database
             recipe.PictureURL = reader.GetString(reader.GetOrdinal("pictureURL"));
             recipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
             recipe.PortionNum = reader.GetInt32(reader.GetOrdinal("portionNum"));
+            recipe.Author = _userDatabaseAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("authorId"))));
             return recipe;
         }
 

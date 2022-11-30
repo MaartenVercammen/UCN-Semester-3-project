@@ -90,7 +90,6 @@ namespace RecipeRestService.Controllers
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
         {
-            System.Console.WriteLine("Here");
             Guid userId = Guid.Parse(id);
 
             if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
