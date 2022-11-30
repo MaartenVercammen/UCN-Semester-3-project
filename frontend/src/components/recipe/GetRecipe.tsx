@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
-import { Ingredient, Instruction, Recipe } from '../../types';
+import UserService from '../../service/userService';
+import { User, Ingredient, Instruction, Recipe } from '../../types';
 import style from './GetRecipe.module.css';
 
 const GetRecipe: React.FC = () => {
   const [recipe, setRecipe] = useState<any>([]);
+  const [author, setAuthor] = useState<any>([]);
   const [ingredients, setIngredients] = useState<any>([]);
   const [instructions, setInstructions] = useState<any>([]);
 
@@ -13,10 +15,12 @@ const GetRecipe: React.FC = () => {
 
   const getSingleData = async () => {
     const response = await RecipeService.getRecipe(window.location.pathname.split('/')[2]);
+    const authorResponse = await UserService.getUser(response.data.author);
     const data = response.data;
     setRecipe(data);
     setIngredients(data.ingredients);
     setInstructions(data.instructions);
+    setAuthor(authorResponse.data);
   };
 
   const deleteRecipe = async () => {
@@ -28,7 +32,16 @@ const GetRecipe: React.FC = () => {
 
   // TODO: implement edit recipe
   const editRecipe = async () => {
-    window.alert('not implemented yet');
+    const token = sessionStorage.getItem('user');
+    const activeUser: User = JSON.parse(token || '{}');
+    const id = activeUser.userId;
+    const user: User = (await UserService.getUser(id)).data;
+    if (user.userId === recipe.userId) {
+      //navigation(`/app/edit/${recipe.recipeId}`);
+      alert('not implemented yet');
+  } else {
+      alert('You can only edit recipes you have created');
+    }
   };
 
   useEffect(() => {
@@ -44,7 +57,7 @@ const GetRecipe: React.FC = () => {
       <div className={style.container}>
         <h4>Preparation time: {recipe.time}min</h4>
         <p>{recipe.description}</p>
-        <h4>published by: author</h4> {/** TODO: change this to author.name  */}
+        <h4>{author.firstName + author.lastName}</h4> 
         <h4>Number of portions: {recipe.portionNum}</h4>
         <h3>Ingredients:</h3>
         {ingredients.map((ingredient: Ingredient) => (

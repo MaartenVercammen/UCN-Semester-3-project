@@ -17,6 +17,7 @@ namespace RecipeRestService.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly RecipedataControl _rControl;
+        private readonly UserDataControl _uControl;
         private readonly IConfiguration _configuration;
 
         public RecipesController(IConfiguration inConfiguration)
@@ -24,6 +25,8 @@ namespace RecipeRestService.Controllers
             _configuration = inConfiguration;
             RecipeDatabaseAccess access = new RecipeDatabaseAccess(inConfiguration);
             _rControl = new RecipedataControl(access);
+            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
+            _uControl = new UserDataControl(uAccess);
         }
 
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
@@ -123,9 +126,10 @@ namespace RecipeRestService.Controllers
             inRecipe.Author = userid;
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
-            if (inRecipe != null)
+            if (inRecipe != null && (userid != Guid.Empty || userid != null))
             {
-                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+                User author = _uControl.Get(inRecipe.Author);
+                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe, author));
             }
             if (insertedGuid != Guid.Empty)
             {
