@@ -75,12 +75,11 @@ namespace RecipeRestService.Businesslogic
         // TODO: Fix this method - retrieve random from db
         public Recipe GetRandomRecipe(Guid userId)
         {
-            List<Recipe> recipes = new List<Recipe>();
+            Recipe recipe = new Recipe();
             try{
-                recipes = _RecipeAccess.GetRandomRecipe(userId);
-                Random rnd = new Random();
-                int randomnumber = rnd.Next(0, recipes.Count - 1);
-                return _RecipeAccess.GetRecipeById(recipes[randomnumber].RecipeId);
+                recipe = _RecipeAccess.GetRandomRecipe(userId);
+                System.Console.WriteLine(recipe.Name);
+                return recipe;
             }
             catch (Exception)
             {

@@ -8,6 +8,7 @@ const Card = lazy(() => import('./Card'));
 
 const Swipe: React.FC = () => {
   const [cards, setcards] = useState<Recipe[]>([]);
+  const [loading, setLoading] = useState<Boolean>(true);
   let swipeInAction = false;
   const Refs = useMemo<React.RefObject<any>[]>(
     () =>
@@ -18,10 +19,19 @@ const Swipe: React.FC = () => {
   );
 
   useEffect(() => {
-    getCard();
-    getCard();
-    getCard();
+    get3Cards();
   }, []);
+
+  const get3Cards = async () => {
+    await getCard();
+    await getCard();
+    await getCard();
+    setLoading(false);
+  }
+
+  const IsLoading = () => {
+    return loading
+  }
 
   const getCard = async () => {
     const res = await RecipeService.getRandomRecipe();
@@ -85,6 +95,7 @@ const Swipe: React.FC = () => {
 
   return (
     <div className={style.container}>
+      {IsLoading() ? (<p>loading ...</p>) : (<>
       {RecipesLeft() ? (
         <>
           <div className={style.carddeck}>
@@ -118,6 +129,7 @@ const Swipe: React.FC = () => {
           <p>There are no more recipes &#128532;</p>
         </div>
       )}
+      </>)}
     </div>
   );
 };
