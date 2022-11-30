@@ -14,7 +14,12 @@ nav {
 }
 
 .pandaLogo {
+  color: #444444;
   font-size: 1.9rem;
-  color: #D8A8DC;
+  padding: 10px;
   margin-left: 10px;
+}
+
+.pandaLogo span {
+  color: #DCBEA8;
 }
