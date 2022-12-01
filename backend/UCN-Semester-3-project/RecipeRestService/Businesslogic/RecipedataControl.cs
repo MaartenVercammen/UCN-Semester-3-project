@@ -67,10 +67,6 @@ namespace RecipeRestService.Businesslogic
             }
             return foundRecipes;
         }
-        public bool Put(Recipe recipeToUpdate)
-        {
-            throw new NotImplementedException();
-        }
 
         // TODO: Fix this method - retrieve random from db
         public Recipe GetRandomRecipe(Guid userId)
@@ -99,6 +95,20 @@ namespace RecipeRestService.Businesslogic
                 return null;
             }
             return recipes;
+        }
+
+         public bool Put(Recipe recipeToUpdate)
+        {
+            bool update = false;
+            try
+            {
+                update = _RecipeAccess.UpdateRecipe(recipeToUpdate);
+            }
+            catch (Exception)
+            {
+                update = false;
+            }
+            return update;
         }
     }
 }

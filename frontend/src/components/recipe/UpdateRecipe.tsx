@@ -55,6 +55,7 @@ const UpdateRecipe: React.FC = () => {
         
         // update
         const res = await RecipeService.updateRecipe(recipe);
+        alert('Information updated');
         navigate('/recipes/' + recipe.recipeId);
     }
 };

@@ -37,7 +37,8 @@ const GetRecipe: React.FC = () => {
     const id = activeUser.userId;
     const user: User = (await UserService.getUser(id)).data;
     if (user.userId === recipe.author) {
-      navigation('./edit');
+      navigation('/recipes/' + recipe.recipeId + '/edit');
+      
   } else {
       alert('You can only edit recipes you have created');
     }

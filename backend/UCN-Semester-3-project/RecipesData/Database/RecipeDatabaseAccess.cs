@@ -272,9 +272,35 @@ namespace RecipesData.Database
         /// <param name="recipe">The recipe that is updated</param>
         /// <returns>True if the recipe was successfully updated</returns>
 
+        
         public bool UpdateRecipe(Recipe recipe)
         {
-            throw new NotImplementedException();
+            bool update = false;
+            string queryRecipe = "update  [recipe] set name@name, description@description, pictureURL@pictureURL, time@time, portionNum@portionNum, authorId@authorId where recipeId = @idrecipeId";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                
+                    command.CommandText = queryRecipe;
+                    command.Parameters.AddWithValue("id", recipe.RecipeId.ToString());
+                    command.Parameters.AddWithValue("name", recipe.Name);
+                    command.Parameters.AddWithValue("description", recipe.Description);
+                    command.Parameters.AddWithValue("pictureURL", recipe.PictureURL);
+                    command.Parameters.AddWithValue("time", recipe.Time);
+                    command.Parameters.AddWithValue("authorId", recipe.Author.UserId);
+                    command.Parameters.AddWithValue("portionNum", recipe.PortionNum);
+                    //insturction
+                    //ingredient
+
+                    command.ExecuteNonQuery();
+                    update = true;
+                }
+                connection.Close();
+            }
+            return update;
         }
 
         public bool DeleteRecipe(Guid id)
