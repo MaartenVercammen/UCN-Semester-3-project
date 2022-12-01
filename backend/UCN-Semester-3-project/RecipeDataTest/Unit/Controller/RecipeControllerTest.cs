@@ -21,10 +21,19 @@ public class RecipeControllerTest
     private readonly Recipe _validRecipe;
     private readonly RecipeDto? _validRecipeDto;
     private readonly User _validUser;
+    private readonly DefaultHttpContext _httpContext = new DefaultHttpContext();
+    
 
     public RecipeControllerTest()
     {
-        _sut = new RecipesController(_acces.Object, _userData.Object, _securityHelper.Object);
+        _httpContext.Request.Headers["Authorization"] = "token";
+        _sut = new RecipesController(_acces.Object, _userData.Object, _securityHelper.Object)
+        {
+            ControllerContext = new ControllerContext()
+            {
+                HttpContext = _httpContext
+            }
+        };
         Guid id = Guid.NewGuid();
         _validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass",
             "street", Role.USER);
@@ -131,6 +140,8 @@ public class RecipeControllerTest
         };
         _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
             .Returns(recipes);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.GetLiked(_validUser.UserId.ToString());
         //Assert
@@ -147,6 +158,10 @@ public class RecipeControllerTest
         List<Recipe> recipes = new List<Recipe>();
         _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
             .Returns(recipes);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.GetLiked(_validUser.UserId.ToString());
         //Assert
@@ -162,6 +177,10 @@ public class RecipeControllerTest
         //Arrange
         _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
             .Returns(null as List<Recipe>);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.GetLiked(_validUser.UserId.ToString());
         //Assert
@@ -177,12 +196,14 @@ public class RecipeControllerTest
         Recipe convertedRecipe = RecipeDtoConvert.ToRecipe(_validRecipeDto, _validUser);
         _acces.Setup(x => x.Add(It.IsAny<Recipe>()))
             .Returns(convertedRecipe.RecipeId);
+        _userData.Setup(x => x.Get(_validUser.UserId))
+            .Returns(_validUser);
         _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
             .Returns(true);
         //Act
         var result = _sut.Post(_validRecipeDto);
         //Assert
-        var viewResult = Assert.IsType<ActionResult<Guid>>(result);
+        var viewResult = Assert.IsType<ActionResult<string>>(result);
         var model = Assert.IsAssignableFrom<OkObjectResult>(viewResult.Result);
         var id = Assert.IsAssignableFrom<Guid>(model.Value);
         Assert.Equal(convertedRecipe.RecipeId, id);
@@ -194,10 +215,14 @@ public class RecipeControllerTest
         //Arrange
         _acces.Setup(x => x.Add(It.IsAny<Recipe>()))
             .Returns(Guid.Empty);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.Post(_validRecipeDto);
         //Assert
-        var viewResult = Assert.IsType<ActionResult<Guid>>(result);
+        var viewResult = Assert.IsType<ActionResult<string>>(result);
         var statusCodeResult = Assert.IsAssignableFrom<StatusCodeResult>(viewResult.Result);
         Assert.Equal(500, statusCodeResult.StatusCode);
     }
@@ -207,6 +232,10 @@ public class RecipeControllerTest
     {
         //Arrange
         _acces.Setup(x => x.Delete(_validRecipe.RecipeId))
+            .Returns(true);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
             .Returns(true);
         //Act
         var result = _sut.Delete(_validRecipe.RecipeId.ToString());
@@ -221,6 +250,10 @@ public class RecipeControllerTest
         //Arrange
         _acces.Setup(x => x.Delete(_validRecipe.RecipeId))
             .Returns(false);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.Delete(_validRecipe.RecipeId.ToString());
         //Assert
@@ -234,6 +267,10 @@ public class RecipeControllerTest
         //Arrange
         _acces.Setup(x => x.GetRandomRecipe(_validUser.UserId))
             .Returns(_validRecipe);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.GetUserFromJWT("token"))
+            .Returns(_validUser.UserId);
         //Act
         var result = _sut.GetRandomRecipe();
         //Assert
@@ -249,6 +286,10 @@ public class RecipeControllerTest
         //Arrange
         _acces.Setup(x => x.GetRandomRecipe(_validUser.UserId))
             .Returns(null as Recipe);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.GetRandomRecipe();
         //Assert

@@ -85,7 +85,7 @@ namespace RecipeRestService.Controllers
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {   string token = Request.Headers["Authorization"];
-            if(_securityHelper.IsJWTEqualRequestId(token, userId)){
+            if(!_securityHelper.IsJWTEqualRequestId(token, userId)){
                 return new StatusCodeResult(403);
             }
 
@@ -122,7 +122,7 @@ namespace RecipeRestService.Controllers
         [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
-            Guid userid = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Guid userid = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             inRecipe.Author = userid;
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
@@ -152,7 +152,7 @@ namespace RecipeRestService.Controllers
             Recipe recipe = _rControl.Get(recipeId);
 
             string token = Request.Headers["Authorization"];
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, recipe.Author.ToString())){
+            if(_securityHelper.IsJWTEqualRequestId(token, recipe.Author.ToString())){
                 return new StatusCodeResult(403);
             }
 
@@ -175,7 +175,7 @@ namespace RecipeRestService.Controllers
         public ActionResult<RecipeDto> GetRandomRecipe()
         {
             ActionResult foundReturn;
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             Recipe recipe = _rControl.GetRandomRecipe(userId);
             if (recipe != null)
             {
