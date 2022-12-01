@@ -6,12 +6,14 @@ using RecipeRestService.Controllers;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipesData.Model;
+using UserRestService.Businesslogic;
 
 namespace RecipeDataTest.Unit.Controller;
 
 public class RecipeControllerTest
 {
     private readonly Mock<IRecipeData> _acces = new Mock<IRecipeData>();
+    private readonly Mock<IUserData> _userData = new Mock<IUserData>();
     private readonly RecipesController _sut;
     private readonly Recipe _validRecipe;
     private readonly RecipeDto? _validRecipeDto;
@@ -19,7 +21,7 @@ public class RecipeControllerTest
 
     public RecipeControllerTest()
     {
-        _sut = new RecipesController(_acces.Object);
+        _sut = new RecipesController(_acces.Object, _userData.Object);
         Guid id = Guid.NewGuid();
         _validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass",
             "street", Role.USER);
@@ -124,7 +126,7 @@ public class RecipeControllerTest
             _validRecipe,
             _validRecipe
         };
-        _acces.Setup(x => x.GetLiked(_validUser.UserId))
+        _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
             .Returns(recipes);
         //Act
         var result = _sut.GetLiked(_validUser.UserId.ToString());
@@ -140,7 +142,7 @@ public class RecipeControllerTest
     {
         //Arrange
         List<Recipe> recipes = new List<Recipe>();
-        _acces.Setup(x => x.GetLiked(_validUser.UserId))
+        _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
             .Returns(recipes);
         //Act
         var result = _sut.GetLiked(_validUser.UserId.ToString());
@@ -155,7 +157,7 @@ public class RecipeControllerTest
     public void GetLiked_WhenGivenIdAndErrorOccured_Return500()
     {
         //Arrange
-        _acces.Setup(x => x.GetLiked(_validUser.UserId))
+        _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
             .Returns(null as List<Recipe>);
         //Act
         var result = _sut.GetLiked(_validUser.UserId.ToString());
@@ -169,7 +171,7 @@ public class RecipeControllerTest
     public void Post_WhenGivenRecipeDto_ReturnsGuidOfNewRecipe()
     {
         //Arrange
-        Recipe convertedRecipe = RecipeDtoConvert.ToRecipe(_validRecipeDto);
+        Recipe convertedRecipe = RecipeDtoConvert.ToRecipe(_validRecipeDto, _validUser);
         _acces.Setup(x => x.Add(It.IsAny<Recipe>()))
             .Returns(convertedRecipe.RecipeId);
         //Act
@@ -185,7 +187,6 @@ public class RecipeControllerTest
     public void Post_WhenGivenRecipeDtoAndInsertFailed_ReturnsStatusCode500()
     {
         //Arrange
-        Recipe convertedRecipe = RecipeDtoConvert.ToRecipe(_validRecipeDto);
         _acces.Setup(x => x.Add(It.IsAny<Recipe>()))
             .Returns(Guid.Empty);
         //Act

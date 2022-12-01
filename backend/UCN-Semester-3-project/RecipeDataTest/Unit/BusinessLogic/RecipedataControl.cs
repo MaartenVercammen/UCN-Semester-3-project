@@ -227,10 +227,10 @@ namespace RecipeDataTest.BusinessLogic
                 _validRecipe,
                 _validRecipe
             };
-            _acces.Setup(x => x.GetLikedRecipes(_validUser.UserId))
+            _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
                 .Returns(likedRecipes);
             //Act
-            List<Recipe> recipes = _sut.GetLiked(_validUser.UserId);
+            List<Recipe> recipes = _sut.GetLikedByUser(_validUser.UserId);
 
             //Assert
             Assert.NotNull(recipes);
@@ -241,10 +241,10 @@ namespace RecipeDataTest.BusinessLogic
         public void GetLiked_WhenExceptionThrow_ReturnNull()
         {
             //Arrange
-            _acces.Setup(x => x.GetLikedRecipes(_validUser.UserId))
+            _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
                 .Throws(new Exception());
             //Act
-            List<Recipe> recipes = _sut.GetLiked(_validUser.UserId);
+            List<Recipe> recipes = _sut.GetLikedByUser(_validUser.UserId);
 
             //Assert
             Assert.Null(recipes);
