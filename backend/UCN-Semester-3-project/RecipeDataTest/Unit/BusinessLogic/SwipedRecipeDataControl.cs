@@ -32,5 +32,19 @@ namespace RecipeDataTest
             _swipedRecipeDisliked = new SwipedRecipe(_user.UserId, _recipe.RecipeId, false);
         }
 
+        [Fact]
+        public void Get_WhenValidRecipeIdAndUserID_ReturnsSwipedRecipe()
+        {
+            //Arrange
+            _access.Setup(x => x.GetSwipedRecipeById(_recipe.RecipeId, _user.UserId))
+                .Returns(_swipedRecipeLiked);
+            //Act
+            var response = _sut.Get(_recipe.RecipeId, _user.UserId);
+
+            //Assert    
+            Assert.NotNull(response);
+            Assert.Equal(_swipedRecipeLiked.RecipeId, response.RecipeId);
+        }
+
     }
 }

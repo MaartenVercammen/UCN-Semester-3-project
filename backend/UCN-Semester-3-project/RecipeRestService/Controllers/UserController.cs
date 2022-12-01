@@ -31,8 +31,9 @@ namespace UserRestService.Controllers
             Guid UserId = Guid.Parse(id);
             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
             //check if user is user role all others are allowed to see the other users
+            string token = Request.Headers["Authorization"];
             if(role == Role.USER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, id)){
                     return new StatusCodeResult(403);
                 }
             }
@@ -113,8 +114,9 @@ namespace UserRestService.Controllers
             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
 
             //check if user or verified user are theimselves
+            string token = Request.Headers["Authorization"];
             if(role == Role.USER || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, inUser.UserId.ToString())){
+                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, inUser.UserId.ToString())){
                     return new StatusCodeResult(403);
                 }
             }
@@ -144,8 +146,9 @@ namespace UserRestService.Controllers
              Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);            
 
             //check if user or verified user are theimselves
+            string token = Request.Headers["Authorization"];
             if(role == Role.USER || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, id)){
                     return new StatusCodeResult(403);
                 }
             }

@@ -1,10 +1,12 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.Controllers;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipeRestService.Security;
 using RecipesData.Model;
 using UserRestService.Businesslogic;
 
@@ -14,6 +16,7 @@ public class RecipeControllerTest
 {
     private readonly Mock<IRecipeData> _acces = new Mock<IRecipeData>();
     private readonly Mock<IUserData> _userData = new Mock<IUserData>();
+    private readonly Mock<ISecurityHelper> _securityHelper = new Mock<ISecurityHelper>();
     private readonly RecipesController _sut;
     private readonly Recipe _validRecipe;
     private readonly RecipeDto? _validRecipeDto;
@@ -21,7 +24,7 @@ public class RecipeControllerTest
 
     public RecipeControllerTest()
     {
-        _sut = new RecipesController(_acces.Object, _userData.Object);
+        _sut = new RecipesController(_acces.Object, _userData.Object, _securityHelper.Object);
         Guid id = Guid.NewGuid();
         _validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"), "mail", "mark", "mark", "pass",
             "street", Role.USER);
@@ -174,6 +177,8 @@ public class RecipeControllerTest
         Recipe convertedRecipe = RecipeDtoConvert.ToRecipe(_validRecipeDto, _validUser);
         _acces.Setup(x => x.Add(It.IsAny<Recipe>()))
             .Returns(convertedRecipe.RecipeId);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
         //Act
         var result = _sut.Post(_validRecipeDto);
         //Assert
@@ -211,7 +216,7 @@ public class RecipeControllerTest
     }
 
     [Fact]
-    public void Delete_WhenDeleteWasUnSuccessFull_ReturnsStatusCode200()
+    public void Delete_WhenDeleteWasUnSuccessFull_ReturnsStatusCode500()
     {
         //Arrange
         _acces.Setup(x => x.Delete(_validRecipe.RecipeId))

@@ -20,11 +20,13 @@ namespace RecipeRestService.Controllers
         private readonly IUserData _uControl;
         private readonly IConfiguration _configuration;
         private readonly IRecipeData _rControl;
+        private readonly ISecurityHelper _securityHelper;
 
-        public RecipesController(IRecipeData recipeDataControl, IUserData userData)
+        public RecipesController(IRecipeData recipeDataControl, IUserData userDataControl, ISecurityHelper securityHelper)
         {
             _rControl = recipeDataControl;
-            _uControl = userData;
+            _uControl = userDataControl;
+            _securityHelper = securityHelper;
         }
 
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
@@ -82,8 +84,8 @@ namespace RecipeRestService.Controllers
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
-        {
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, userId)){
+        {   string token = Request.Headers["Authorization"];
+            if(_securityHelper.IsJWTEqualRequestId(token, userId)){
                 return new StatusCodeResult(403);
             }
 
@@ -149,7 +151,8 @@ namespace RecipeRestService.Controllers
 
             Recipe recipe = _rControl.Get(recipeId);
 
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, recipe.Author.ToString())){
+            string token = Request.Headers["Authorization"];
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, recipe.Author.ToString())){
                 return new StatusCodeResult(403);
             }
 

@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using RecipesData.Model;
 
 namespace RecipeRestService.Security {
-    public class SecurityHelper {
+    public class SecurityHelper: ISecurityHelper {
 
         private readonly IConfiguration _configuration;
 
@@ -31,8 +31,7 @@ namespace RecipeRestService.Security {
             return Guid.Parse(claimValue);
         }
 
-        public bool IsJWTEqualRequestId(HttpRequest request, string userid){
-            var token = request.Headers["Authorization"];
+        public bool IsJWTEqualRequestId(string token, string userid){
             Guid tokenId = new SecurityHelper(_configuration).GetUserFromJWT(token.ToString());
             
             if(tokenId.ToString() != userid){

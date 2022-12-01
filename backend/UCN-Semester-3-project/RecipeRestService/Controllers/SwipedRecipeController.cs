@@ -52,8 +52,8 @@ namespace RecipeRestService.Controllers
         public ActionResult<List<SwipedRecipeDto>> GetPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
-
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+            string token = Request.Headers["Authorization"];
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, id)){
                 return new StatusCodeResult(403);
             }
 
@@ -91,8 +91,8 @@ namespace RecipeRestService.Controllers
         public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
-
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+            string token = Request.Headers["Authorization"];
+            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, id)){
                 return new StatusCodeResult(403);
             }
 
