@@ -11,3 +11,7 @@ body {
   height: 100%;
   background-color: #faf9f9;
 }
+
+* {
+  text-decoration: none;
+}

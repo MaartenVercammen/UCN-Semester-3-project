@@ -12,3 +12,6 @@ obj/
 dist/
 node_modules/
 .env
+frontend/.env.production
+.gitignore
+frontend/.env.development
