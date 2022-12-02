@@ -59,6 +59,20 @@ namespace RecipeRestService.Businesslogic
             return bambooSessions;
         }
 
+        public List<(string, string)>? GetSeatsBySessionId(Guid sessionId)
+        {
+            List<(string, string)>? seats;
+            try{
+                seats = _BambooSessionAccess.GetSeatsBySessionId(sessionId);
+            }catch(Exception ex){
+                System.Console.WriteLine(ex.StackTrace);
+                System.Console.WriteLine(ex.Message);
+                seats = null;
+            }
+
+            return seats;
+        }
+
         public bool Join(Guid sessionId, Guid userId, Guid seat)
         {
             bool returnValue;

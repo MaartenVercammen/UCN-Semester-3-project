@@ -171,6 +171,28 @@ namespace RecipesData.Database {
             return IsDone;
         }
 
+        public List<(string, string)> GetSeatsBySessionId(Guid sessionId)
+        {
+            List<(string, string)> seats = new List<(string, string)>();
+            string queryString = "SELECT * from bambooSessionUser WHERE sessionId = @sessionId";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(queryString, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("sessionId", sessionId);
+                // Execute read
+                SqlDataReader reader = cmd.ExecuteReader();
+                // Collect data
+                while(reader.Read()){
+                    (string, string) seat = (sessionId.ToString(), reader.GetString(reader.GetOrdinal("seat")));
+                    seats.Add(seat);
+                }
+
+                con.Close();
+            }
+            return seats;
+        }
+
         private BambooSession BuildBambooObject(SqlDataReader reader){
             BambooSession bambooSession = new BambooSession();
             bambooSession.SessionId = Guid.Parse(reader.GetString(reader.GetOrdinal("sessionId")));
@@ -180,6 +202,5 @@ namespace RecipesData.Database {
             bambooSession.SlotsNumber = reader.GetInt32(reader.GetOrdinal("slotsNumber"));
             return bambooSession;
         }
-
     }
 }
