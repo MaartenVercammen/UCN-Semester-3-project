@@ -1,9 +1,9 @@
 import React from 'react'
 
-const getBamboos: React.FC = ()=> {
+const GetBamboos: React.FC = ()=> {
   return (
     <div>getBamboo</div>
   )
 }
 
-export default getBamboos
+export default GetBamboos

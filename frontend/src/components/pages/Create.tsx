@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import style from './Home.module.css';
+import style from './Create.module.css';
 const Header = lazy(() => import('./Header'));
 const Navbar = lazy(() => import('./Navbar'));
 const CreateRecipe = lazy(() => import('../recipe/CreateRecipe'));
@@ -10,7 +10,8 @@ const Explore: React.FC = () => {
       <div className={style.homePage}>
         <Header />
         <div className={style.homeContent}>
-          <CreateRecipe />
+          <h2 className={style.homeContentChild}>create recipe</h2>
+          <h2 className={style.homeContentChild}>create bamboo session</h2>
         </div>
         <Navbar />
       </div>

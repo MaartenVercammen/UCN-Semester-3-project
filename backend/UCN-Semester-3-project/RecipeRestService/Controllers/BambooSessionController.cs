@@ -72,6 +72,28 @@ namespace BambooSessionController.Controllers
             return foundReturn;
         }
 
+        [HttpPost]
+         [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
+         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
+         {
+             ActionResult foundReturn;
+             Guid insertedGuid = Guid.Empty;
+
+             if (inBamboo != null)
+             {
+                 insertedGuid = _bControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo));
+             }
+             if (insertedGuid != Guid.Empty)
+             {
+                 foundReturn = Ok(insertedGuid);
+             }
+             else
+             {
+                 foundReturn = new StatusCodeResult(500);
+             }
+             return foundReturn;
+         }
+
         
 
 
