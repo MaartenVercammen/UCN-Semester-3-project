@@ -155,11 +155,14 @@ namespace RecipesData.Database {
             bool IsDone;
             string queryString = "UPDATE TABLE bambooSessionUser set userId = @userId where sessionId = @sessionId and userId = NULL and seat = @seat";
             using (SqlConnection con = new SqlConnection(_connectionString))
-            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            using (SqlCommand cmd = new SqlCommand(queryString, con))
             {
                 con.Open();
+                cmd.Parameters.AddWithValue("sessionId", sessionId);
+                cmd.Parameters.AddWithValue("userId", userId);
+                cmd.Parameters.AddWithValue("seat", seat);
                 // Execute read
-                int rows = readCommand.ExecuteNonQuery();
+                int rows = cmd.ExecuteNonQuery();
                 // Collect data
                 IsDone = rows > 0;
 
