@@ -94,7 +94,21 @@ namespace BambooSessionController.Controllers
              return foundReturn;
          }
 
-        
+        [HttpPost, Route("{session}/{seat}")]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
+        public ActionResult<bool> JoinBambooSession(string session, string seat){
+            ActionResult foundReturn;
+            Guid sessionId = Guid.Parse(session);
+            Guid seatId = Guid.Parse(seat);
+
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+
+            bool IsDone = _bControl.Join(sessionId, userId, seatId);
+
+            foundReturn = Ok(IsDone);
+
+            return foundReturn;
+        }
 
 
         

@@ -117,12 +117,12 @@ namespace RecipeDataTest.BusinessLogic{
         public void join_WhenValidId_ReturnsBamboosession()
         {
             //Arrange
-            _acces.Setup(x => x.JoinBambooSession(_id, _userId))
+            _acces.Setup(x => x.JoinBambooSession(_id, _userId, _id))
             .Returns(true);
             
             //Act
 
-            var response = _sut.Join(_id, _userId);
+            var response = _sut.Join(_id, _userId, _id);
           
             //Assert
             Assert.True(response);
@@ -133,12 +133,12 @@ namespace RecipeDataTest.BusinessLogic{
         public void join_WhenInValidId_ReturnsBamboosession()
         {
             //Arrange
-            _acces.Setup(x => x.JoinBambooSession(_id, _userId))
+            _acces.Setup(x => x.JoinBambooSession(_id, _userId, _id))
             .Returns(false);
             
             //Act
 
-            var response = _sut.Join(_validBambosession.SessionId, _userId);
+            var response = _sut.Join(_validBambosession.SessionId, _userId, _id);
           
             //Assert
             Assert.NotNull(response);
@@ -150,15 +150,15 @@ namespace RecipeDataTest.BusinessLogic{
         public void join_WhenThrowError_ReturnsNull()
         {
             //Arrange
-            _acces.Setup(x => x.JoinBambooSession(_validBambosession.SessionId, _userId))
+            _acces.Setup(x => x.JoinBambooSession(_validBambosession.SessionId, _userId, _id))
             .Throws(new Exception());
             
             //Act
 
-            var response = _sut.Join(_validBambosession.SessionId, _userId);
+            var response = _sut.Join(_validBambosession.SessionId, _userId, _id);
           
             //Assert
-            Assert.Null(response);
+            Assert.False(response);
 
         }
     }

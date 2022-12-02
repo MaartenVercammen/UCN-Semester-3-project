@@ -153,7 +153,7 @@ namespace RecipesData.Database {
         public bool JoinBambooSession(Guid sessionId, Guid userId, Guid seat)
         {
             bool IsDone;
-            string queryString = "UPDATE TABLE bambooSessionUser set userId = @userId where sessionId = @sessionId and userId = NULL and seat = @seat";
+            string queryString = "UPDATE [bambooSessionUser] set userId = @userId where sessionId = @sessionId and userId is NULL and seat = @seat";
             using (SqlConnection con = new SqlConnection(_connectionString))
             using (SqlCommand cmd = new SqlCommand(queryString, con))
             {
