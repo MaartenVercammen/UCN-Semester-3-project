@@ -131,14 +131,5 @@ namespace RecipesData.Database {
             return bambooSession;
         }
 
-        private BambooSession BuildBambooObject(SqlDataReader reader){
-            BambooSession bambooSession = new BambooSession();
-            bambooSession.SessionId = Guid.Parse(reader.GetString(reader.GetOrdinal("sessionId")));
-            bambooSession.Address = reader.GetString(reader.GetOrdinal("address"));
-            bambooSession.DateTime = reader.GetDateTime(reader.GetOrdinal("dateTime"));
-            bambooSession.Description = reader.GetString(reader.GetOrdinal("description"));
-            bambooSession.SlotsNumber = reader.GetInt32(reader.GetOrdinal("slotsNumber"));
-            return bambooSession;
-        }
     }
 }
