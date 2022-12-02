@@ -9,7 +9,8 @@ namespace RecipesData.Model
     public class BambooSession
     {
         public Guid SessionId {get;set;}
-        public User Host {get;set;}
+
+        public User Host {get; set;}
         public string Address {get;set;}
         public Recipe Recipe {get;set;}
         public string Description {get;set;}
@@ -43,6 +44,7 @@ namespace RecipesData.Model
 
         public BambooSession()
         {
+            this.Attendees = new List<User>();
         }
         
     }

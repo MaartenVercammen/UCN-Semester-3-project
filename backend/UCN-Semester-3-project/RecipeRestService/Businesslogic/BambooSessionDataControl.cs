@@ -11,38 +11,43 @@ namespace RecipeRestService.Businesslogic
             _BambooSessionAccess = access;
         }
 
-        public Guid Add(BambooSession bambooSession)
+        Guid IBambooSessionData.Add(BambooSessionDto bambooSession)
         {
-            Guid guid;
-            try
-            {
-                guid = _BambooSessionAccess.CreateBambooSession(bambooSession);
+            throw new NotImplementedException();
+        }
+
+        bool IBambooSessionData.Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public BambooSession? Get(Guid id)
+        {
+            BambooSession bambooSession;
+            try{
+                bambooSession =_BambooSessionAccess.GetBambooSession(id);
+            }catch(Exception){
+                bambooSession = null;
             }
-            catch (Exception ex)
-            {
-                guid = Guid.Empty;
+
+            return bambooSession;
+        }
+
+        public List<BambooSession>? Get()
+        {
+            List<BambooSession> bambooSessions;
+            try{
+                bambooSessions =_BambooSessionAccess.GetBambooSessions();
+            }catch(Exception ex){
                 System.Console.WriteLine(ex.Message);
                 System.Console.WriteLine(ex.StackTrace);
+                bambooSessions = null;
             }
-            return guid;
+
+            return bambooSessions;
         }
 
-        public bool Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public BambooSessionDto Get(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<BambooSessionDto> Get()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Join(Guid sessionId, Guid userId)
+        bool IBambooSessionData.Join(Guid sessionId, Guid userId)
         {
             throw new NotImplementedException();
         }

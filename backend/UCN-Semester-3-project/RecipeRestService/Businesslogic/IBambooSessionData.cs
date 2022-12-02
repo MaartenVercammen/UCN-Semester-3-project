@@ -5,10 +5,10 @@ namespace RecipeRestService.Businesslogic{
 
     public interface IBambooSessionData 
     {
-        public BambooSessionDto Get(Guid id);
-        public List<BambooSessionDto> Get();
-        public Guid Add(BambooSession bambooSession);
-        public bool Delete(Guid id);
-        public bool Join(Guid sessionId, Guid userId);
+        BambooSession? Get(Guid id);
+        List<BambooSession>? Get();
+        Guid Add(BambooSessionDto bambooSession);
+        bool Delete(Guid id);
+        bool Join(Guid sessionId, Guid userId);
     }
 }
