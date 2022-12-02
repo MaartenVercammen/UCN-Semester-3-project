@@ -18,21 +18,22 @@ namespace RecipesData.Model
         public int SlotsNumber {get;set;}
         public List<User> Attendees {get;set;}
 
-        public BambooSession(Guid sessionId, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber, User host)
+        public BambooSession(Guid sessionId, User host, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = sessionId;
+            this.Host = host;
             this.Address = address;
             this.Recipe = recipe;
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
             this.Attendees = new List<User>();
-            this.Host = host;
         }
 
-        public BambooSession(string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
+        public BambooSession(string address, User host, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = Guid.NewGuid();
+            this.Host = host;
             this.Address = address;
             this.Recipe = recipe;
             this.Description = description;

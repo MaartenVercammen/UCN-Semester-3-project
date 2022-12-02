@@ -34,9 +34,9 @@ namespace RecipeRestService.ModelConversion
             return bambooSessionDTOs;
         }
         
-        public static BambooSession? ToBambosession(BambooSessionDto inDto)
+        public static BambooSession? ToBambooSession(BambooSessionDto inDto)
         {
-            return new BambooSession(inDto.SessionId, inDto.Address, inDto.Recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber, inDto.Host);
+            return new BambooSession(inDto.SessionId, inDto.Host, inDto.Address, inDto.Recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
         }
     }
 }
