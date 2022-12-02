@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipesData.Model
 {
-    public class BambooSession
+    public class BambooSessionDto
     {
         public Guid SessionId {get;set;}
         public string Address {get;set;}
@@ -16,7 +16,7 @@ namespace RecipesData.Model
         public int SlotsNumber {get;set;}
         public List<User> Attendees {get;set;}
 
-        public BambooSession(Guid sessionId, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
+        public BambooSessionDto(Guid sessionId, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = sessionId;
             this.Address = address;
@@ -27,7 +27,7 @@ namespace RecipesData.Model
             this.Attendees = new List<User>();
         }
 
-        public BambooSession(string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
+        public BambooSessionDto(string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = Guid.NewGuid();
             this.Address = address;
@@ -38,7 +38,7 @@ namespace RecipesData.Model
             this.Attendees = new List<User>();
         }
 
-        public BambooSession()
+        public BambooSessionDto()
         {
         }
         
