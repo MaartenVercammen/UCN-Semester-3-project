@@ -11,3 +11,11 @@ body {
   height: 100%;
   background-color: #faf9f9;
 }
+
+li {
+  list-style:  none;
+}
+
+li a {
+  color: #F0F0F0;
+}
