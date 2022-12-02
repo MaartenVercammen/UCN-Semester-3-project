@@ -80,11 +80,18 @@ namespace RecipesData.Database {
              BambooSession session = new BambooSession();
              string queryCreate = "INSERT INTO BambooSession (sessionId, hostId, [address], recipeId, [description], [dateTime], slotsNumber) VALUES (@sessionId, @hostId, @address, @recipeId, @description, @dateTime, @slotsNumber)";
 
+             string queryCreateSeats = "INSERT INTO bambooSessionUser (sessionId, seat) values (@sessionId, @seat)"; 
+
              using (SqlConnection connection = new SqlConnection(_connectionString))
              {
                  connection.Open();
-                 using (SqlCommand command = connection.CreateCommand())
-                 {
+                 SqlCommand command = connection.CreateCommand();
+
+                var transaction = connection.BeginTransaction();
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                 try{
                      command.CommandText = queryCreate;
                      command.Parameters.AddWithValue("@sessionId", bambooSession.SessionId.ToString());
                      command.Parameters.AddWithValue("@hostId", bambooSession.Host.UserId.ToString());
@@ -96,6 +103,24 @@ namespace RecipesData.Database {
 
                      command.ExecuteNonQuery();
                      session.SessionId = bambooSession.SessionId;
+
+                     command.CommandText = queryCreateSeats;
+                     System.Console.WriteLine(session.SlotsNumber);
+                     for (int i = 0; i < bambooSession.SlotsNumber; i++)
+                     {
+                        command.Parameters.Clear();
+                        Guid seat = Guid.NewGuid();
+                        System.Console.WriteLine("First id " + seat);
+                        command.Parameters.AddWithValue("@sessionId", bambooSession.SessionId.ToString());
+                        command.Parameters.AddWithValue("@seat", seat);
+                        int rows = command.ExecuteNonQuery();
+                        System.Console.WriteLine("Rows edited " + rows);
+                     }
+                     command.Transaction.Commit();
+                     
+                 }
+                 catch(Exception){
+                    command.Transaction.Rollback();
                  }
                  connection.Close();
              }
@@ -125,10 +150,10 @@ namespace RecipesData.Database {
             }
         }
 
-        public bool JoinBambooSession(Guid sessionId, Guid userId)
+        public bool JoinBambooSession(Guid sessionId, Guid userId, Guid seat)
         {
             bool IsDone;
-            string queryString = "INSERT INTO [dbo].[bambooSessionUser]([sessionId],[userId])VALUES(@sessionId,@userId)";
+            string queryString = "UPDATE TABLE bambooSessionUser set userId = @userId where sessionId = @sessionId and userId = NULL and seat = @seat";
             using (SqlConnection con = new SqlConnection(_connectionString))
             using (SqlCommand readCommand = new SqlCommand(queryString, con))
             {

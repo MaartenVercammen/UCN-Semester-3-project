@@ -12,6 +12,6 @@ namespace RecipesData.Database
 
         bool DeleteBambooSession(Guid id);
 
-        bool JoinBambooSession(Guid sessionId, Guid userId);
+        bool JoinBambooSession(Guid sessionId, Guid userId, Guid seat);
     }
 }
