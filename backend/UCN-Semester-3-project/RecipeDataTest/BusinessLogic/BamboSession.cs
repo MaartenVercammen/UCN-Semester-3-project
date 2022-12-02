@@ -19,13 +19,15 @@ namespace RecipeDataTest.BusinessLogic{
 
         private readonly Guid _id;
 
+        private readonly Guid _userId = Guid.Parse("c513d6c8-b67f-4db5-a44f-1d117859ac9d");
+
         private readonly List<BambooSession> _ListofBambooSessions;
 
         public BambosessionTest(){
             _sut = new BambooSessiondataControl(_acces.Object);
             _id = Guid.NewGuid();
 
-            var validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
+            var validUser = new User(_userId,  "mail", "mark", "mark", "pass",
                 "street", Role.USER);
             var validIngredient = new Ingredient("banana", 5, "kg");
             var validInstruction = new Instruction(1, "peel the banana");
@@ -110,6 +112,55 @@ namespace RecipeDataTest.BusinessLogic{
             //Assert
             Assert.Null(response);
          
+        }
+
+        [Fact]
+        public void join_WhenValidId_ReturnsBamboosession()
+        {
+            //Arrange
+            _acces.Setup(x => x.JoinBambooSession(_id, _userId))
+            .Returns(true);
+            
+            //Act
+
+            var response = _sut.Join(_id, _userId);
+          
+            //Assert
+            Assert.True(response);
+
+        }
+
+        [Fact]
+        public void join_WhenInValidId_ReturnsBamboosession()
+        {
+            //Arrange
+            _acces.Setup(x => x.JoinBambooSession(_id, _userId))
+            .Returns(false);
+            
+            //Act
+
+            var response = _sut.Join(_validBambosession.SessionId, _userId);
+          
+            //Assert
+            Assert.NotNull(response);
+            Assert.False(response);
+
+        }
+
+        [Fact]
+        public void join_WhenThrowError_ReturnsNull()
+        {
+            //Arrange
+            _acces.Setup(x => x.JoinBambooSession(_validBambosession.SessionId, _userId))
+            .Throws(new Exception());
+            
+            //Act
+
+            var response = _sut.Join(_validBambosession.SessionId, _userId);
+          
+            //Assert
+            Assert.Null(response);
+
         }
     }
 }

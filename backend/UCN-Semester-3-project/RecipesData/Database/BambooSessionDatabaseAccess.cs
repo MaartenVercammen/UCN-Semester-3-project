@@ -105,7 +105,20 @@ namespace RecipesData.Database {
 
         public bool JoinBambooSession(Guid sessionId, Guid userId)
         {
-            return false;
+            bool IsDone;
+            string queryString = "INSERT INTO [dbo].[bambooSessionUser]([sessionId],[userId])VALUES(@sessionId,@userId)";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand readCommand = new SqlCommand(queryString, con))
+            {
+                con.Open();
+                // Execute read
+                int rows = readCommand.ExecuteNonQuery();
+                // Collect data
+                IsDone = rows > 0;
+
+                con.Close();
+            }
+            return IsDone;
         }
 
         private BambooSession BuildBambooObject(SqlDataReader reader){

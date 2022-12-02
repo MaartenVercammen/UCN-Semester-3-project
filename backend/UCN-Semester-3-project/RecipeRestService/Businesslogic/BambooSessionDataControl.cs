@@ -48,9 +48,16 @@ namespace RecipeRestService.Businesslogic
             return bambooSessions;
         }
 
-        bool IBambooSessionData.Join(Guid sessionId, Guid userId)
+        public bool Join(Guid sessionId, Guid userId)
         {
-            throw new NotImplementedException();
+            bool returnValue;
+            try{
+                returnValue = _BambooSessionAccess.JoinBambooSession(sessionId, userId);
+            }catch(Exception){
+                returnValue = false;
+            }
+
+            return returnValue;
         }
     }
 
