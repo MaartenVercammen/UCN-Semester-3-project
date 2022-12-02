@@ -297,12 +297,15 @@ namespace RecipesData.Database
                     command.Parameters.AddWithValue("time", recipe.Time);
                     command.Parameters.AddWithValue("authorId", recipe.Author.UserId);
                     command.Parameters.AddWithValue("portionNum", recipe.PortionNum);
+                    System.Console.WriteLine("update recipe");
                     command.ExecuteNonQuery();
                     
                     //ingredient
                     // delete existing
+                    command.Parameters.Clear();
                     command.CommandText = queryDeleteIngredients;
                     command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                    System.Console.WriteLine("delete ingredients");
                     command.ExecuteNonQuery();
 
                     // insert new
@@ -316,13 +319,18 @@ namespace RecipesData.Database
                         command.Parameters.AddWithValue("amount", ingredient.amount);
                         command.Parameters.AddWithValue("unit", ingredient.unit);
                         command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                        System.Console.WriteLine("insert ingredient");
+                        System.Console.WriteLine("ingredient " + recipe.RecipeId.ToString());
                         command.ExecuteNonQuery();
                     }
                     
                     //insturction
                     // delete existing
+                    command.Parameters.Clear();
                     command.CommandText = queryDeleteInstructions;
                     command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                    System.Console.WriteLine("instruction " + recipe.RecipeId.ToString());
+                    System.Console.WriteLine("delete instructions");
                     command.ExecuteNonQuery();
 
                     // insert new
@@ -335,6 +343,7 @@ namespace RecipesData.Database
                         command.Parameters.AddWithValue("step", instruction.Step);
                         command.Parameters.AddWithValue("description", instruction.Description);
                         command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                        System.Console.WriteLine("insert instruction");
                         command.ExecuteNonQuery();
                     }
 
@@ -342,8 +351,9 @@ namespace RecipesData.Database
                     update = true;
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    System.Console.WriteLine(ex.Message);
                     transaction.Rollback();
                     update = false;
                 }
