@@ -270,20 +270,27 @@ namespace RecipesData.Database
         /// Updates a recipe
         /// </summary>
         /// <param name="recipe">The recipe that is updated</param>
-        /// <returns>True if the recipe was successfully updated</returns>
-
-        
+        /// <returns>True if the recipe was successfully updated</returns>        
         public bool UpdateRecipe(Recipe recipe)
         {
             bool update = false;
-            string queryRecipe = "update  [recipe] set name@name, description@description, pictureURL@pictureURL, time@time, portionNum@portionNum, authorId@authorId where recipeId = @idrecipeId";
+            string queryRecipe = "update  [recipe] set name = @name, description = @description, pictureUrl = @pictureURL, time = @time, portionNum = @portionNum, authorId = @authorId where recipeId = @id";
+            string queryDeleteIngredients = "delete from ingredient where recipeId = @recipeId";
+            string queryIngredient = "insert into ingredient(name, amount, unit, recipeId) values (@name, @amount, @unit, @recipeId)";
+            string queryDeleteInstructions = "delete from instruction where recipeId = @recipeId";
+            string querystruction = "insert into instruction(step, description, recipeId)  values (@step, @description, @recipeId)";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                using (SqlCommand command = connection.CreateCommand())
+                SqlCommand command = connection.CreateCommand();
+                var transaction = connection.BeginTransaction();
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
                 {
-                
                     command.CommandText = queryRecipe;
                     command.Parameters.AddWithValue("id", recipe.RecipeId.ToString());
                     command.Parameters.AddWithValue("name", recipe.Name);
@@ -292,13 +299,59 @@ namespace RecipesData.Database
                     command.Parameters.AddWithValue("time", recipe.Time);
                     command.Parameters.AddWithValue("authorId", recipe.Author.UserId);
                     command.Parameters.AddWithValue("portionNum", recipe.PortionNum);
-                    //insturction
-                    //ingredient
-
                     command.ExecuteNonQuery();
+                    
+                    //ingredient
+                    // delete existing
+                    command.CommandText = queryDeleteIngredients;
+                    command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                    command.ExecuteNonQuery();
+
+                    // insert new
+                    for (int i = 0; i < recipe.Ingredients.Count; i++)
+                    {
+                        command.Parameters.Clear();
+                        command.CommandText = queryIngredient;
+                        Ingredient ingredient = recipe.Ingredients[i];
+                        command.CommandText = queryIngredient;
+                        command.Parameters.AddWithValue("name", ingredient.name);
+                        command.Parameters.AddWithValue("amount", ingredient.amount);
+                        command.Parameters.AddWithValue("unit", ingredient.unit);
+                        command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                        command.ExecuteNonQuery();
+                    }
+                    
+                    //insturction
+                    // delete existing
+                    command.CommandText = queryDeleteInstructions;
+                    command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                    command.ExecuteNonQuery();
+
+                    // insert new
+                    for (int i = 0; i < recipe.Instructions.Count; i++)
+                    {
+                        command.Parameters.Clear();
+                        command.CommandText = querystruction;
+                        Instruction instruction = recipe.Instructions[i];
+                        command.CommandText = querystruction;
+                        command.Parameters.AddWithValue("step", instruction.Step);
+                        command.Parameters.AddWithValue("description", instruction.Description);
+                        command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                        command.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
                     update = true;
+
                 }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    update = false;
+                }
+
                 connection.Close();
+
             }
             return update;
         }

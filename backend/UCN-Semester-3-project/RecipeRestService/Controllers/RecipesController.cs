@@ -197,8 +197,11 @@ namespace RecipeRestService.Controllers
             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
 
             //check if user or verified user are theimselves
-            if(role == Role.ADMIN || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, inRecipe.RecipeId.ToString())){
+            if (role == Role.VERIFIEDUSER || role == Role.USER)
+            {
+                Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+                if (userId != inRecipe.Author)
+                {
                     return new StatusCodeResult(403);
                 }
             }

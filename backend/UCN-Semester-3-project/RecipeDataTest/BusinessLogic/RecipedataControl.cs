@@ -214,5 +214,33 @@ namespace RecipeDataTest.BusinessLogic
             //Assert
             Assert.Null(recipe);
         }
+
+        public void UpdateRecipe_WhenGivenRecipeId_ReturnsTrue()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            Recipe inrecipe = _validRecipe;
+            inrecipe.RecipeId = id;
+            _acces.Setup(x => x.UpdateRecipe(inrecipe))
+                .Returns(true);
+            //Act
+            bool isDone = _sut.Put(inrecipe);
+            //Assert
+            Assert.True(isDone);
+        }
+
+        public void UpdateRecipe_WhenGivenRecipeId_ReturnsFalse()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            Recipe inrecipe = _validRecipe;
+            inrecipe.RecipeId = id;
+            _acces.Setup(x => x.UpdateRecipe(inrecipe))
+                .Returns(false);
+            //Act
+            bool isDone = _sut.Put(inrecipe);
+            //Assert
+            Assert.False(isDone);
+        }
     }
 }
