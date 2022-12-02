@@ -4,20 +4,31 @@ using RecipesData.Model;
 
 namespace RecipeRestService.Businesslogic
 {
-    public class BambooSessiondataControl : IBambooSessionData
+    public class BambooSessionDataControl : IBambooSessionData
     {
         IBambooSessionAccess _BambooSessionAccess;
-        public BambooSessiondataControl(IBambooSessionAccess access)
+        public BambooSessionDataControl(IBambooSessionAccess access)
         {
             _BambooSessionAccess = access;
         }
 
-        Guid IBambooSessionData.Add(BambooSessionDto bambooSession)
+        public Guid Add(BambooSession bambooSession)
         {
-            throw new NotImplementedException();
-        }
+             Guid guid;
+             try
+             {
+                 guid = _BambooSessionAccess.CreateBambooSession(bambooSession);
+             }
+             catch (Exception ex)
+             {
+                 guid = Guid.Empty;
+                 System.Console.WriteLine(ex.Message);
+                 System.Console.WriteLine(ex.StackTrace);
+             }
+             return guid;
+         }
 
-        bool IBambooSessionData.Delete(Guid id)
+        public bool Delete(Guid id)
         {
             throw new NotImplementedException();
         }

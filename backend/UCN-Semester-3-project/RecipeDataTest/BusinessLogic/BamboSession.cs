@@ -8,8 +8,7 @@ namespace RecipeDataTest.BusinessLogic{
     public class BambosessionTest{
 
         private readonly ITestOutputHelper _extraOutput;
-
-        private readonly BambooSessiondataControl _sut;
+        private readonly BambooSessionDataControl _sut;
 
         private readonly Mock<IBambooSessionAccess> _acces = new Mock<IBambooSessionAccess>();
 
@@ -24,7 +23,7 @@ namespace RecipeDataTest.BusinessLogic{
         private readonly List<BambooSession> _ListofBambooSessions;
 
         public BambosessionTest(){
-            _sut = new BambooSessiondataControl(_acces.Object);
+            _sut = new BambooSessionDataControl(_acces.Object);
             _id = Guid.NewGuid();
 
             var validUser = new User(_userId,  "mail", "mark", "mark", "pass",
@@ -36,7 +35,7 @@ namespace RecipeDataTest.BusinessLogic{
             _validRecipe.Ingredients.Add(validIngredient);
             _validRecipe.Instructions.Add(validInstruction);
 
-            _validBambosession = new BambooSession(_id, "My home", _validRecipe, "Come to my lovely place and have a nice candel lit dinner", DateTime.Now, 2, validUser);
+            _validBambosession = new BambooSession(_id, validUser, "My home", _validRecipe, "Come to my lovely place and have a nice candel lit dinner", DateTime.Now, 2);
 
                 _ListofBambooSessions     = new List<BambooSession>{
                 _validBambosession,
