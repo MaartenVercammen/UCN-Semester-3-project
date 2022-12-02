@@ -1,3 +1,4 @@
+using RecipeRestService.ModelConversion;
 using RecipesData.Database;
 using RecipesData.Model;
 
@@ -21,14 +22,30 @@ namespace RecipeRestService.Businesslogic
             throw new NotImplementedException();
         }
 
-        BambooSessionDto IBambooSessionData.Get(Guid id)
+        public BambooSession? Get(Guid id)
         {
-            throw new NotImplementedException();
+            BambooSession bambooSession;
+            try{
+                bambooSession =_BambooSessionAccess.GetBambooSession(id);
+            }catch(Exception){
+                bambooSession = null;
+            }
+
+            return bambooSession;
         }
 
-        List<BambooSessionDto> IBambooSessionData.Get()
+        public List<BambooSession>? Get()
         {
-            throw new NotImplementedException();
+            List<BambooSession> bambooSessions;
+            try{
+                bambooSessions =_BambooSessionAccess.GetBambooSessions();
+            }catch(Exception ex){
+                System.Console.WriteLine(ex.Message);
+                System.Console.WriteLine(ex.StackTrace);
+                bambooSessions = null;
+            }
+
+            return bambooSessions;
         }
 
         bool IBambooSessionData.Join(Guid sessionId, Guid userId)
