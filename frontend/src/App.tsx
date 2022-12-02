@@ -1,21 +1,22 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Index from './components';
-import Create from './components/pages/Create';
-import Explore from './components/pages/Explore';
-import Home from './components/pages/Home';
-import Liked from './components/pages/Liked';
-import Login from './components/pages/Login';
-import Recipe from './components/pages/Recipe';
-import SignUp from './components/pages/SignUp';
-import UserTab from './components/pages/UserTab';
-import GetRecipes from './components/recipe/GetRecipes';
 import './css/index.css';
-import ProtectedRoutes from './helper/protectedRoutes';
 import { Role } from './types';
-import Start from './components/pages/Start';
-import EditUser from './components/user/EditUser';
-import UpdateRecipe from './components/recipe/UpdateRecipe';
+import React, {lazy} from 'react';
+
+const Index = lazy(() => import('./components'));
+const Create = lazy(() => import ('./components/pages/Create'));
+const Explore = lazy(() => import ('./components/pages/Explore'));
+const Home = lazy(() => import ('./components/pages/Home'));
+const Liked = lazy(() => import ('./components/pages/Liked'));
+const Login = lazy(() => import ('./components/pages/Login'));
+const Recipe = lazy(() => import ('./components/pages/Recipe'));
+const SignUp = lazy(() => import ('./components/pages/SignUp'));
+const UserTab = lazy(() => import ('./components/pages/UserTab'));
+const GetRecipes = lazy(() => import ('./components/recipe/GetRecipes'));
+const ProtectedRoutes = lazy(() => import('./helper/protectedRoutes'));
+const Start = lazy(() => import('./components/pages/Start'));
+const EditUser = lazy(() => import ('./components/user/EditUser'));
+const UpdateRecipe = lazy(() => import('./components/recipe/UpdateRecipe'));
 
 const App: React.FC = () => {
   return (

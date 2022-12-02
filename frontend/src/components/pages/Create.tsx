@@ -1,8 +1,8 @@
-import React from 'react';
-import Header from './Header';
+import React, { lazy } from 'react';
 import style from './Home.module.css';
-import Navbar from './Navbar';
-import CreateRecipe from '../recipe/CreateRecipe';
+const Header = lazy(() => import('./Header'));
+const Navbar = lazy(() => import('./Navbar'));
+const CreateRecipe = lazy(() => import('../recipe/CreateRecipe'));
 
 const Explore: React.FC = () => {
   return (

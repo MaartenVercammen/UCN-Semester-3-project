@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {lazy} from 'react';
 import Swipe from '../swipe/swipe';
-import Header from './Header';
 import style from './Home.module.css';
-import Navbar from './Navbar';
-import GetRecipe from '../recipe/GetRecipe';
+const Header = lazy(() => import('./Header'));
+const Navbar = lazy(() => import('./Navbar'));
+const GetRecipe = lazy(() => import('../recipe/GetRecipe'));
 
 const Recipe: React.FC = () => {
   return (

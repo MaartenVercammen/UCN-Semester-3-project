@@ -1,0 +1,18 @@
+.spinner {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--spinner-color);
+  border-left-color: transparent;
+  animation: loading-animation 1.4s infinite linear;
+}
+
+@keyframes loading-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

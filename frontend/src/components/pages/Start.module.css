@@ -10,7 +10,7 @@
     margin-right: auto;
     color: #444444;
     text-align: center;
-    background:linear-gradient( rgba(68,68,68, 0.7) 100%, rgba(68,68,68, 0.7)100%),url('https://mir-s3-cdn-cf.behance.net/project_modules/fs/be8c50110989141.5ff966f3f1437.jpg');
+    background:linear-gradient( rgba(68,68,68, 0.7) 100%, rgba(68,68,68, 0.7)100%),url('../../assets/loadinglogo.jpg');
     background-size: cover;
 }
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import GetUser from '../user/GetUser';
-import Header from './Header';
+import React, {lazy} from 'react';
 import style from './Home.module.css';
-import Navbar from './Navbar';
+const Header = lazy(() => import('./Header'));
+const Navbar = lazy(() => import('./Navbar'));
+const GetUser = lazy(() => import('../user/GetUser'));
 
 const UserTab: React.FC = () => {
   return (

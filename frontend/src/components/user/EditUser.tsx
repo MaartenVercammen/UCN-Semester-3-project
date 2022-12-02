@@ -1,11 +1,11 @@
 import { faLessThan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useState, lazy } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Role } from '../../types';
 import UserService from '../../service/userService';
-import Header from '../pages/Header';
 import style from './EditUser.module.css';
+const Header = lazy(() => import('../pages/Header'));
 
 const EditUser: React.FC = () => {
   const [firstName, setFirstName] = useState<string>('');
