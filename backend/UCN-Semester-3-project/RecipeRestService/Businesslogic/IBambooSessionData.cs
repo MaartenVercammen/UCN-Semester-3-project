@@ -7,7 +7,7 @@ namespace RecipeRestService.Businesslogic{
     {
         public BambooSessionDto Get(Guid id);
         public List<BambooSessionDto> Get();
-        public Guid Add(BambooSessionDto bambooSession);
+        public Guid Add(BambooSession bambooSession);
         public bool Delete(Guid id);
         public bool Join(Guid sessionId, Guid userId);
     }

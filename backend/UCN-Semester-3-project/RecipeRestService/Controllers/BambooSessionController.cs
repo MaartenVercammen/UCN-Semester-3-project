@@ -12,17 +12,39 @@ namespace BambooSessionController.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class BambooSessionController: ControllerBase
+    public class BambooSessionController : ControllerBase
     {
-        private readonly BambooSessiondataControl _rControl;
+        private readonly BambooSessionDataControl _rControl;
         private readonly IConfiguration _configuration;
 
         public BambooSessionController(IConfiguration inConfiguration)
         {
             _configuration = inConfiguration;
             BambooSessionDatabaseAccess access = new BambooSessionDatabaseAccess(inConfiguration);
-            _rControl = new BambooSessiondataControl(access);
+            _rControl = new BambooSessionDataControl(access);
         }
-        
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Post([FromBody] BambooSessionDto inBamboo)
+        {
+            ActionResult foundReturn;
+            Guid insertedGuid = Guid.Empty;
+
+            if (inBamboo != null)
+            {
+                insertedGuid = _rControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo));
+            }
+            if (insertedGuid != Guid.Empty)
+            {
+                foundReturn = Ok(insertedGuid);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+        }
+
     }
 }

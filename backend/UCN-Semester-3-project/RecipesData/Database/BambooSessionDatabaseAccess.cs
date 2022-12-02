@@ -1,3 +1,4 @@
+using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using RecipesData.Model;
 
@@ -30,7 +31,29 @@ namespace RecipesData.Database {
 
         public Guid CreateBambooSession(BambooSession bambooSession)
         {
-            return Guid.NewGuid();
+            BambooSession session = new BambooSession();
+            string queryCreate = "INSERT INTO BambooSession (sessionId, hostId, [address], recipeId, [description], [dateTime], slotsNumber) VALUES (@sessionId, @hostId, @address, @recipeId, @description, @dateTime, @slotsNumber)";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = connection.CreateCommand())
+                {
+                    command.CommandText = queryCreate;
+                    command.Parameters.AddWithValue("@sessionId", bambooSession.SessionId.ToString());
+                    command.Parameters.AddWithValue("@hostId", bambooSession.Host.UserId.ToString());
+                    command.Parameters.AddWithValue("@address", bambooSession.Address);
+                    command.Parameters.AddWithValue("@recipeId", bambooSession.Recipe.RecipeId.ToString());
+                    command.Parameters.AddWithValue("@description", bambooSession.Description);
+                    command.Parameters.AddWithValue("@dateTime", bambooSession.DateTime);
+                    command.Parameters.AddWithValue("@slotsNumber", bambooSession.SlotsNumber);
+
+                    command.ExecuteNonQuery();
+                    session.SessionId = bambooSession.SessionId;
+                }
+                connection.Close();
+            }
+            return session.SessionId;
         }
 
         //TODO: Implement method

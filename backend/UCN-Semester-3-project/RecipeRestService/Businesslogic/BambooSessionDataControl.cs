@@ -3,35 +3,46 @@ using RecipesData.Model;
 
 namespace RecipeRestService.Businesslogic
 {
-    public class BambooSessiondataControl : IBambooSessionData
+    public class BambooSessionDataControl : IBambooSessionData
     {
         IBambooSessionAccess _BambooSessionAccess;
-        public BambooSessiondataControl(IBambooSessionAccess access)
+        public BambooSessionDataControl(IBambooSessionAccess access)
         {
             _BambooSessionAccess = access;
         }
 
-        Guid IBambooSessionData.Add(BambooSessionDto bambooSession)
+        public Guid Add(BambooSession bambooSession)
+        {
+            Guid guid;
+            try
+            {
+                guid = _BambooSessionAccess.CreateBambooSession(bambooSession);
+            }
+            catch (Exception ex)
+            {
+                guid = Guid.Empty;
+                System.Console.WriteLine(ex.Message);
+                System.Console.WriteLine(ex.StackTrace);
+            }
+            return guid;
+        }
+
+        public bool Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        bool IBambooSessionData.Delete(Guid id)
+        public BambooSessionDto Get(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        BambooSessionDto IBambooSessionData.Get(Guid id)
+        public List<BambooSessionDto> Get()
         {
             throw new NotImplementedException();
         }
 
-        List<BambooSessionDto> IBambooSessionData.Get()
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IBambooSessionData.Join(Guid sessionId, Guid userId)
+        public bool Join(Guid sessionId, Guid userId)
         {
             throw new NotImplementedException();
         }
