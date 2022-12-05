@@ -141,6 +141,20 @@ namespace BambooSessionController.Controllers
             return foundreturn;
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [HttpDelete, Route("{id}")]
+        public ActionResult<bool> Delete(string id){
+            ActionResult result;
+            Guid sessionId = Guid.Parse(id);
+            bool Isdone = _bControl.Delete(sessionId);
+            if(Isdone){
+                result = Ok(Isdone);
+            }else{
+                result = NotFound();
+            }
+
+            return result;
+        }
 
     }
 }
