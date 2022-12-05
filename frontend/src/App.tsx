@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import './css/index.css';
 import { Role } from './types';
 import React, {lazy} from 'react';
+const BambooSession = lazy(() => import('./components/pages/BambooSession'));
 const CreateBambooTab = lazy(() => import('./components/pages/CreateBambooTab'));
 const CreateRecipeTab = lazy(() => import('./components/pages/CreateRecipeTab'));
 const GetBambooSessions = lazy(() => import('./components/bamboo/GetBamboos'));
@@ -42,6 +43,7 @@ const App: React.FC = () => {
       <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/app" />}>
         <Route path="/create" element={<Create />} />
         <Route path="/createRecipe" element={<CreateRecipeTab />} />
+        <Route path="/bambooSessions/:id" element={<BambooSession />} />
         <Route path="/createBamboo" element={<CreateBambooTab />} />
         <Route path="/bambooSessions" element={<ViewBambooSessions />} />
       </Route>

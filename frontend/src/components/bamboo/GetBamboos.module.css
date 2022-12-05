@@ -19,6 +19,7 @@
     border-radius: 20px;
     border-width: .1em;
     color: #2a2a2a;
+    cursor: pointer;
 }
 
 #recipeChild {

@@ -73,10 +73,10 @@ const CreateBamboo: React.FC = () => {
         slotsNumber: slots,
         attendees: []
       };
-      console.log(bamboo);
-      console.log(JSON.stringify(bamboo));
       const res = await BambooService.createBambooSession(bamboo);
-      console.log();
+      if (res.status === 200) {
+        navigate('/bamboosessions');
+      }
     }
   };
 

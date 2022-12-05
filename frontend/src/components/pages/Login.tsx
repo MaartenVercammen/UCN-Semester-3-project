@@ -28,6 +28,10 @@ const Login: React.FC = () => {
     navigate('/start');
   };
 
+  const onFormSubmit = e => {
+    e.preventDefault();
+  };
+
 
   return (
     <>
@@ -36,7 +40,7 @@ const Login: React.FC = () => {
     <div onClick={startPage} id={style.icon}><FontAwesomeIcon icon={faLessThan} /></div>
       <div className={style.loginPage}>
       <h1 className={style.loginTitle}>Log in</h1>
-        <form className={style.loginFormContainer}>
+        <form className={style.loginFormContainer} onSubmit={onFormSubmit}>
           <input
             type="email"
             name="email"
@@ -55,14 +59,12 @@ const Login: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        </form>
-        <button className={style.loginButton} onClick={login}>Log in</button>
+        <button className={style.loginButton} onClick={login} type="submit">Log in</button>
         <p className={style.signUpRedirect}>
             Don't have an account?{' '}
-            <Link to={'/signup'}>
-              <a>Sign Up</a>
-            </Link>
+              <span onClick={() => navigate('/signup')}>Sign Up</span>
           </p>
+        </form>
       </div>
       </div>
     </>

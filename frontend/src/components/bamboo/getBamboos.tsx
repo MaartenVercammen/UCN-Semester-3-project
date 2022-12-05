@@ -16,7 +16,7 @@ const GetBamboos: React.FC = () => {
     const data = response.data;
     setBamboos(data);
     data.forEach(element => {
-      getRecipe(element.recipe);
+    getRecipe(element.recipe);
     });
   };
 
@@ -32,15 +32,14 @@ const GetBamboos: React.FC = () => {
 
   return (
     <>
-    {console.log(bamboos)}  
       <div className={style.pageContent}>
-        <h2 style={{ color: '#DCBEA8' }}>explore</h2>
+        <h2 style={{ color: '#A8ACDC' }}>explore <span style={{ color: '#444444' }}>bamboo sessions</span></h2>
         {bamboos.map((bamboo: BambooSession) => (
           <div
             className={style.recipe}
             key={bamboo.sessionId + bamboo.host}
             id={style.recipeChild}
-            onClick={() => navigate('/bamboosession/' + bamboo.sessionId)}
+            onClick={() => navigate('/bamboosessions/' + bamboo.sessionId)}
           >
             <div className={style.imgWrapper}>
               <img src={recipe?.pictureURL} alt="" />
@@ -48,7 +47,6 @@ const GetBamboos: React.FC = () => {
             <div className={style.recipeContent} id={style.recipeChild}>
               <h2>{recipe?.name}</h2>
               <div className={style.prepTime}>
-                <p>created by: </p>
                 <p>{bamboo.description}</p>
               </div>
             </div>
