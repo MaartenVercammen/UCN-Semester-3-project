@@ -17,12 +17,12 @@ namespace RecipeRestService.Businesslogic
             _access = access;
         }
 
-        public UserDto Login(string email, string password){
+        public User? Login(string email, string password){
             try{
                 User user = _access.GetUserByEmail(email);
                 if(Crypto.VerifyHashedPassword(user.Password, password))
                 {
-                    return UserDtoConvert.FromUser(user);
+                    return user;
                 }
                 else
                 {
