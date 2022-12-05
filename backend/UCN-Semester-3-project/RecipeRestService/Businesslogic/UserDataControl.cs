@@ -75,7 +75,6 @@ namespace RecipeRestService.Businesslogic
             try
             {
                 update = _UserAccess.UpdateUser(userToUpdate);
-                update = true;
             }
             catch (Exception)
             {
