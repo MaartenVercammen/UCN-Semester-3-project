@@ -16,9 +16,8 @@ namespace RecipeDataTest.BusinessLogic
         private readonly User _user;
         private readonly Recipe _recipe;
         private readonly DateTime _dateTime;
-
-        // Valid object
         private readonly BambooSession _validBambooSession;
+        private readonly List<BambooSession> _ListofBambooSessions;
 
         public BambooSessionDataControlTest(ITestOutputHelper output)
         {
@@ -29,6 +28,12 @@ namespace RecipeDataTest.BusinessLogic
             _dateTime = new DateTime(2021, 10, 10, 10, 10, 10);
             // Valid object
             _validBambooSession = new BambooSession(Guid.Parse("00000000-0000-0000-0000-000000000000"), _user, "address", _recipe, "desc", _dateTime, 4);
+            _ListofBambooSessions = new List<BambooSession>
+            {
+                _validBambooSession,
+                _validBambooSession,
+                _validBambooSession
+            };
         }
 
         [Fact]
@@ -60,6 +65,73 @@ namespace RecipeDataTest.BusinessLogic
             Guid bambooSessionId = _sut.Add(inBambooSession);
             //Assert
             Assert.Equal(Guid.Empty, bambooSessionId);
+        }
+
+        [Fact]
+        public void Get_WhenValidId_ReturnsBamboosession()
+        {
+            //Arrange
+            _acces.Setup(x => x.GetBambooSession(_validBambooSession.SessionId))
+                .Returns(_validBambooSession);
+
+            //Act
+
+            var response = _sut.Get(_validBambooSession.SessionId);
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(_validBambooSession.SessionId, response.SessionId);
+
+        }
+
+        [Fact]
+        public void Get_WhenthrowsException_ReturnsNull()
+        {
+            //Arrange
+            _acces.Setup(x => x.GetBambooSession(_validBambooSession.SessionId))
+                .Throws(new Exception());
+
+            //Act
+
+            var response = _sut.Get(_validBambooSession.SessionId);
+
+            //Assert
+            Assert.Null(response);
+
+        }
+
+        [Fact]
+        public void Get_ReturnsBamboosession()
+        {
+            //Arrange
+
+            _acces.Setup(x => x.GetBambooSessions())
+                .Returns(_ListofBambooSessions);
+
+            //Act
+
+            var response = _sut.Get();
+
+            //Assert
+            Assert.NotNull(response);
+            Assert.Equal(_ListofBambooSessions.Count, response.Count);
+
+        }
+
+        [Fact]
+        public void Get_WhenThrownException_ReturnsNull()
+        {
+            //Arrange
+            _acces.Setup(x => x.GetBambooSessions())
+                .Throws(new Exception());
+
+            //Act
+
+            var response = _sut.Get();
+
+            //Assert
+            Assert.Null(response);
+
         }
     
     }

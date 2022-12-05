@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using System.Web.Helpers;
+using Moq;
 using RecipeRestService.Businesslogic;
 using RecipesData.Database;
 using RecipesData.Model;
@@ -24,23 +25,26 @@ public class AuthenticationDataControlTest
     public void Login_WhenSucces_ReturnsUser()
     {
         //Arrange
-        string hashedPassword = 
+        string hashedpassword = Crypto.HashPassword(_validUser.Password);
+        User hashedUser = new User("email", "mark", "mark", hashedpassword, "home", Role.USER);
         _access.Setup(x => x.GetUserByEmail(_validUser.Email))
-            .Returns(_validUser);
+            .Returns(hashedUser);
         //Act
         var response = _sut.Login(_validUser.Email, _validUser.Password);
 
         //Assert
         Assert.NotNull(response);
-        Assert.Equal(_validUser.UserId, response.UserId);
+        Assert.Equal(hashedUser.UserId, response.UserId);
     }
 
     [Fact]
-    public void Login_WhenInValidCreaentials_ReturnsNull()
+    public void Login_WhenInValidCredantials_ReturnsNull()
     {
         //Arrange
+        string hashedpassword = "test";
+        User hashedUser = new User("email", "mark", "mark", hashedpassword, "home", Role.USER);
         _access.Setup(x => x.GetUserByEmail(_validUser.Email))
-            .Returns(_inValidUser);
+            .Returns(hashedUser);
         //Act
         var response = _sut.Login(_validUser.Email, _validUser.Password);
 
