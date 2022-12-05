@@ -12,7 +12,7 @@ namespace BambooSessionController.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class BambooSessionController: ControllerBase
+    public class BambooSessionController : ControllerBase
     {
         private readonly IBambooSessionData _bControl;
         private readonly IConfiguration _configuration;
@@ -25,7 +25,7 @@ namespace BambooSessionController.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        [Authorize(Roles = "ADMIN,VERIFIED" )]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult<BambooSessionDto> GetBambooSession(string id)
         {
             Guid bamboosessionId = Guid.Parse(id);
@@ -33,48 +33,114 @@ namespace BambooSessionController.Controllers
             BambooSession bambooSession = _bControl.Get(bamboosessionId);
             BambooSessionDto bambooSessionDto;
 
-            if(bambooSession != null){
-                bambooSessionDto = BambooSessionDtoConvert.FromBambooSession(bambooSession);
-                foundReturn = Ok(bambooSession);
-            }
-             else
+            if (bambooSession != null)
             {
-                foundReturn = NotFound();   
+                bambooSessionDto = BambooSessionDtoConvert.FromBambooSession(bambooSession);
+                foundReturn = Ok(bambooSessionDto);
             }
-            
+            else
+            {
+                foundReturn = NotFound();
+            }
+
             return foundReturn;
         }
 
-        
+
         [HttpGet]
-        [Authorize(Roles = "ADMIN,VERIFIED" )]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult<List<BambooSessionDto>> GetBambooSessions()
         {
-            
+
             ActionResult<List<BambooSessionDto>> foundReturn;
             List<BambooSession> bambooSessions = _bControl.Get();
             List<BambooSessionDto> bambooSessionsDto;
 
-            if(bambooSessions != null){
+            if (bambooSessions != null)
+            {
                 bambooSessionsDto = BambooSessionDtoConvert.FromBambooSessionCollection(bambooSessions);
-                if(bambooSessions.Count > 0){
+                if (bambooSessions.Count > 0)
+                {
                     foundReturn = Ok(bambooSessionsDto);
-                }   
-                else{
+                }
+                else
+                {
                     foundReturn = NoContent();
                 }
             }
-             else
+            else
             {
-                foundReturn = new StatusCodeResult(500);   
+                foundReturn = new StatusCodeResult(500);
             }
-            
+
             return foundReturn;
         }
 
-        
+        [HttpPost]
+        [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
+        public ActionResult Post([FromBody] BambooSessionDto inBamboo)
+        {
+            ActionResult foundReturn;
+            Guid insertedGuid = Guid.Empty;
+
+            if (inBamboo != null)
+            {
+                insertedGuid = _bControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo));
+            }
+            if (insertedGuid != Guid.Empty)
+            {
+                foundReturn = Ok(insertedGuid);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+        }
+
+        [HttpPost, Route("{session}/{seat}")]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
+        public ActionResult<bool> JoinBambooSession(string session, string seat)
+        {
+            ActionResult foundReturn;
+            Guid sessionId = Guid.Parse(session);
+            Guid seatId = Guid.Parse(seat);
+
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+
+            bool IsDone = _bControl.Join(sessionId, userId, seatId);
+
+            foundReturn = Ok(IsDone);
+
+            return foundReturn;
+        }
+
+        [HttpPost, Route("{session}")]
+        [Authorize(Roles = "ADMIN,VERIFIED")]
+        public ActionResult<List<SeatDto>> GetSeatsBySessionId(string session)
+        {
+            ActionResult foundreturn;
+            Guid sessionId = Guid.Parse(session);
+            List<Seat> seats = _bControl.GetSeatsBySessionId(sessionId);
+            List<SeatDto> seatDtos = SeatDtoConvert.FromSeatCollection(seats);
+            if (seats == null)
+            {
+                foundreturn = new StatusCodeResult(500);
+            }
+            else
+            {
+                if (seats.Count <= 0)
+                {
+                    foundreturn = NotFound();
+                }
+                else
+                {
+                    foundreturn = Ok(seatDtos);
+                }
+            }
+            return foundreturn;
+        }
 
 
-        
     }
 }

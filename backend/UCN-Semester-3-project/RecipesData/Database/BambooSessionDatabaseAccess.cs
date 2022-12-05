@@ -40,7 +40,7 @@ namespace RecipesData.Database {
                         bambooSession.Host = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("hostId"))));
                     }
                     reader.Close();
-                    GetParticipantsByBambooSession(connection, bambooSession);
+                    GetSeatsByBambooSession(connection, bambooSession);
                 }
                 
             }
@@ -76,16 +76,63 @@ namespace RecipesData.Database {
         }
 
         public Guid CreateBambooSession(BambooSession bambooSession)
-        {
-            return Guid.NewGuid();
-        }
+         {
+             BambooSession session = new BambooSession();
+             string queryCreate = "INSERT INTO BambooSession (sessionId, hostId, [address], recipeId, [description], [dateTime], slotsNumber) VALUES (@sessionId, @hostId, @address, @recipeId, @description, @dateTime, @slotsNumber)";
+
+             string queryCreateSeats = "INSERT INTO bambooSessionUser (sessionId, seat) values (@sessionId, @seat)"; 
+
+             using (SqlConnection connection = new SqlConnection(_connectionString))
+             {
+                 connection.Open();
+                 SqlCommand command = connection.CreateCommand();
+
+                var transaction = connection.BeginTransaction();
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+                 try{
+                     command.CommandText = queryCreate;
+                     command.Parameters.AddWithValue("@sessionId", bambooSession.SessionId.ToString());
+                     command.Parameters.AddWithValue("@hostId", bambooSession.Host.UserId.ToString());
+                     command.Parameters.AddWithValue("@address", bambooSession.Address);
+                     command.Parameters.AddWithValue("@recipeId", bambooSession.Recipe.RecipeId.ToString());
+                     command.Parameters.AddWithValue("@description", bambooSession.Description);
+                     command.Parameters.AddWithValue("@dateTime", bambooSession.DateTime);
+                     command.Parameters.AddWithValue("@slotsNumber", bambooSession.SlotsNumber);
+
+                     command.ExecuteNonQuery();
+                     session.SessionId = bambooSession.SessionId;
+
+                     command.CommandText = queryCreateSeats;
+                     System.Console.WriteLine(session.SlotsNumber);
+                     for (int i = 0; i < bambooSession.SlotsNumber; i++)
+                     {
+                        command.Parameters.Clear();
+                        Guid seat = Guid.NewGuid();
+                        System.Console.WriteLine("First id " + seat);
+                        command.Parameters.AddWithValue("@sessionId", bambooSession.SessionId.ToString());
+                        command.Parameters.AddWithValue("@seat", seat);
+                        int rows = command.ExecuteNonQuery();
+                        System.Console.WriteLine("Rows edited " + rows);
+                     }
+                     command.Transaction.Commit();
+                     
+                 }
+                 catch(Exception){
+                    command.Transaction.Rollback();
+                 }
+                 connection.Close();
+             }
+             return session.SessionId;
+         }
 
         //TODO: Implement method
         public bool DeleteBambooSession(Guid id)
         {
             return false;
         }
-        private void GetParticipantsByBambooSession(SqlConnection con, BambooSession bamb)
+        private void GetSeatsByBambooSession(SqlConnection con, BambooSession bamb)
         {
             using (SqlCommand command = con.CreateCommand())
             {
@@ -96,16 +143,61 @@ namespace RecipesData.Database {
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                   User user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
-                   bamb.Attendees.Add(user);
+                    User user = null;
+                    try{
+                        user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
+                    }catch(Exception ex){
+                        user = null;
+                    }
+                    Guid seatId = Guid.Parse(reader.GetString(reader.GetOrdinal("seat")));
+                    Seat seat = new Seat(user, seatId);
+                    bamb.Seats.Add(seat);
                 }
                 reader.Close();
             }
         }
 
-        public bool JoinBambooSession(Guid sessionId, Guid userId)
+        public bool JoinBambooSession(Guid sessionId, Guid userId, Guid seat)
         {
-            return false;
+            bool IsDone;
+            string queryString = "UPDATE [bambooSessionUser] set userId = @userId where sessionId = @sessionId and userId is NULL and seat = @seat";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(queryString, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("sessionId", sessionId);
+                cmd.Parameters.AddWithValue("userId", userId);
+                cmd.Parameters.AddWithValue("seat", seat);
+                // Execute read
+                int rows = cmd.ExecuteNonQuery();
+                // Collect data
+                IsDone = rows > 0;
+
+                con.Close();
+            }
+            return IsDone;
+        }
+
+        public List<Seat> GetSeatsBySessionId(Guid sessionId)
+        {
+            List<Seat> seats = new List<Seat>();
+            string queryString = "SELECT * from bambooSessionUser WHERE sessionId = @sessionId";
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            using (SqlCommand cmd = new SqlCommand(queryString, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("sessionId", sessionId);
+                // Execute read
+                SqlDataReader reader = cmd.ExecuteReader();
+                // Collect data
+                while(reader.Read()){
+                    Seat seat = new Seat(Guid.Parse(reader.GetString(reader.GetOrdinal("seat"))));
+                    seats.Add(seat);
+                }
+
+                con.Close();
+            }
+            return seats;
         }
 
         private BambooSession BuildBambooObject(SqlDataReader reader){
