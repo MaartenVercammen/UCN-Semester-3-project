@@ -4,14 +4,14 @@ namespace RecipesData.Model
     {
         public Guid SessionId {get;set;}
         public string Address {get;set;}
-        public Recipe Recipe {get;set;}
+        public Guid Recipe {get;set;}
         public string Description {get;set;}
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
         public List<User> Attendees {get;set;}
-        public User Host {get; set;}
+        public Guid Host {get; set;}
 
-        public BambooSessionDto(Guid sessionId, User host, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
+        public BambooSessionDto(Guid sessionId, Guid host, string address, Guid recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = sessionId;
             this.Host = host;
@@ -23,7 +23,7 @@ namespace RecipesData.Model
             this.Attendees = new List<User>();
         }
 
-        public BambooSessionDto(User host, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
+        public BambooSessionDto(Guid host, string address, Guid recipe, string description, DateTime dateTime, int slotsNumber)
         {
             this.SessionId = Guid.NewGuid();
             this.Host = host;

@@ -123,12 +123,12 @@ namespace RecipeRestService.Controllers
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
             Guid userid = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
-            inRecipe.Author.UserId = userid;
+            inRecipe.Author = userid;
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
             if (inRecipe != null && (userid != Guid.Empty || userid != null))
             {
-                User author = _uControl.Get(inRecipe.Author.UserId);
+                User author = _uControl.Get(inRecipe.Author);
                 insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe, author));
             }
             if (insertedGuid != Guid.Empty)

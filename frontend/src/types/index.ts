@@ -43,14 +43,13 @@ export enum Role {
   ADMIN = 'ADMIN'
 }
 
-
 export interface BambooSession{
-  SessionId: string;
-  Host: User;
-  Address: string;
-  Recipe: Recipe;
-  Description: string;
-  DateTime : string;
-  SlotsNumber : number;
-  Attendees: User[];
+  SessionId: string,
+  Host: string,
+  Address: string,
+  Recipe: string,
+  Description: string,
+  DateTime : string,
+  SlotsNumber : number,
+  Attendees: User[],
 }

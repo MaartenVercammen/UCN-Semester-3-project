@@ -20,7 +20,7 @@ const CreateBamboo: React.FC = () => {
   const [compIsShown, setCompIsShown] = useState(false);
   const [value, setValue] = useState<string>('');
   
-  const [recipe, setRecipe] = useState<Recipe>();
+  const [recipe, setRecipe] = useState<string>("");
   const [address, setAddress] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [slots, setSlots] = useState<number>(0);
@@ -65,7 +65,7 @@ const CreateBamboo: React.FC = () => {
     if (validateForm() && user && recipe) {
       const bamboo: BambooSession = {
         SessionId: id.toString(),
-        Host: user,
+        Host: user.userId,
         Address: address,
         Recipe: recipe,
         Description: description,
@@ -84,7 +84,7 @@ const CreateBamboo: React.FC = () => {
   const handleSelectChange = async(e) => {
     const recipeId: string = e.target.value;
     const recipe: Recipe = (await RecipeService.getRecipe(recipeId)).data;
-    setRecipe(recipe);
+    setRecipe(recipe.recipeId);
   };
 
   const getUserFromToken = async () => {
