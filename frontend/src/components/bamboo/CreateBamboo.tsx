@@ -64,14 +64,14 @@ const CreateBamboo: React.FC = () => {
     var id = crypto.randomUUID();
     if (validateForm() && user && recipe) {
       const bamboo: BambooSession = {
-        SessionId: id.toString(),
-        Host: user.userId,
-        Address: address,
-        Recipe: recipe,
-        Description: description,
-        DateTime: '2022-12-06T21:44:51',
-        SlotsNumber: slots,
-        Attendees: []
+        sessionId: id.toString(),
+        host: user.userId,
+        address: address,
+        recipe: recipe,
+        description: description,
+        dateTime: '2022-12-06T21:44:51',
+        slotsNumber: slots,
+        attendees: []
       };
       console.log(bamboo);
       console.log(JSON.stringify(bamboo));
