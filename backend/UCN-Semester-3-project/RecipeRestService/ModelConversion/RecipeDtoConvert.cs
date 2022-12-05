@@ -25,14 +25,14 @@ namespace RecipeRestService.ModelConversion
         }
         public static RecipeDto? FromRecipe(Recipe inRecipe)
         {
-            Guid userId = Guid.Empty;
+            User author = null;
             RecipeDto? recipeDTO = null;
             if (inRecipe != null)
             {
                 if(inRecipe.Author != null) {
-                    userId = inRecipe.Author.UserId;
+                    author = inRecipe.Author;
                 }
-                recipeDTO = new RecipeDto(inRecipe.RecipeId, inRecipe.Name, inRecipe.Description, inRecipe.PictureURL, inRecipe.Time, inRecipe.PortionNum, userId);
+                recipeDTO = new RecipeDto(inRecipe.RecipeId, inRecipe.Name, inRecipe.Description, inRecipe.PictureURL, inRecipe.Time, inRecipe.PortionNum, author);
                 recipeDTO.Ingredients = inRecipe.Ingredients;
                 recipeDTO.Instructions = inRecipe.Instructions;
             }

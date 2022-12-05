@@ -5,16 +5,13 @@ const Header = lazy(() => import('./Header'));
 const Navbar = lazy(() => import('./Navbar'));
 const CreateRecipe = lazy(() => import('../recipe/CreateRecipe'));
 
-const Explore: React.FC = () => {
+const CreateRecipeTab: React.FC = () => {
   return (
     <>
       <div className={style.homePage}>
         <Header />
         <div className={style.homeContent}>
-          <div className={style.createButtons}>
-            <Link to={'/createRecipe'}><h2 className={style.homeContentChild} >create recipe</h2></Link>
-            <Link to={'/createBamboo'}><h2 className={style.homeContentChild}>create bamboo session</h2></Link>
-          </div>
+            <CreateRecipe />
         </div>
         <Navbar />
       </div>
@@ -22,4 +19,4 @@ const Explore: React.FC = () => {
   );
 };
 
-export default Explore;
+export default CreateRecipeTab;

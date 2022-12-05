@@ -10,7 +10,7 @@ namespace RecipeRestService.ModelConversion
             BambooSessionDto? bambooSessionDTO = null;
             if (inBambooSession != null)
             {
-                bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, inBambooSession.Address, inBambooSession.Recipe, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber, inBambooSession.Host);
+                bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, inBambooSession.Host, inBambooSession.Address, inBambooSession.Recipe, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber);
             }
             return bambooSessionDTO;
         }

@@ -33,6 +33,7 @@ const Login: React.FC = () => {
     <>
     <Header />
     <div className={style.container}>
+    <div onClick={startPage} id={style.icon}><FontAwesomeIcon icon={faLessThan} /></div>
       <div className={style.loginPage}>
       <h1 className={style.loginTitle}>Log in</h1>
         <form className={style.loginFormContainer}>

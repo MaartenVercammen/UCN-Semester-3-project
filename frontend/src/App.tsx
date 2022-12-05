@@ -2,9 +2,10 @@ import { Routes, Route } from 'react-router-dom';
 import './css/index.css';
 import { Role } from './types';
 import React, {lazy} from 'react';
-const CreateBamboo = lazy(() => import('./components/bamboo/createBamboo'));
-const GetBamboo = lazy(() => import('./components/bamboo/getBamboo'));
-const GetBamboos = lazy(() => import('./components/bamboo/getBamboos'));
+const CreateBambooTab = lazy(() => import('./components/pages/CreateBambooTab'));
+const CreateRecipeTab = lazy(() => import('./components/pages/CreateRecipeTab'));
+const GetBamboos = lazy(() => import('./components/bamboo/GetBamboos'));
+const GetBamboo = lazy(() => import('./components/bamboo/GetBamboo'));
 const Index = lazy(() => import('./components'));
 const Create = lazy(() => import ('./components/pages/Create'));
 const Explore = lazy(() => import ('./components/pages/Explore'));
@@ -28,11 +29,10 @@ const App: React.FC = () => {
       <Route path="/start" element={<Start />} />
 
       {/* move this to protected later */}
-      <Route path="/createBambooSession" element={<CreateBamboo />} />
       <Route path="/getBambooSession" element={<GetBamboo />} />
       <Route path="/getBambooSessions" element={<GetBamboos />} />
 
-      <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER, Role.USER ]} redirectPath="/login" />}>
+      <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER, Role.USER ]} redirectPath="/start" />}>
         <Route path="/recipes" element={<GetRecipes />} />
         <Route path="/recipes/:id" element={<Recipe />} />
         <Route path="/explore" element={<Explore />} />
@@ -43,7 +43,9 @@ const App: React.FC = () => {
       </Route>
 
       <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/app" />}>
-        <Route path="/createRecipe" element={<Create />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/createRecipe" element={<CreateRecipeTab />} />
+        <Route path="/createBamboo" element={<CreateBambooTab />} />
       </Route>
 
       <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN]} redirectPath="/app" />}>

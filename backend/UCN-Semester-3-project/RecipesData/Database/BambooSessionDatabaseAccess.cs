@@ -116,11 +116,11 @@ namespace RecipesData.Database {
                 command.Parameters.AddWithValue("@id", bamb.SessionId);
 
                 SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                   User user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
-                   bamb.Attendees.Add(user);
-                }
+                //while (reader.Read())
+                //{
+                 //  User user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
+                 //  bamb.Attendees.Add(user);
+                //}
                 reader.Close();
             }
         }

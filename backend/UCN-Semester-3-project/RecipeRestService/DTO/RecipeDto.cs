@@ -10,11 +10,11 @@ namespace RecipeRestService.DTO
         public string PictureURL { get; set; }
         public int Time { get; set; }
         public int PortionNum { get; set; }
-        public Guid Author { get; set; }
+        public User Author { get; set; }
         public List<Ingredient> Ingredients { get; set; }
         public List<Instruction> Instructions { get; set; }
 
-        public RecipeDto(Guid recipeId, string name, string description, string pictureURL, int time, int portionNum, Guid author)
+        public RecipeDto(Guid recipeId, string name, string description, string pictureURL, int time, int portionNum, User author)
         {
             this.RecipeId = recipeId;
             this.Name = name;
@@ -27,7 +27,7 @@ namespace RecipeRestService.DTO
             this.Author = author;
         }
 
-        public RecipeDto(string name, string description, string pictureURL, int time, int portionNum, Guid author)
+        public RecipeDto(string name, string description, string pictureURL, int time, int portionNum, User author)
         {
             this.RecipeId = Guid.NewGuid();
             this.Name = name;
