@@ -15,7 +15,7 @@ namespace RecipeRestService.DTO
         public string Description {get;set;}
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
-        public List<Seat> Seats {get;set;}
+        public List<SeatDto> Seats {get;set;}
 
         public User Host {get; set;}
 
@@ -27,7 +27,7 @@ namespace RecipeRestService.DTO
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Seats = new List<Seat>();
+            this.Seats = new List<SeatDto>();
             this.Host = host;
         }
 
@@ -39,12 +39,12 @@ namespace RecipeRestService.DTO
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Seats = new List<Seat>();
+            this.Seats = new List<SeatDto>();
         }
 
         public BambooSessionDto()
         {
-            this.Seats = new List<Seat>();
+            this.Seats = new List<SeatDto>();
         }
         
     }

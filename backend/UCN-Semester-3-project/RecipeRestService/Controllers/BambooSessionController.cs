@@ -36,7 +36,7 @@ namespace BambooSessionController.Controllers
             if (bambooSession != null)
             {
                 bambooSessionDto = BambooSessionDtoConvert.FromBambooSession(bambooSession);
-                foundReturn = Ok(bambooSession);
+                foundReturn = Ok(bambooSessionDto);
             }
             else
             {

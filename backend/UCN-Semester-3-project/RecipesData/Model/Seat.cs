@@ -6,7 +6,7 @@ public class Seat
 
     public User? User;
 
-    public Seat(User user, Guid seatId)
+    public Seat(User? user, Guid seatId)
     {
         User = user;
         SeatId = seatId;

@@ -145,7 +145,7 @@ namespace RecipesData.Database {
                 {
                     User user = null;
                     try{
-                    user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
+                        user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
                     }catch(Exception ex){
                         user = null;
                     }
