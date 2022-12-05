@@ -178,16 +178,8 @@ namespace RecipeDataTest.BusinessLogic
             Guid id = Guid.NewGuid();
             Recipe inrecipe = _validRecipe;
             inrecipe.RecipeId = id;
-            List<Recipe> recipes = new List<Recipe>()
-            {
-                inrecipe,
-                inrecipe,
-                inrecipe
-            };
-            
+
             _acces.Setup(x => x.GetRandomRecipe(id))
-                .Returns(recipes);
-            _acces.Setup(x => x.GetRecipeById(id))
                 .Returns(_validRecipe);
             //Act
             Recipe recipe = _sut.GetRandomRecipe(id);
