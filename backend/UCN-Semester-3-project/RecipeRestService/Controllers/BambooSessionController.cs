@@ -117,11 +117,12 @@ namespace BambooSessionController.Controllers
 
         [HttpPost, Route("{session}")]
         [Authorize(Roles = "ADMIN,VERIFIED")]
-        public ActionResult<List<(string, string)>> GetSeatsBySessionId(string session)
+        public ActionResult<List<SeatDto>> GetSeatsBySessionId(string session)
         {
             ActionResult foundreturn;
             Guid sessionId = Guid.Parse(session);
             List<Seat> seats = _bControl.GetSeatsBySessionId(sessionId);
+            List<SeatDto> seatDtos = SeatDtoConvert.FromSeatCollection(seats);
             if (seats == null)
             {
                 foundreturn = new StatusCodeResult(500);
@@ -134,7 +135,7 @@ namespace BambooSessionController.Controllers
                 }
                 else
                 {
-                    foundreturn = Ok(seats);
+                    foundreturn = Ok(seatDtos);
                 }
             }
             return foundreturn;
