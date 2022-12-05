@@ -121,7 +121,7 @@ namespace BambooSessionController.Controllers
         {
             ActionResult foundreturn;
             Guid sessionId = Guid.Parse(session);
-            List<(string, string)> seats = _bControl.GetSeatsBySessionId(sessionId);
+            List<Seat> seats = _bControl.GetSeatsBySessionId(sessionId);
             if (seats == null)
             {
                 foundreturn = new StatusCodeResult(500);

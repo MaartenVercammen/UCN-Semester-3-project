@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RecipesData.Model;
 
-namespace RecipesData.Model
+namespace RecipeRestService.DTO
 {
     public class BambooSessionDto
     {
@@ -14,7 +15,7 @@ namespace RecipesData.Model
         public string Description {get;set;}
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
-        public List<User> Attendees {get;set;}
+        public List<Seat> Seats {get;set;}
 
         public User Host {get; set;}
 
@@ -26,7 +27,7 @@ namespace RecipesData.Model
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Attendees = new List<User>();
+            this.Seats = new List<Seat>();
             this.Host = host;
         }
 
@@ -38,11 +39,12 @@ namespace RecipesData.Model
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Attendees = new List<User>();
+            this.Seats = new List<Seat>();
         }
 
         public BambooSessionDto()
         {
+            this.Seats = new List<Seat>();
         }
         
     }

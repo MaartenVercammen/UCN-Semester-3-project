@@ -11,7 +11,10 @@ namespace RecipeRestService.ModelConversion
             if (inBambooSession != null)
             {
                 bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, inBambooSession.Address, inBambooSession.Recipe, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber, inBambooSession.Host);
-                bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, inBambooSession.Address, inBambooSession.Recipe, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber, inBambooSession.Host);
+                foreach (var seat in inBambooSession.Seats)
+                {
+                    bambooSessionDTO.Seats.Add(seat);
+                }
             }
             return bambooSessionDTO;
         }
@@ -37,7 +40,12 @@ namespace RecipeRestService.ModelConversion
         
         public static BambooSession? ToBambooSession(BambooSessionDto inDto)
         {
-            return new BambooSession(inDto.SessionId, inDto.Host, inDto.Address, inDto.Recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
+            BambooSession bambooSession = new BambooSession(inDto.SessionId, inDto.Host, inDto.Address, inDto.Recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
+            foreach (var seat in inDto.Seats)
+                {
+                    bambooSession.Seats.Add(seat);
+                }
+            return bambooSession;
         }
     }
 }

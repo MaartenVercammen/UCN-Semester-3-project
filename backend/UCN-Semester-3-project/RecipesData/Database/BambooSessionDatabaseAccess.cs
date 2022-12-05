@@ -40,7 +40,7 @@ namespace RecipesData.Database {
                         bambooSession.Host = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("hostId"))));
                     }
                     reader.Close();
-                    GetParticipantsByBambooSession(connection, bambooSession);
+                    GetSeatsByBambooSession(connection, bambooSession);
                 }
                 
             }
@@ -132,7 +132,7 @@ namespace RecipesData.Database {
         {
             return false;
         }
-        private void GetParticipantsByBambooSession(SqlConnection con, BambooSession bamb)
+        private void GetSeatsByBambooSession(SqlConnection con, BambooSession bamb)
         {
             using (SqlCommand command = con.CreateCommand())
             {
@@ -143,9 +143,15 @@ namespace RecipesData.Database {
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                   User user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
-                   Seat seat = new Seat(user);
-                   bamb.Seats.Add(seat);
+                    User user = null;
+                    try{
+                    user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
+                    }catch(Exception ex){
+                        user = null;
+                    }
+                    Guid seatId = Guid.Parse(reader.GetString(reader.GetOrdinal("seat")));
+                    Seat seat = new Seat(user, seatId);
+                    bamb.Seats.Add(seat);
                 }
                 reader.Close();
             }

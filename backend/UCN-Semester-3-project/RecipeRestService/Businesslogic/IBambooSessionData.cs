@@ -11,6 +11,6 @@ namespace RecipeRestService.Businesslogic{
         bool Delete(Guid id);
         bool Join(Guid sessionId, Guid userId, Guid seat);
 
-        List<(string, string)>? GetSeatsBySessionId(Guid sessionId);
+        List<Seat>? GetSeatsBySessionId(Guid sessionId);
     }
 }

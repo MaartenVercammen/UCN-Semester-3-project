@@ -22,7 +22,7 @@ namespace RecipeDataTest.BusinessLogic{
 
         private readonly List<BambooSession> _ListofBambooSessions;
 
-        private readonly List<(string, string)> _availableSeats;
+        private readonly List<Seat> _availableSeats;
 
         public BambosessionTest(){
             _sut = new BambooSessionDataControl(_acces.Object);
@@ -44,12 +44,15 @@ namespace RecipeDataTest.BusinessLogic{
                 _validBambosession,
                 _validBambosession
             };
+
+            Seat seat = new Seat(validUser);
             
-            _availableSeats = new List<(string, string)>() {
-                (_id.ToString(), _id.ToString()),
-                (_id.ToString(), _id.ToString()),
-                (_id.ToString(), _id.ToString()),
-                (_id.ToString(), _id.ToString())
+            _availableSeats = new List<Seat>() {
+                seat,
+                seat,
+                seat,
+                seat,
+                seat
             };
         }
     
