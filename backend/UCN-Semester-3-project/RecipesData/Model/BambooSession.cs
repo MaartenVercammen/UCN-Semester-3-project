@@ -16,7 +16,8 @@ namespace RecipesData.Model
         public string Description {get;set;}
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
-        public List<User> Attendees {get;set;}
+
+        public List<Seat> Seats;
 
         public BambooSession(Guid sessionId, User host, string address, Recipe recipe, string description, DateTime dateTime, int slotsNumber)
         {
@@ -27,7 +28,7 @@ namespace RecipesData.Model
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Attendees = new List<User>();
+            this.Seats = new List<Seat>();
             this.Host = host;
         }
 
@@ -40,12 +41,12 @@ namespace RecipesData.Model
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Attendees = new List<User>();
+            this.Seats = new List<Seat>();
         }
 
         public BambooSession()
         {
-            this.Attendees = new List<User>();
+            this.Seats = new List<Seat>();
         }
         
     }

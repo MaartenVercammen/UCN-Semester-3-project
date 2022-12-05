@@ -144,7 +144,8 @@ namespace RecipesData.Database {
                 while (reader.Read())
                 {
                    User user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
-                   bamb.Attendees.Add(user);
+                   Seat seat = new Seat(user);
+                   bamb.Seats.Add(seat);
                 }
                 reader.Close();
             }
@@ -171,9 +172,9 @@ namespace RecipesData.Database {
             return IsDone;
         }
 
-        public List<(string, string)> GetSeatsBySessionId(Guid sessionId)
+        public List<Seat> GetSeatsBySessionId(Guid sessionId)
         {
-            List<(string, string)> seats = new List<(string, string)>();
+            List<Seat> seats = new List<Seat>();
             string queryString = "SELECT * from bambooSessionUser WHERE sessionId = @sessionId";
             using (SqlConnection con = new SqlConnection(_connectionString))
             using (SqlCommand cmd = new SqlCommand(queryString, con))
@@ -184,7 +185,7 @@ namespace RecipesData.Database {
                 SqlDataReader reader = cmd.ExecuteReader();
                 // Collect data
                 while(reader.Read()){
-                    (string, string) seat = (sessionId.ToString(), reader.GetString(reader.GetOrdinal("seat")));
+                    Seat seat = new Seat(Guid.Parse(reader.GetString(reader.GetOrdinal("seat"))));
                     seats.Add(seat);
                 }
 
