@@ -30,7 +30,16 @@ namespace RecipeRestService.Businesslogic
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            bool IsDone= false;
+            try{
+                IsDone = _BambooSessionAccess.DeleteBambooSession(id);
+            }catch(Exception ex){
+                IsDone = false;
+                System.Console.WriteLine(ex.StackTrace);
+                System.Console.WriteLine(ex.Message);
+            }
+
+            return IsDone;
         }
 
         public BambooSession? Get(Guid id)

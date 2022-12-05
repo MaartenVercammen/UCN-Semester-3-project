@@ -130,7 +130,20 @@ namespace RecipesData.Database {
         //TODO: Implement method
         public bool DeleteBambooSession(Guid id)
         {
-            return false;
+            string querry = "Delete BambooSession where sessionId = @sessionId";
+            bool IsDone = false;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqlCommand  cmd = new SqlCommand(querry, conn))
+            {
+                conn.Open();
+
+                cmd.Parameters.AddWithValue("sessionId", id.ToString());
+                int rows = cmd.ExecuteNonQuery();
+                System.Console.WriteLine(rows);
+                IsDone = rows > 0;
+                conn.Close();
+            }
+            return IsDone;
         }
         private void GetSeatsByBambooSession(SqlConnection con, BambooSession bamb)
         {
