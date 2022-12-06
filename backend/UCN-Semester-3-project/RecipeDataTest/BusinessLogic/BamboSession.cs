@@ -160,7 +160,6 @@ namespace RecipeDataTest.BusinessLogic
             var response = _sut.Join(_validBambosession.SessionId, _userId, _id);
 
             //Assert
-            Assert.NotNull(response);
             Assert.False(response);
 
         }
