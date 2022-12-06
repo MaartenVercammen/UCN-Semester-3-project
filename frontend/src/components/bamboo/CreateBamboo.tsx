@@ -33,7 +33,6 @@ const CreateBamboo: React.FC = () => {
     var formatDate  = moment(date).format();
     formatDate = formatDate.slice(0, formatDate.length - 6);
     setDate(formatDate);
-    console.log(formatDate);
   };
 
   const validateForm = () => {
@@ -69,7 +68,7 @@ const CreateBamboo: React.FC = () => {
         address: address,
         recipe: recipe,
         description: description,
-        dateTime: '2022-12-06T21:44:51',
+        dateTime: date,
         slotsNumber: slots,
         attendees: []
       };
