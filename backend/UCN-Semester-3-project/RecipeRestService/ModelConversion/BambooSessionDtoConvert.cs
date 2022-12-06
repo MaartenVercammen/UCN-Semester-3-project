@@ -7,8 +7,6 @@ namespace RecipeRestService.ModelConversion
     {
         public static BambooSessionDto? FromBambooSession(BambooSession inBambooSession)
         {
-            User host = null;
-            Recipe recipe = null;
             BambooSessionDto? bambooSessionDTO = null;
             if (inBambooSession != null)
             {
@@ -47,7 +45,7 @@ namespace RecipeRestService.ModelConversion
 
         public static BambooSession? ToBambooSession(BambooSessionDto inDto, User host, Recipe recipe)
         {
-            BambooSession bambooSession = new BambooSession(inDto.SessionId, inDto.Host, inDto.Address, inDto.Recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
+            BambooSession bambooSession = new BambooSession(inDto.SessionId, host, inDto.Address, recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
             foreach (var seatDto in inDto.Seats)
                 {
                     Seat? seat = SeatDtoConvert.ToSeat(seatDto);

@@ -1,7 +1,7 @@
 using RecipeRestService.DTO;
 using RecipesData.Model;
 
-namespace UserRestService.Businesslogic
+namespace RecipeRestService.Businesslogic
 {
     public interface IUserData
     {

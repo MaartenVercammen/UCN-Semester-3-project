@@ -4,7 +4,6 @@ using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
-using RecipesData.Database;
 using RecipesData.Model;
 
 namespace BambooSessionController.Controllers
@@ -17,15 +16,17 @@ namespace BambooSessionController.Controllers
         private readonly IBambooSessionData _bControl;
         private readonly ISecurityHelper _securityHelper;
 
+        private readonly IUserData _userData;
 
-        public BambooSessionController(ISecurityHelper securityHelper, IBambooSessionData data)
+        private readonly IRecipeData _recipeData;
+
+
+        public BambooSessionController(ISecurityHelper securityHelper, IBambooSessionData data, IUserData userData, IRecipeData recipeData)
         {
             _securityHelper = securityHelper;
             _bControl = data;
-            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
-            _uControl = new UserDataControl(uAccess);
-            RecipeDatabaseAccess rAccess = new RecipeDatabaseAccess(inConfiguration);
-            _rControl = new RecipedataControl(rAccess);
+            _userData = userData;
+            _recipeData = recipeData;
         }
 
         [HttpGet, Route("{id}")]
@@ -84,16 +85,29 @@ namespace BambooSessionController.Controllers
         [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
         {
-             // user id
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            // user id
+            Guid insertedGuid = Guid.Empty;
+            ActionResult foundReturn;
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             inBamboo.Host = userId;
             if (inBamboo != null)
             {
-                BambooSession? bambooSession = BambooSessionDtoConvert.ToBambooSession(inBamboo);
-                if(bambooSession != null){
-                    insertedGuid = _bControl.Add(bambooSession);
+                User? host = _userData.Get(userId);
+                Recipe? recipe = _recipeData.Get(inBamboo.Recipe);
+                if (host != null && recipe != null)
+                {
+                    BambooSession? bambooSession = BambooSessionDtoConvert.ToBambooSession(inBamboo, host, recipe);
+                    if (bambooSession != null)
+                    {
+                        insertedGuid = _bControl.Add(bambooSession);
+                    }
+                    else
+                    {
+                        insertedGuid = Guid.Empty;
+                    }
                 }
-                else{
+                else
+                {
                     insertedGuid = Guid.Empty;
                 }
             }
@@ -145,10 +159,12 @@ namespace BambooSessionController.Controllers
                 else
                 {
                     List<SeatDto>? seatDtos = SeatDtoConvert.FromSeatCollection(seats);
-                    if(seatDtos != null){
-                    foundreturn = Ok(seatDtos);
+                    if (seatDtos != null)
+                    {
+                        foundreturn = Ok(seatDtos);
                     }
-                    else{
+                    else
+                    {
                         foundreturn = new StatusCodeResult(500);
                     }
                 }
@@ -158,13 +174,17 @@ namespace BambooSessionController.Controllers
 
         [Authorize(Roles = "ADMIN,VERIFIED")]
         [HttpDelete, Route("{id}")]
-        public ActionResult<bool> Delete(string id){
+        public ActionResult<bool> Delete(string id)
+        {
             ActionResult result;
             Guid sessionId = Guid.Parse(id);
             bool Isdone = _bControl.Delete(sessionId);
-            if(Isdone){
+            if (Isdone)
+            {
                 result = Ok(Isdone);
-            }else{
+            }
+            else
+            {
                 result = NotFound();
             }
 

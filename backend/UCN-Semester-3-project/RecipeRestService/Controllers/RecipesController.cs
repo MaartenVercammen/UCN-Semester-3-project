@@ -8,7 +8,6 @@ using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
-using UserRestService.Businesslogic;
 
 namespace RecipeRestService.Controllers
 {
