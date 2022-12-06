@@ -15,12 +15,12 @@ namespace BambooSessionController.Controllers
     public class BambooSessionController : ControllerBase
     {
         private readonly IBambooSessionData _bControl;
-        private readonly IConfiguration _configuration;
+        private readonly ISecurityHelper _securityHelper;
 
 
-        public BambooSessionController(IConfiguration inConfiguration, IBambooSessionData data)
+        public BambooSessionController(ISecurityHelper securityHelper, IBambooSessionData data)
         {
-            _configuration = inConfiguration;
+            _securityHelper = securityHelper;
             _bControl = data;
         }
 
@@ -112,7 +112,7 @@ namespace BambooSessionController.Controllers
             Guid sessionId = Guid.Parse(session);
             Guid seatId = Guid.Parse(seat);
 
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
 
             bool IsDone = _bControl.Join(sessionId, userId, seatId);
 
