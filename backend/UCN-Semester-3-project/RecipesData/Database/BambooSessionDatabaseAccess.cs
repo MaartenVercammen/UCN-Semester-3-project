@@ -156,10 +156,10 @@ namespace RecipesData.Database {
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    User user = null;
+                    User? user;
                     try{
                         user = _userAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("userId"))));
-                    }catch(Exception ex){
+                    }catch(Exception){
                         user = null;
                     }
                     Guid seatId = Guid.Parse(reader.GetString(reader.GetOrdinal("seat")));

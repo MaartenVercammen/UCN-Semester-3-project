@@ -43,7 +43,6 @@ namespace RecipeDataTest.BusinessLogic
             //Act
             var bambooSessionId = _sut.Add(inBambooSession);
             //Assert
-            Assert.NotNull(bambooSessionId);
             Assert.Equal(inBambooSession.SessionId, bambooSessionId);
         }
 

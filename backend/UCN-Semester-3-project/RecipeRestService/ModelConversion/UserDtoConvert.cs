@@ -17,17 +17,19 @@ namespace RecipeRestService.ModelConversion
 
         public static List<UserDto>? FromUserCollection(List<User> inUsers)
         {
-            List<UserDto> userDTOs = null;
+            List<UserDto>? userDTOs = null;
             if (inUsers != null)
             {
                 userDTOs = new List<UserDto>();
-                UserDto tempDto;
+                UserDto? tempDto;
                 foreach (User user in inUsers)
                 {
                     if (user != null)
                     {
                         tempDto = FromUser(user);
-                        userDTOs.Add(tempDto);
+                        if(tempDto != null){
+                            userDTOs.Add(tempDto);
+                        }
                     }
                 }
             }

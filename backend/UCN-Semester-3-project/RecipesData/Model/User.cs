@@ -58,6 +58,11 @@ namespace RecipesData.Model
 
         public User()
         {
+            Email = "";
+            FirstName = "";
+            LastName = "";
+            Password = "";
+            Address = "";
         }
 
     }

@@ -24,6 +24,8 @@ namespace RecipesData.Model
 
         public Ingredient()
         {
+            name = "";
+            unit = "";
         }
         
     }

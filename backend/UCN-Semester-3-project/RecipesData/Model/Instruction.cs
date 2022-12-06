@@ -22,6 +22,7 @@ namespace RecipesData.Model
 
         public Instruction()
         {
+            Description = "";
         }
         
     }

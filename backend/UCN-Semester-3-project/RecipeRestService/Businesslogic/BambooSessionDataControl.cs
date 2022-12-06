@@ -44,7 +44,7 @@ namespace RecipeRestService.Businesslogic
 
         public BambooSession? Get(Guid id)
         {
-            BambooSession bambooSession;
+            BambooSession? bambooSession;
             try{
                 bambooSession =_BambooSessionAccess.GetBambooSession(id);
             }catch(Exception){
@@ -56,7 +56,7 @@ namespace RecipeRestService.Businesslogic
 
         public List<BambooSession>? Get()
         {
-            List<BambooSession> bambooSessions;
+            List<BambooSession>? bambooSessions;
             try{
                 bambooSessions =_BambooSessionAccess.GetBambooSessions();
             }catch(Exception ex){
