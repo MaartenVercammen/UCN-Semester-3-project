@@ -29,10 +29,10 @@ namespace RecipeDataTest.BusinessLogic
 
         private readonly List<Seat> _availableSeats;
 
-        public BambosessionTest(ITestOutputHelper outputHelper, ITestHelper testHelper)
+        public BambosessionTest(ITestOutputHelper outputHelper)
         {
             _extraOutput = outputHelper;
-            _testHelper = testHelper;
+            _testHelper = new TestHelper();
             _sut = new BambooSessionDataControl(_acces.Object);
             _id = Guid.NewGuid();
 

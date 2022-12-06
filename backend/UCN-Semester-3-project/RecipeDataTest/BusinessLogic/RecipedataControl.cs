@@ -20,10 +20,10 @@ namespace RecipeDataTest.BusinessLogic
         private readonly Recipe _validRecipe;
 
 
-        public RecipeDataControlTest(ITestOutputHelper output, ITestHelper testHelper)
+        public RecipeDataControlTest(ITestOutputHelper output)
         {
             _extraOutput = output;
-            _testHelper = testHelper;
+            _testHelper = new TestHelper();
             _sut = new RecipedataControl(_acces.Object);
             // Valid object
             var validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
