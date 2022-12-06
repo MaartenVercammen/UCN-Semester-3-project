@@ -15,6 +15,8 @@ namespace BambooSessionController.Controllers
     public class BambooSessionController : ControllerBase
     {
         private readonly IBambooSessionData _bControl;
+        private readonly UserDataControl _uControl;
+        private readonly RecipedataControl _rControl;
         private readonly IConfiguration _configuration;
 
 
@@ -22,6 +24,10 @@ namespace BambooSessionController.Controllers
         {
             _configuration = inConfiguration;
             _bControl = data;
+            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
+            _uControl = new UserDataControl(uAccess);
+            RecipeDatabaseAccess rAccess = new RecipeDatabaseAccess(inConfiguration);
+            _rControl = new RecipedataControl(rAccess);
         }
 
         [HttpGet, Route("{id}")]
@@ -80,13 +86,22 @@ namespace BambooSessionController.Controllers
         [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
         {
-            ActionResult foundReturn;
-            Guid insertedGuid = Guid.Empty;
+             // user id
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            inBamboo.Host = userId;
 
-            if (inBamboo != null)
-            {
-                insertedGuid = _bControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo));
-            }
+            // recipe id
+            Guid recipeId = inBamboo.Recipe;
+
+             ActionResult foundReturn;
+             Guid insertedGuid = Guid.Empty;
+
+            if (inBamboo != null && (userId != Guid.Empty || userId != null) && (recipeId != Guid.Empty || recipeId != null))
+             {
+                User host = _uControl.Get(userId);
+                Recipe recipe = _rControl.Get(recipeId);
+                 insertedGuid = _bControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo, host, recipe));
+             }
             if (insertedGuid != Guid.Empty)
             {
                 foundReturn = Ok(insertedGuid);

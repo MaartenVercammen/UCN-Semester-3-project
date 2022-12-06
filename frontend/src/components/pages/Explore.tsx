@@ -1,8 +1,8 @@
 import React, {lazy} from 'react';
-import style from './Home.module.css';
+import { Link } from 'react-router-dom';
+import style from './Create.module.css';
 const Header = lazy(() => import('./Header'));
 const Navbar = lazy(() => import('./Navbar'));
-const GetRecipes = lazy(() => import('../recipe/GetRecipes'));
 
 const Explore: React.FC = () => {
   return (
@@ -10,7 +10,10 @@ const Explore: React.FC = () => {
       <div className={style.homePage}>
         <Header />
         <div className={style.homeContent}>
-          <GetRecipes />
+          <div className={style.createButtons}>
+            <Link to={'/recipes'}><h2 className={style.homeContentChild} >explore recipes</h2></Link>
+            <Link to={'/bambooSessions'}><h2 className={style.homeContentChild}>explore bamboo sessions</h2></Link>
+          </div>
         </div>
         <Navbar />
       </div>
