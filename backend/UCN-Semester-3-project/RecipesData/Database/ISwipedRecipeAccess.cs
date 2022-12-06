@@ -16,6 +16,6 @@ namespace RecipesData.Database
 
         SwipedRecipe CreateSwipedRecipe(SwipedRecipe swipedRecipe);
 
-        bool DeleteSR(Guid id);
+        bool DeleteSR(Guid id, Guid userIds);
     }
 }
