@@ -1,3 +1,4 @@
+using RecipeRestService.ModelConversion;
 using RecipesData.Database;
 using RecipesData.Model;
 
@@ -29,7 +30,16 @@ namespace RecipeRestService.Businesslogic
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            bool IsDone= false;
+            try{
+                IsDone = _BambooSessionAccess.DeleteBambooSession(id);
+            }catch(Exception ex){
+                IsDone = false;
+                System.Console.WriteLine(ex.StackTrace);
+                System.Console.WriteLine(ex.Message);
+            }
+
+            return IsDone;
         }
 
         public BambooSession? Get(Guid id)
@@ -58,9 +68,32 @@ namespace RecipeRestService.Businesslogic
             return bambooSessions;
         }
 
-        public bool Join(Guid sessionId, Guid userId)
+        public List<Seat>? GetSeatsBySessionId(Guid sessionId)
         {
-            throw new NotImplementedException();
+            List<Seat>? seats;
+            try{
+                seats = _BambooSessionAccess.GetSeatsBySessionId(sessionId);
+            }catch(Exception ex){
+                System.Console.WriteLine(ex.StackTrace);
+                System.Console.WriteLine(ex.Message);
+                seats = null;
+            }
+
+            return seats;
+        }
+
+        public bool Join(Guid sessionId, Guid userId, Guid seat)
+        {
+            bool returnValue;
+            try{
+                returnValue = _BambooSessionAccess.JoinBambooSession(sessionId, userId, seat);
+            }catch(Exception ex){
+                System.Console.WriteLine(ex.StackTrace);
+                System.Console.WriteLine(ex.Message);
+                returnValue = false;
+            }
+
+            return returnValue;
         }
     }
 

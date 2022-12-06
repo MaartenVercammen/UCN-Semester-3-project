@@ -9,6 +9,8 @@ namespace RecipeRestService.Businesslogic{
         List<BambooSession>? Get();
         Guid Add(BambooSession bambooSession);
         bool Delete(Guid id);
-        bool Join(Guid sessionId, Guid userId);
+        bool Join(Guid sessionId, Guid userId, Guid seat);
+
+        List<Seat>? GetSeatsBySessionId(Guid sessionId);
     }
 }

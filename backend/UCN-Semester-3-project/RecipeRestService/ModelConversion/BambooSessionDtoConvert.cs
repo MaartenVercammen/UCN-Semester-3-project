@@ -1,5 +1,4 @@
 using RecipeRestService.DTO;
-using RecipesData.Database;
 using RecipesData.Model;
 
 namespace RecipeRestService.ModelConversion
@@ -13,14 +12,10 @@ namespace RecipeRestService.ModelConversion
             BambooSessionDto? bambooSessionDTO = null;
             if (inBambooSession != null)
             {
-                if (inBambooSession.Host != null)
-                {
-                    host = inBambooSession.Host;
-                    if (inBambooSession.Recipe != null)
-                    {
-                        recipe = inBambooSession.Recipe;
-                        bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, host.UserId, inBambooSession.Address, inBambooSession.Recipe.RecipeId, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber);
-                    }
+                bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, inBambooSession.Host.UserId, inBambooSession.Address, inBambooSession.Recipe.RecipeId, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber);
+                foreach (var seat in inBambooSession.Seats)
+                {                 
+                    bambooSessionDTO.Seats.Add(SeatDtoConvert.FromSeat(seat));
                 }
             }
             return bambooSessionDTO;
@@ -47,7 +42,12 @@ namespace RecipeRestService.ModelConversion
 
         public static BambooSession? ToBambooSession(BambooSessionDto inDto, User host, Recipe recipe)
         {
-            return new BambooSession(inDto.SessionId, host, inDto.Address, recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
+            BambooSession bambooSession = new BambooSession(inDto.SessionId, host, inDto.Address, recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
+            foreach (var seat in inDto.Seats)
+                {
+                    bambooSession.Seats.Add(SeatDtoConvert.ToSeat(seat));
+                }
+            return bambooSession;
         }
     }
 }

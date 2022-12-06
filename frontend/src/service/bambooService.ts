@@ -6,7 +6,7 @@ import {BambooSession} from '../types';
 
 const getBambooSession= (sessionId: string) => instance.get<BambooSession>('/BambooSession/' + sessionId);
 const getBambooSessions = () => instance.get<BambooSession[]>('/BambooSession');
-const createBambooSession = (bambooSession: BambooSession) => instance.post('/BambooSession', JSON.stringify(bambooSession));
+const createBambooSession = (bambooSession: BambooSession) => instance.post<BambooSession>('/BambooSession', JSON.stringify(bambooSession));
 const BambooService = {
 
   getBambooSession,

@@ -1,4 +1,7 @@
-namespace RecipesData.Model
+
+using RecipesData.Model;
+
+namespace RecipeRestService.DTO
 {
     public class BambooSessionDto
     {
@@ -8,8 +11,8 @@ namespace RecipesData.Model
         public string Description {get;set;}
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
-        public List<User> Attendees {get;set;}
         public Guid Host {get; set;}
+        public List<SeatDto> Seats {get;set;}
 
         public BambooSessionDto(Guid sessionId, Guid host, string address, Guid recipe, string description, DateTime dateTime, int slotsNumber)
         {
@@ -20,7 +23,7 @@ namespace RecipesData.Model
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Attendees = new List<User>();
+            this.Seats = new List<SeatDto>();
         }
 
         public BambooSessionDto(Guid host, string address, Guid recipe, string description, DateTime dateTime, int slotsNumber)
@@ -32,11 +35,12 @@ namespace RecipesData.Model
             this.Description = description;
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
-            this.Attendees = new List<User>();
+            this.Seats = new List<SeatDto>();
         }
 
         public BambooSessionDto()
         {
+            this.Seats = new List<SeatDto>();
         }
         
     }
