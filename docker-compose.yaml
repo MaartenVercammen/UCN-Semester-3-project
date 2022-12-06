@@ -28,4 +28,4 @@ services:
     environment:
       SA_PASSWORD: ${DB_PASSWORD}
       ACCEPT_EULA: "Y"
-      MSSQL_AGENT_ENABLED: "True"
+      MSSQL_AGENT_ENABLED: "Y"
