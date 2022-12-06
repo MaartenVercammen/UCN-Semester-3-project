@@ -44,6 +44,7 @@
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
+    margin-top: 1rem;
 }
 
 .signUpRedirect {
@@ -51,7 +52,8 @@
     color: #989898;
 }
 
-.signUpRedirect a {
+.signUpRedirect span {
     color: #DCBEA8;
     font-size: .9rem;
+    cursor: pointer;
 }

@@ -22,6 +22,10 @@ namespace BambooSessionController.Controllers
         {
             _securityHelper = securityHelper;
             _bControl = data;
+            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
+            _uControl = new UserDataControl(uAccess);
+            RecipeDatabaseAccess rAccess = new RecipeDatabaseAccess(inConfiguration);
+            _rControl = new RecipedataControl(rAccess);
         }
 
         [HttpGet, Route("{id}")]
@@ -80,9 +84,9 @@ namespace BambooSessionController.Controllers
         [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
         {
-            ActionResult foundReturn;
-            Guid insertedGuid = Guid.Empty;
-
+             // user id
+            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            inBamboo.Host = userId;
             if (inBamboo != null)
             {
                 BambooSession? bambooSession = BambooSessionDtoConvert.ToBambooSession(inBamboo);
