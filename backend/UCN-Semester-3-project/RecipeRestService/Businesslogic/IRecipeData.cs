@@ -9,7 +9,7 @@ namespace RecipeRestService.Businesslogic
         Guid Add(Recipe recipeToAdd);
         bool Put(Recipe recipeToUpdate);
         bool Delete(Guid id);
-        Recipe GetRandomRecipe(Guid userId);
-        List<Recipe> GetLikedByUser(Guid userId);
+        Recipe? GetRandomRecipe(Guid userId);
+        List<Recipe>? GetLikedByUser(Guid userId);
     }
 }

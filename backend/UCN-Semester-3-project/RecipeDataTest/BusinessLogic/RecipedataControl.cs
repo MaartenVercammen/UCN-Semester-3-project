@@ -11,6 +11,8 @@ namespace RecipeDataTest.BusinessLogic
     {
 
         private readonly ITestOutputHelper _extraOutput;
+
+        private readonly ITestHelper _testHelper;
         private readonly RecipedataControl _sut;
         private readonly Mock<IRecipeAccess> _acces = new Mock<IRecipeAccess>();
 
@@ -18,9 +20,10 @@ namespace RecipeDataTest.BusinessLogic
         private readonly Recipe _validRecipe;
 
 
-        public RecipeDataControlTest(ITestOutputHelper output)
+        public RecipeDataControlTest(ITestOutputHelper output, ITestHelper testHelper)
         {
             _extraOutput = output;
+            _testHelper = testHelper;
             _sut = new RecipedataControl(_acces.Object);
             // Valid object
             var validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
@@ -48,7 +51,9 @@ namespace RecipeDataTest.BusinessLogic
 
             //Assert
             Assert.NotNull(recipe);
+            if(recipe != null){
             Assert.Equal(id, recipe.RecipeId);
+            }
         }
 
         [Fact]
@@ -83,7 +88,9 @@ namespace RecipeDataTest.BusinessLogic
 
             //Assert
             Assert.NotNull(recipes);
-            Assert.Equal(inRecipes.Count, recipes.Count);
+            if(recipes != null){
+                Assert.Equal(inRecipes.Count, recipes.Count);
+            }
         }
 
         [Fact]
@@ -183,8 +190,9 @@ namespace RecipeDataTest.BusinessLogic
             _acces.Setup(x => x.GetRecipeById(id))
                 .Returns(_validRecipe);
             //Act
-            Recipe recipe = _sut.GetRandomRecipe(id);
+            Recipe? recipe = _sut.GetRandomRecipe(id);
             //Assert
+            _testHelper.AssertNotNull(recipe);
             Assert.Equal(recipe.RecipeId, id);
         }
 
@@ -204,8 +212,9 @@ namespace RecipeDataTest.BusinessLogic
             _acces.Setup(x => x.GetRecipeById(id))
                 .Returns(_validRecipe);
             //Act
-            Recipe recipe = _sut.GetRandomRecipe(id);
+            Recipe? recipe = _sut.GetRandomRecipe(id);
             //Assert
+            _testHelper.AssertNotNull(recipe);
             Assert.Null(recipe);
         }
     }

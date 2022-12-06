@@ -138,8 +138,13 @@ namespace RecipeRestService.Controllers
             SwipedRecipe? foundSwipedRecipe;
             if (inSwipedRecipeDto != null)
             {
-                foundSwipedRecipe = _swControl.Add(SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto));
+                SwipedRecipe? swipedRecipe = SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto);
+                if(swipedRecipe != null){
+                foundSwipedRecipe = _swControl.Add(swipedRecipe);
                 foundReturn= Ok(foundSwipedRecipe); 
+                }else{
+                    foundReturn = new StatusCodeResult(500);
+                }
             }
             else
             {

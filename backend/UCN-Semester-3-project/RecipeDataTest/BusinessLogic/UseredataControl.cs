@@ -10,6 +10,8 @@ namespace RecipeDataTest.BusinessLogic
     {
 
         private readonly ITestOutputHelper _extraOutput;
+
+        private readonly ITestHelper _testHelper;
         private readonly UserDataControl _sut;
         private readonly Mock<IUserAccess> _acces = new Mock<IUserAccess>();
 
@@ -17,9 +19,10 @@ namespace RecipeDataTest.BusinessLogic
         private readonly User _validUser;
 
 
-        public UserDataControlTest(ITestOutputHelper output)
+        public UserDataControlTest(ITestOutputHelper output, ITestHelper testHelper)
         {
             _extraOutput = output;
+            _testHelper = testHelper;
             _sut = new UserDataControl(_acces.Object);
             // Valid object
             _validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "email", "mark", "mark", "pass",
@@ -40,7 +43,7 @@ namespace RecipeDataTest.BusinessLogic
             var user = _sut.Get(id);
 
             //Assert
-            Assert.NotNull(user);
+            _testHelper.AssertNotNull(user);
             Assert.Equal(id, user.UserId);
         }
 
@@ -75,7 +78,7 @@ namespace RecipeDataTest.BusinessLogic
             List<User>? users = _sut.Get();
 
             //Assert
-            Assert.NotNull(users);
+            _testHelper.AssertNotNull(users);
             Assert.Equal(inUser.Count, users.Count);
         }
 

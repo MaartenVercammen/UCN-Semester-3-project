@@ -30,8 +30,8 @@ namespace BambooSessionController.Controllers
         {
             Guid bamboosessionId = Guid.Parse(id);
             ActionResult<BambooSessionDto> foundReturn;
-            BambooSession bambooSession = _bControl.Get(bamboosessionId);
-            BambooSessionDto bambooSessionDto;
+            BambooSession? bambooSession = _bControl.Get(bamboosessionId);
+            BambooSessionDto? bambooSessionDto;
 
             if (bambooSession != null)
             {
@@ -53,8 +53,8 @@ namespace BambooSessionController.Controllers
         {
 
             ActionResult<List<BambooSessionDto>> foundReturn;
-            List<BambooSession> bambooSessions = _bControl.Get();
-            List<BambooSessionDto> bambooSessionsDto;
+            List<BambooSession>? bambooSessions = _bControl.Get();
+            List<BambooSessionDto>? bambooSessionsDto;
 
             if (bambooSessions != null)
             {
@@ -85,7 +85,13 @@ namespace BambooSessionController.Controllers
 
             if (inBamboo != null)
             {
-                insertedGuid = _bControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo));
+                BambooSession? bambooSession = BambooSessionDtoConvert.ToBambooSession(inBamboo);
+                if(bambooSession != null){
+                    insertedGuid = _bControl.Add(bambooSession);
+                }
+                else{
+                    insertedGuid = Guid.Empty;
+                }
             }
             if (insertedGuid != Guid.Empty)
             {
@@ -121,8 +127,7 @@ namespace BambooSessionController.Controllers
         {
             ActionResult foundreturn;
             Guid sessionId = Guid.Parse(session);
-            List<Seat> seats = _bControl.GetSeatsBySessionId(sessionId);
-            List<SeatDto> seatDtos = SeatDtoConvert.FromSeatCollection(seats);
+            List<Seat>? seats = _bControl.GetSeatsBySessionId(sessionId);
             if (seats == null)
             {
                 foundreturn = new StatusCodeResult(500);
@@ -135,7 +140,13 @@ namespace BambooSessionController.Controllers
                 }
                 else
                 {
+                    List<SeatDto>? seatDtos = SeatDtoConvert.FromSeatCollection(seats);
+                    if(seatDtos != null){
                     foundreturn = Ok(seatDtos);
+                    }
+                    else{
+                        foundreturn = new StatusCodeResult(500);
+                    }
                 }
             }
             return foundreturn;

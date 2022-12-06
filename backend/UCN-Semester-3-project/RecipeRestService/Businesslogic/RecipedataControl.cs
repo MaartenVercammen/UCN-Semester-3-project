@@ -33,7 +33,7 @@ namespace RecipeRestService.Businesslogic
                 IsCompleted = _RecipeAccess.DeleteRecipe(id);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 IsCompleted = false;
             }
@@ -73,9 +73,9 @@ namespace RecipeRestService.Businesslogic
         }
 
         // TODO: Fix this method - retrieve random from db
-        public Recipe GetRandomRecipe(Guid userId)
+        public Recipe? GetRandomRecipe(Guid userId)
         {
-            Recipe recipe = new Recipe();
+            Recipe? recipe;
             try{
                 recipe = _RecipeAccess.GetRandomRecipe(userId);
                 System.Console.WriteLine(recipe.Name);
@@ -87,9 +87,9 @@ namespace RecipeRestService.Businesslogic
             }
         }
 
-        public List<Recipe> GetLikedByUser(Guid userId)
+        public List<Recipe>? GetLikedByUser(Guid userId)
         {
-            List<Recipe> recipes = new List<Recipe>();
+            List<Recipe>? recipes = new List<Recipe>();
             try{
                 recipes = _RecipeAccess.GetLikedByUser(userId);
             }

@@ -47,6 +47,10 @@ namespace RecipesData.Model
         public BambooSession()
         {
             this.Seats = new List<Seat>();
+            Host = new User();
+            Address = "";
+            Recipe = new Recipe();
+            Description = "";
         }
         
     }

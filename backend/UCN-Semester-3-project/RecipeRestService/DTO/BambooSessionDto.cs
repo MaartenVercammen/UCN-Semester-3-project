@@ -40,11 +40,16 @@ namespace RecipeRestService.DTO
             this.DateTime = dateTime;
             this.SlotsNumber = slotsNumber;
             this.Seats = new List<SeatDto>();
+            this.Host = new User();
         }
 
         public BambooSessionDto()
         {
             this.Seats = new List<SeatDto>();
+            this.Address = "";
+            this.Recipe = new Recipe();
+            this.Description = "";
+            this.Host = new User();
         }
         
     }
