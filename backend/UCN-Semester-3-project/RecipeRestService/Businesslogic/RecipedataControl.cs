@@ -78,7 +78,6 @@ namespace RecipeRestService.Businesslogic
             Recipe recipe = new Recipe();
             try{
                 recipe = _RecipeAccess.GetRandomRecipe(userId);
-                System.Console.WriteLine(recipe.Name);
                 return recipe;
             }
             catch (Exception)

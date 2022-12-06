@@ -9,7 +9,7 @@ namespace RecipeRestService.ModelConversion{
             SeatDto? seatDto = null;
             if (inSeat != null)
             {
-                seatDto = new SeatDto(UserDtoConvert.FromUser(inSeat.User), inSeat.SeatId.ToString());
+                seatDto = new SeatDto(UserDtoConvert.FromUser(inSeat.User), inSeat.SeatId);
             }
             return seatDto;
         }
@@ -35,7 +35,7 @@ namespace RecipeRestService.ModelConversion{
         
         public static Seat? ToSeat(SeatDto inDto)
         {
-            Seat seat = new Seat(UserDtoConvert.ToUser(inDto.User), Guid.Parse(inDto.SeatId));
+            Seat seat = new Seat(UserDtoConvert.ToUser(inDto.User), inDto.SeatId);
             return seat;
         }
     }

@@ -22,8 +22,6 @@ namespace RecipeRestService.Businesslogic
              catch (Exception ex)
              {
                  guid = Guid.Empty;
-                 System.Console.WriteLine(ex.Message);
-                 System.Console.WriteLine(ex.StackTrace);
              }
              return guid;
          }
@@ -35,8 +33,6 @@ namespace RecipeRestService.Businesslogic
                 IsDone = _BambooSessionAccess.DeleteBambooSession(id);
             }catch(Exception ex){
                 IsDone = false;
-                System.Console.WriteLine(ex.StackTrace);
-                System.Console.WriteLine(ex.Message);
             }
 
             return IsDone;
@@ -60,8 +56,6 @@ namespace RecipeRestService.Businesslogic
             try{
                 bambooSessions =_BambooSessionAccess.GetBambooSessions();
             }catch(Exception ex){
-                System.Console.WriteLine(ex.Message);
-                System.Console.WriteLine(ex.StackTrace);
                 bambooSessions = null;
             }
 
@@ -74,26 +68,46 @@ namespace RecipeRestService.Businesslogic
             try{
                 seats = _BambooSessionAccess.GetSeatsBySessionId(sessionId);
             }catch(Exception ex){
-                System.Console.WriteLine(ex.StackTrace);
-                System.Console.WriteLine(ex.Message);
                 seats = null;
             }
 
             return seats;
         }
 
-        public bool Join(Guid sessionId, Guid userId, Guid seat)
+        public bool Join(BambooSession session, User user, Seat seat)
         {
             bool returnValue;
             try{
-                returnValue = _BambooSessionAccess.JoinBambooSession(sessionId, userId, seat);
+                List<Seat> seats = _BambooSessionAccess.GetSeatsBySessionId(session.SessionId);
+                foreach (Seat s in seats)
+                {
+
+                    if (s.User.UserId != null && s.User.UserId == user.UserId)
+                    {
+                        return false;
+                    }
+                }
+                returnValue = _BambooSessionAccess.JoinBambooSession(session, user, seat);
             }catch(Exception ex){
-                System.Console.WriteLine(ex.StackTrace);
-                System.Console.WriteLine(ex.Message);
                 returnValue = false;
             }
 
             return returnValue;
+        }
+
+        public Seat? GetSeatBySessionAndSeatId(BambooSession session, Guid seatId)
+        {
+            Seat? seat;
+            try
+            {
+                seat = _BambooSessionAccess.GetSeatBySessionAndSeatId(session, seatId);
+            }
+            catch(Exception ex)
+            {
+                seat = null;
+            }
+
+            return seat;
         }
     }
 

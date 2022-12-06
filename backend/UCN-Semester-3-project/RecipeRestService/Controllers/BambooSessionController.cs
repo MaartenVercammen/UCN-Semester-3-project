@@ -113,24 +113,34 @@ namespace BambooSessionController.Controllers
             return foundReturn;
         }
 
-        [HttpPost, Route("{session}/{seat}")]
+        [HttpPut]
         [Authorize(Roles = "ADMIN,VERIFIED")]
-        public ActionResult<bool> JoinBambooSession(string session, string seat)
+        public ActionResult<bool> JoinBambooSession(string sessionId, string seatId)
         {
             ActionResult foundReturn;
-            Guid sessionId = Guid.Parse(session);
-            Guid seatId = Guid.Parse(seat);
+
+            // session
+            Guid sessionGuid = Guid.Parse(sessionId);
+            BambooSession? session = _bControl.Get(sessionGuid);
+
+            // seat
+            Guid seatGuid = Guid.Parse(seatId);
+            Seat? seat = _bControl.GetSeatBySessionAndSeatId(session, seatGuid);
+
+
 
             Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            User? user = _uControl.Get(userId);
 
-            bool IsDone = _bControl.Join(sessionId, userId, seatId);
+            bool IsDone = _bControl.Join(session, user, seat);
+
 
             foundReturn = Ok(IsDone);
 
             return foundReturn;
         }
 
-        [HttpPost, Route("{session}")]
+        [HttpGet, Route("{session}/seats")]
         [Authorize(Roles = "ADMIN,VERIFIED")]
         public ActionResult<List<SeatDto>> GetSeatsBySessionId(string session)
         {
