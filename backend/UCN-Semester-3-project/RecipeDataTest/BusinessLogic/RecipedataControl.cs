@@ -214,7 +214,6 @@ namespace RecipeDataTest.BusinessLogic
             //Act
             Recipe? recipe = _sut.GetRandomRecipe(id);
             //Assert
-            _testHelper.AssertNotNull(recipe);
             Assert.Null(recipe);
         }
     }
