@@ -4,7 +4,7 @@ import { Ingredient, Instruction, Recipe, User } from '../../types';
 import style from './GetUser.module.css';
 import UserService from '../../service/userService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faExternalLink } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faExternalLink, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const GetUser: React.FC = () => {
   const [user, setUser] = useState<User>();
@@ -71,19 +71,19 @@ const GetUser: React.FC = () => {
               <Link to={'./liked'}>
                 <div className={style.usrLinkChild}>
                   <h4>liked recipes</h4>
-                  <FontAwesomeIcon icon={faExternalLink} />
+                  <FontAwesomeIcon icon={faArrowRight} />
                 </div>
               </Link>
               <Link to={'.'}>
                 <div className={style.usrLinkChild}>
                   <h4>my recipes</h4>
-                  <FontAwesomeIcon icon={faExternalLink} />
+                  <FontAwesomeIcon icon={faArrowRight} />
                 </div>
               </Link>
               <Link to={'.'}>
                 <div className={style.usrLinkChild}>
                   <h4>my bamboo sessions</h4>
-                  <FontAwesomeIcon icon={faExternalLink} />
+                  <FontAwesomeIcon icon={faArrowRight} />
                 </div>
               </Link>
             </div>

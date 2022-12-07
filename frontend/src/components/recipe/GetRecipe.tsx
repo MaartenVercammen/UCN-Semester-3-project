@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
 import UserService from '../../service/userService';
-import { User, Ingredient, Instruction, Recipe } from '../../types';
+import { User, Ingredient, Instruction, Recipe, SwipedRecipe } from '../../types';
 import style from './GetRecipe.module.css';
 
 const GetRecipe: React.FC = () => {
@@ -10,10 +10,12 @@ const GetRecipe: React.FC = () => {
   const [author, setAuthor] = useState<any>([]);
   const [ingredients, setIngredients] = useState<any>([]);
   const [instructions, setInstructions] = useState<any>([]);
+  const [user, setUser] = useState<User>();
+  const [liked, setLiked] = useState<SwipedRecipe[]>([]);
 
   const navigation = useNavigate();
 
-  const getSingleData = async () => {
+  const getData = async () => {
     const response = await RecipeService.getRecipe(window.location.pathname.split('/')[2]);
     const authorResponse = await UserService.getUser(response.data.author);
     const data = response.data;
@@ -21,6 +23,13 @@ const GetRecipe: React.FC = () => {
     setIngredients(data.ingredients);
     setInstructions(data.instructions);
     setAuthor(authorResponse.data);
+    await getUser();
+  };
+
+  const getLiked = async (userId) => {
+    const response = await RecipeService.getSwiped(userId);
+    const data = response.data;
+    setLiked(data);
   };
 
   const deleteRecipe = async () => {
@@ -30,25 +39,70 @@ const GetRecipe: React.FC = () => {
     }
   };
 
+  const isLiked = () => {
+    let isLiked = false;
+    liked.forEach((element) => {
+      if (element.recipeId === recipe.recipeId) {
+        isLiked = true;
+      }
+    });
+    return isLiked;
+  };
+
   // TODO: implement edit recipe
   const editRecipe = async () => {
+    alert('not implemented yet :(');
+  };
+
+  const getUser = async () => {
     const token = sessionStorage.getItem('user');
     const activeUser: User = JSON.parse(token || '{}');
     const id = activeUser.userId;
     const user: User = (await UserService.getUser(id)).data;
+<<<<<<< HEAD
     if (user.userId === recipe.author) {
       navigation('/recipes/' + recipe.recipeId + '/edit');
       
   } else {
       alert('You can only edit recipes you have created');
+=======
+    setUser(user);
+    getLiked(user.userId);
+  };
+
+  const likeRecipe = async () => {
+    if (user) {
+      const swipe: SwipedRecipe = {
+        authorId: user.userId,
+        recipeId: recipe.recipeId,
+        isLiked: true
+      };
+      await RecipeService.swipeRecipe(swipe);
+      alert('Recipe liked!');
+      window.location.reload();
+    }
+  };
+
+  const dislikeRecipe = async () => {
+    if (user) {
+      const swipe: SwipedRecipe = {
+        authorId: user.userId,
+        recipeId: recipe.recipeId,
+        isLiked: false
+      };
+      await RecipeService.swipeRecipe(swipe);
+      alert('Recipe disliked!');
+      window.location.reload();
+>>>>>>> dev
     }
   };
 
   useEffect(() => {
-    getSingleData();
+    getData();
   }, []);
 
   return (
+    <>
     <div className={style.recipeContent}>
       <div className={style.recipeImg}>
         <img src={recipe.pictureURL} alt="" />
@@ -78,13 +132,20 @@ const GetRecipe: React.FC = () => {
           </div>
         ))}
       </div>
+      <p>{isLiked()}</p>
+      {recipe.author === user?.userId ? (
       <div className={style.buttonContainer}>
-        <button onClick={(e) => editRecipe()} className={style.editBtn}>edit</button>
-        <button onClick={(e) => deleteRecipe()} className={style.deleteBtn}>
-          delete
-        </button>{' '}
-      </div>
+        <button onClick={() => editRecipe()} className={style.editBtn}>edit</button>
+        <button onClick={() => deleteRecipe()} className={style.deleteBtn}>delete</button>
+      </div>) 
+      : ( 
+      <div className={style.buttonContainer}>
+        {isLiked() ? 
+        <button onClick={() => dislikeRecipe()} className={style.editBtn}>dislike</button> : 
+        <button onClick={() => likeRecipe()} className={style.editBtn}>like</button>
+      } </div> )}
     </div>
+    </>
   );
 };
 

@@ -23,7 +23,6 @@ const GetRecipes: React.FC = () => {
 
   return (
     <>
-    {console.log(recipes)}
       <div className={style.pageContent}>
         <h2 style={{ color: '#A8ACDC' }}>explore <span style={{ color: '#444444' }}>recipes</span></h2>
         {recipes.map((recipe: Recipe) => (

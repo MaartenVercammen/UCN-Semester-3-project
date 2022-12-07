@@ -30,7 +30,7 @@ namespace BambooSessionController.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<BambooSessionDto> GetBambooSession(string id)
         {
             Guid bamboosessionId = Guid.Parse(id);
@@ -53,7 +53,7 @@ namespace BambooSessionController.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<BambooSessionDto>> GetBambooSessions()
         {
 
@@ -82,7 +82,7 @@ namespace BambooSessionController.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
         {
             // user id
@@ -122,25 +122,35 @@ namespace BambooSessionController.Controllers
             return foundReturn;
         }
 
-        [HttpPost, Route("{session}/{seat}")]
+        [HttpPut]
         [Authorize(Roles = "ADMIN,VERIFIED")]
-        public ActionResult<bool> JoinBambooSession(string session, string seat)
+        public ActionResult<bool> JoinBambooSession(string sessionId, string seatId)
         {
             ActionResult foundReturn;
-            Guid sessionId = Guid.Parse(session);
-            Guid seatId = Guid.Parse(seat);
+
+            // session
+            Guid sessionGuid = Guid.Parse(sessionId);
+            BambooSession? session = _bControl.Get(sessionGuid);
+
+            // seat
+            Guid seatGuid = Guid.Parse(seatId);
+            Seat? seat = _bControl.GetSeatBySessionAndSeatId(session, seatGuid);
+
+
 
             Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            User? user = _userData.Get(userId);
 
-            bool IsDone = _bControl.Join(sessionId, userId, seatId);
+            bool IsDone = _bControl.Join(session, user, seat);
+
 
             foundReturn = Ok(IsDone);
 
             return foundReturn;
         }
 
-        [HttpPost, Route("{session}")]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [HttpGet, Route("{session}/seats")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<List<SeatDto>> GetSeatsBySessionId(string session)
         {
             ActionResult foundreturn;
@@ -172,7 +182,7 @@ namespace BambooSessionController.Controllers
             return foundreturn;
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         [HttpDelete, Route("{id}")]
         public ActionResult<bool> Delete(string id)
         {

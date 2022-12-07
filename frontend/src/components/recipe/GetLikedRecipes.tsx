@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import RecipeService from '../../service/recipeService';
 import { Recipe, User } from '../../types';
 import style from './GetRecipes.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const GetLikedRecipes: React.FC = () => {
   const [recipes, setRecipes] = useState<(any)>([]);
