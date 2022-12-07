@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 using RecipesData.Database;
 using RecipesData.Model;
 
-namespace RecipeDataTest
+namespace RecipeDataTest.Unit.BusinessLogic
 {
     public class SwipedRecipeDataAccessTest
     {

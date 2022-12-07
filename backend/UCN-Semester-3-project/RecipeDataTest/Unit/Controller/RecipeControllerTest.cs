@@ -8,7 +8,6 @@ using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
 using RecipesData.Model;
-using UserRestService.Businesslogic;
 
 namespace RecipeDataTest.Unit.Controller;
 
@@ -27,7 +26,7 @@ public class RecipeControllerTest
     public RecipeControllerTest()
     {
         _httpContext.Request.Headers["Authorization"] = "token";
-        _sut = new RecipesController(_acces.Object, _userData.Object, _securityHelper.Object)
+        _sut = new RecipesController(_userData.Object, _acces.Object, _securityHelper.Object)
         {
             ControllerContext = new ControllerContext()
             {

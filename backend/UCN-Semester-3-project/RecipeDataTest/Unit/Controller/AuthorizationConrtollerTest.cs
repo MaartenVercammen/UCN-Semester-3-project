@@ -59,7 +59,7 @@ public class AuthorizationConrtollerTest
     {
         //Arrange
         _authenticationData.Setup(x => x.Login(_user.Email, _user.Password))
-            .Returns(_user);
+            .Returns(Data.Data._UserDto);
         _securityHelper.Setup(x => x.GetSecurityKey())
             .Returns(new SymmetricSecurityKey(_bytes));
         //Act
@@ -68,7 +68,7 @@ public class AuthorizationConrtollerTest
         var viewResult = Assert.IsType<ActionResult<UserDto>>(result);
         var model = Assert.IsAssignableFrom<OkObjectResult>(viewResult.Result);
         var user = Assert.IsAssignableFrom<UserDto>(model.Value);
-        Assert.Equal(_user.UserId.ToString(), user.UserId.ToString());
+        Assert.Equal(Data.Data._UserDto.UserId.ToString(), user.UserId.ToString());
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public class AuthorizationConrtollerTest
     {
         //Arrange
         _authenticationData.Setup(x => x.Login(_user.Email, _user.Password))
-            .Returns(null as User);
+            .Returns(null as UserDto);
         _securityHelper.Setup(x => x.GetSecurityKey())
             .Returns(new SymmetricSecurityKey(_bytes));
         //Act

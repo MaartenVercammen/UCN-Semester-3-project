@@ -81,8 +81,10 @@ namespace RecipeRestService.Businesslogic
             }
             catch (Exception)
             {
-                return null;
+                recipe = null;
             }
+
+            return recipe;
         }
 
         public List<Recipe>? GetLikedByUser(Guid userId)
