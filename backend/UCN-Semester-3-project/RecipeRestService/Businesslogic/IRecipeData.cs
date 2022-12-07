@@ -10,6 +10,6 @@ namespace RecipeRestService.Businesslogic
         bool Put(Recipe recipeToUpdate);
         bool Delete(Guid id);
         Recipe? GetRandomRecipe(Guid userId);
-        List<Recipe> GetLikedByUser(Guid userId);
+        List<Recipe>? GetLikedByUser(Guid userId);
     }
 }

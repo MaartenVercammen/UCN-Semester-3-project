@@ -18,17 +18,19 @@ namespace RecipeRestService.ModelConversion
 
         public static List<SwipedRecipeDto>? FromSwipedRecipeCollection(List<SwipedRecipe> inSwipedRecipes)
         {
-            List<SwipedRecipeDto> swipedRecipeDTOs = null;
+            List<SwipedRecipeDto>? swipedRecipeDTOs = null;
             if (inSwipedRecipes != null)
             {
                 swipedRecipeDTOs = new List<SwipedRecipeDto>();
-                SwipedRecipeDto tempDto;
+                SwipedRecipeDto? tempDto;
                 foreach (SwipedRecipe swipedRecipe in inSwipedRecipes)
                 {
                     if (swipedRecipe != null)
                     {
                         tempDto = FromSwipedRecipe(swipedRecipe);
-                        swipedRecipeDTOs.Add(tempDto);
+                        if(tempDto != null){
+                            swipedRecipeDTOs.Add(tempDto);
+                        }
                     }
                 }
             }

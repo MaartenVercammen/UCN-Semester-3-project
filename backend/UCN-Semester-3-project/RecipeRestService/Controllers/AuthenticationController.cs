@@ -34,11 +34,18 @@ namespace RecipeRestService.Controllers
             ActionResult actionResult;
             
             try{
-                User user = _access.Login(email, password);
-                if(user != null){
-                    Response.Headers["token"] = GenerateToken(user);
-                    Response.Headers["Access-Control-Expose-Headers"] = "token";
-                    actionResult = Ok(UserDtoConvert.FromUser(user));
+                UserDto? userDto = _access.Login(email, password);
+                
+                if(userDto != null){
+                    User? user = UserDtoConvert.ToUser(userDto);
+                    if(user != null){
+                        Response.Headers["token"] = GenerateToken(user);
+                        Response.Headers["Access-Control-Expose-Headers"] = "token";
+                        actionResult = Ok(userDto);
+                    }
+                    else{
+                        actionResult = new StatusCodeResult(401);
+                    }
                 }
                 else{
                     actionResult = new StatusCodeResult(401);
@@ -62,7 +69,6 @@ namespace RecipeRestService.Controllers
                 new Claim(ClaimTypes.NameIdentifier,
                 user.UserId.ToString())
             };
-            
             
             // Create header with algorithm and token type - and secret added
             SymmetricSecurityKey SIGNING_KEY = _securityHelper.GetSecurityKey();

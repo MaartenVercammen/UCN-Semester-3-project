@@ -4,11 +4,13 @@ import React, { useEffect, useState } from 'react';
 import RecipeService from '../../service/recipeService';
 import { Recipe, User } from '../../types';
 import style from './GetRecipes.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const GetLikedRecipes: React.FC = () => {
   const [recipes, setRecipes] = useState<(any)>([]);
   let userId: string = "";
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const tokenstring = sessionStorage.getItem('user');
@@ -29,10 +31,9 @@ const GetLikedRecipes: React.FC = () => {
   return (
     <>
       <div className={style.pageContent}>
-        <h2>liked recipes</h2>
+        <h2 style={{ color: '#A8ACDC' }}>liked <span style={{ color: '#444444'}}>recipes</span></h2>
         {recipes.map((recipe: Recipe) => (
-          <Link to={'/recipes/' + recipe.recipeId}>
-            <div className={style.recipe} key={recipe.recipeId} id={style.recipeChild}>
+            <div className={style.recipe} key={recipe.recipeId} id={style.recipeChild} onClick={() => navigate('/recipes/' + recipe.recipeId)}>
               <div className={style.imgWrapper}>
                 <img src={recipe.pictureURL} alt="" />
               </div>
@@ -44,7 +45,6 @@ const GetLikedRecipes: React.FC = () => {
                 </div>
               </div>
             </div>
-          </Link>
         ))}
       </div>
     </>

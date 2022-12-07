@@ -92,7 +92,12 @@ namespace UserRestService.Controllers
             Guid insertedGuid = Guid.Empty;
             if (inUser != null)
             {
-                insertedGuid = _rControl.Add(UserDtoConvert.ToUser(inUser));
+                User? user = UserDtoConvert.ToUser(inUser);
+                if(user != null){
+                insertedGuid = _rControl.Add(user);
+                }else{
+                    foundReturn = new StatusCodeResult(500);
+                }
             }
             if (insertedGuid != Guid.Empty)
             {
@@ -124,8 +129,12 @@ namespace UserRestService.Controllers
 
             if (inUser != null)
             {
-                var userId = inUser.UserId;
-                updated = _rControl.Put(UserDtoConvert.ToUser(inUser));
+                User? user = UserDtoConvert.ToUser(inUser);
+                if(user !=  null){
+                    updated = _rControl.Put(user);
+                }else{
+                    updated = false;
+                }
             }
             if (updated)
             {

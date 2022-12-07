@@ -33,7 +33,7 @@ namespace RecipeRestService.Businesslogic
                 IsCompleted = _RecipeAccess.DeleteRecipe(id);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 IsCompleted = false;
             }
@@ -74,10 +74,10 @@ namespace RecipeRestService.Businesslogic
         
         public Recipe GetRandomRecipe(Guid userId)
         {
-            Recipe recipe = new Recipe();
-            try{
+            Recipe? recipe;
+            try
+            {
                 recipe = _RecipeAccess.GetRandomRecipe(userId);
-                return recipe;
             }
             catch (Exception)
             {
@@ -85,9 +85,9 @@ namespace RecipeRestService.Businesslogic
             }
         }
 
-        public List<Recipe> GetLikedByUser(Guid userId)
+        public List<Recipe>? GetLikedByUser(Guid userId)
         {
-            List<Recipe> recipes = new List<Recipe>();
+            List<Recipe>? recipes = new List<Recipe>();
             try{
                 recipes = _RecipeAccess.GetLikedByUser(userId);
             }

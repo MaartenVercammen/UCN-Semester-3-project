@@ -7,7 +7,6 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication;
 using RecipeRestService.Businesslogic;
 using RecipesData.Database;
-using UserRestService.Businesslogic;
 
 //using RecipesData.Model;
 
@@ -72,7 +71,9 @@ builder.Services.AddSingleton<IUserAccess, UserDatabaseAccess>();
 builder.Services.AddSingleton<IAuthenticationData, AuthenticationDataControl>();
 builder.Services.AddSingleton<IBambooSessionData, BambooSessionDataControl>();
 builder.Services.AddSingleton<IBambooSessionAccess, BambooSessionDatabaseAccess>();
+builder.Services.AddSingleton<IRecipeData, RecipedataControl>();
 builder.Services.AddSingleton<IRecipeAccess, RecipeDatabaseAccess>();
+builder.Services.AddSingleton<ISecurityHelper, SecurityHelper>();
 
 //Dependencies into controller as singletons
 //This is needed for test mocking

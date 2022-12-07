@@ -12,12 +12,14 @@ import style from './Navbar.module.css';
 
 const Navbar: React.FC = () => {
   const [userId, setUserId] = useState<string>('');
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     const tokenstring = sessionStorage.getItem('user');
     if(tokenstring != undefined){
       const user : User = JSON.parse(tokenstring);
       setUserId(user.userId);
+      setUser(user);
     }
   }, []);
 
@@ -49,7 +51,7 @@ const Navbar: React.FC = () => {
           </li>
           { Isallowed([Role.ADMIN, Role.VERIFIEDUSER]) &&
           <li className={style.navbarChild}>
-            <a href="/createRecipe">
+            <a href="/create">
               <FontAwesomeIcon icon={faPlus} className={style.icon} />
             </a>
           </li>

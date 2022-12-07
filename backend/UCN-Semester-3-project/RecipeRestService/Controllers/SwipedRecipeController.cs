@@ -138,7 +138,7 @@ namespace RecipeRestService.Controllers
             SwipedRecipeDto? foundSwipedRecipe = null;
             if (inSwipedRecipeDto != null)
             {
-                SwipedRecipe swipedRecipe = SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto);
+                SwipedRecipe? swipedRecipe = SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto);
                 SwipedRecipe addedrecipe = _swControl.Add(swipedRecipe);
                 foundSwipedRecipe = SwipedRecipeDtoConvert.FromSwipedRecipe(addedrecipe);
             }
