@@ -6,7 +6,7 @@ using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
 using RecipesData.Model;
 
-namespace BambooSessionController.Controllers
+namespace RecipeRestService.Controllers
 {
     [ApiController]
     [Authorize]
@@ -83,7 +83,7 @@ namespace BambooSessionController.Controllers
 
         [HttpPost]
         [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
-        public ActionResult Post([FromBody] BambooSessionDto inBamboo)
+        public ActionResult<Guid> Post([FromBody] BambooSessionDto inBamboo)
         {
             // user id
             Guid insertedGuid = Guid.Empty;
@@ -100,10 +100,6 @@ namespace BambooSessionController.Controllers
                     if (bambooSession != null)
                     {
                         insertedGuid = _bControl.Add(bambooSession);
-                    }
-                    else
-                    {
-                        insertedGuid = Guid.Empty;
                     }
                 }
                 else
@@ -169,14 +165,7 @@ namespace BambooSessionController.Controllers
                 else
                 {
                     List<SeatDto>? seatDtos = SeatDtoConvert.FromSeatCollection(seats);
-                    if (seatDtos != null)
-                    {
-                        foundreturn = Ok(seatDtos);
-                    }
-                    else
-                    {
-                        foundreturn = new StatusCodeResult(500);
-                    }
+                    foundreturn = Ok(seatDtos);
                 }
             }
             return foundreturn;

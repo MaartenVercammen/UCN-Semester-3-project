@@ -15,12 +15,13 @@ namespace RecipeRestService.Controllers
 
     [Route("[controller]")]
     [ApiController]
-    public class AuthorizationConrtoller : ControllerBase
+    public class AuthorizationController : ControllerBase
     {
 
         private readonly IAuthenticationData _access;
         private readonly ISecurityHelper _securityHelper;
-        public AuthorizationConrtoller(IAuthenticationData access, ISecurityHelper securityHelper)
+        
+        public AuthorizationController(IAuthenticationData access, ISecurityHelper securityHelper)
         {
             _access = access;
             _securityHelper = securityHelper;
@@ -37,14 +38,9 @@ namespace RecipeRestService.Controllers
                 
                 if(userDto != null){
                     User? user = UserDtoConvert.ToUser(userDto);
-                    if(user != null){
-                        Response.Headers["token"] = GenerateToken(user);
-                        Response.Headers["Access-Control-Expose-Headers"] = "token";
-                        actionResult = Ok(userDto);
-                    }
-                    else{
-                        actionResult = new StatusCodeResult(401);
-                    }
+                    Response.Headers["token"] = GenerateToken(user);
+                    Response.Headers["Access-Control-Expose-Headers"] = "token";
+                    actionResult = Ok(userDto);
                 }
                 else{
                     actionResult = new StatusCodeResult(401);

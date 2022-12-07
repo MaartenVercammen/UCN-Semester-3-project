@@ -71,19 +71,20 @@ namespace RecipeRestService.Businesslogic
         {
             throw new NotImplementedException();
         }
-
-        // TODO: Fix this method - retrieve random from db
-        public Recipe? GetRandomRecipe(Guid userId)
+        
+        public Recipe GetRandomRecipe(Guid userId)
         {
             Recipe? recipe;
-            try{
+            try
+            {
                 recipe = _RecipeAccess.GetRandomRecipe(userId);
-                return recipe;
             }
             catch (Exception)
             {
-                return null;
+                recipe = null;
             }
+
+            return recipe;
         }
 
         public List<Recipe>? GetLikedByUser(Guid userId)

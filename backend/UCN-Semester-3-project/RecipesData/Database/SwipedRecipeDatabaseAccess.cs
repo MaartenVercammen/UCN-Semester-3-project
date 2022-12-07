@@ -156,12 +156,13 @@ namespace RecipesData.Database
         /// </summary>
         /// <param name="id">The Guid of the Recipe that is associated with this SwipedRecipe</param>
         /// <returns>True if the removal was successful</returns>
-        public bool DeleteSR(Guid id, Guid userId)
+        public bool DeleteSR(Guid recipeId, Guid userId)
         {
             bool removed = false;
-            string guidString = id.ToString();
+            string recipeIdString = recipeId.ToString();
+            string userIdString = userId.ToString();
 
-            string query = "delete from SwipedRecipe where recipeId = @id and userId = @userId";
+            string query = "delete from SwipedRecipe where recipeId = recipeId and userId = @userId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -169,8 +170,8 @@ namespace RecipesData.Database
                 using (SqlCommand command = connection.CreateCommand())
                 {
                     command.CommandText = query;
-                    command.Parameters.AddWithValue("@id", id);
-                    command.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@recipeId", recipeIdString);
+                    command.Parameters.AddWithValue("@userId", userIdString);
 
                     command.ExecuteNonQuery();
                     removed = true;

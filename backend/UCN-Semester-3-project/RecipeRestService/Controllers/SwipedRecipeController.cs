@@ -19,9 +19,9 @@ namespace RecipeRestService.Controllers
 
         private readonly ISecurityHelper _securityHelper;
 
-        public SwipedRecipeController(ISwipedRecipeData swipedRecipeData, ISecurityHelper securityHelper)
-        {
-            _swControl = swipedRecipeData;
+        public SwipedRecipeController(ISwipedRecipeData swControl, ISecurityHelper securityHelper)
+        { 
+            _swControl = swControl;
             _securityHelper = securityHelper;
         }
 
@@ -52,8 +52,8 @@ namespace RecipeRestService.Controllers
         public ActionResult<List<SwipedRecipeDto>> GetPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
-
-            if(_securityHelper.IsJWTEqualRequestId(Request, id)){
+            string token = Request.Headers["Authorization"];
+            if(_securityHelper.IsJWTEqualRequestId(token, id)){
                 return new StatusCodeResult(403);
             }
 
@@ -91,8 +91,8 @@ namespace RecipeRestService.Controllers
         public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
-
-            if(_securityHelper.IsJWTEqualRequestId(Request, id)){
+            string token = Request.Headers["Authorization"];
+            if(_securityHelper.IsJWTEqualRequestId(token, id)){
                 return new StatusCodeResult(403);
             }
 
@@ -135,16 +135,17 @@ namespace RecipeRestService.Controllers
             Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             inSwipedRecipeDto.UserId = userId;
 
-            SwipedRecipe? foundSwipedRecipe;
+            SwipedRecipeDto? foundSwipedRecipe = null;
             if (inSwipedRecipeDto != null)
             {
                 SwipedRecipe? swipedRecipe = SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto);
-                if(swipedRecipe != null){
-                foundSwipedRecipe = _swControl.Add(swipedRecipe);
-                foundReturn= Ok(foundSwipedRecipe); 
-                }else{
-                    foundReturn = new StatusCodeResult(500);
-                }
+                SwipedRecipe addedrecipe = _swControl.Add(swipedRecipe);
+                foundSwipedRecipe = SwipedRecipeDtoConvert.FromSwipedRecipe(addedrecipe);
+            }
+
+            if (foundSwipedRecipe != null)
+            {
+                foundReturn = Ok(foundSwipedRecipe); 
             }
             else
             {

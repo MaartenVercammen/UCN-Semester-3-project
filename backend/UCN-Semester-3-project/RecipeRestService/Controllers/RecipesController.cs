@@ -84,7 +84,7 @@ namespace RecipeRestService.Controllers
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
-            if (_securityHelper.IsJWTEqualRequestId(Request, userId))
+            if (_securityHelper.IsJWTEqualRequestId(Request.Headers["Authorization"], userId))
             {
                 return new StatusCodeResult(403);
             }
@@ -136,10 +136,6 @@ namespace RecipeRestService.Controllers
                     {
                         insertedGuid = _rControl.Add(recipe);
                     }
-                    else
-                    {
-                        insertedGuid = Guid.Empty;
-                    }
                 }
             }
             if (insertedGuid != Guid.Empty)
@@ -162,15 +158,9 @@ namespace RecipeRestService.Controllers
             Guid recipeId = Guid.Parse(id);
 
             Recipe? recipe = _rControl.Get(recipeId);
+            
 
-            if (recipe == null)
-            {
-                foundReturn = new StatusCodeResult(500);
-            }
-            else
-            {
-
-                if (_securityHelper.IsJWTEqualRequestId(Request, recipe.Author.UserId.ToString()))
+                if (_securityHelper.IsJWTEqualRequestId(Request.Headers["Authorization"], recipe.Author.UserId.ToString()))
                 {
                     return new StatusCodeResult(403);
                 }
@@ -184,8 +174,7 @@ namespace RecipeRestService.Controllers
                 {
                     foundReturn = new StatusCodeResult(500);
                 }
-            }
-            return foundReturn;
+                return foundReturn;
 
         }
 
@@ -202,7 +191,7 @@ namespace RecipeRestService.Controllers
             }
             else
             {
-                foundReturn = new StatusCodeResult(200);
+                foundReturn = new StatusCodeResult(204);
             }
             return foundReturn;
         }
