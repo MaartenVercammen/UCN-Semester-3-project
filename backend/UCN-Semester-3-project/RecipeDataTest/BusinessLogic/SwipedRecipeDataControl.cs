@@ -21,7 +21,6 @@ namespace RecipeDataTest
         private readonly SwipedRecipe _swipedRecipeLiked;
         private readonly SwipedRecipe _swipedRecipeDisliked;
         
-        readonly string _connectionString = "data Source=foodpanda.dev,1400; Database=ucn; User Id=dev;Password=dev;";
         public SwipedRecipeDataAccessTest(ITestOutputHelper output)
         {
             this.extraOutput = output;

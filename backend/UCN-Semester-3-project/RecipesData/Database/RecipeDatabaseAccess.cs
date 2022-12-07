@@ -6,18 +6,19 @@ namespace RecipesData.Database
 {
     public class RecipeDatabaseAccess : IRecipeAccess
     {
-        readonly string _connectionString;
-        readonly UserDatabaseAccess _userDatabaseAccess;
+        private readonly string _connectionString;
+        private readonly IUserAccess _userDatabaseAccess;
 
-        public RecipeDatabaseAccess(IConfiguration configuration)
+        public RecipeDatabaseAccess(IConfiguration configuration, IUserAccess userAccess)
         {
             _connectionString = configuration.GetConnectionString("UcnConnection");
             _userDatabaseAccess = new UserDatabaseAccess(_connectionString);
         }
 
-        public RecipeDatabaseAccess(string connetionstring)
+        public RecipeDatabaseAccess(string connetionstring, IUserAccess userAccess)
         {
             _connectionString = connetionstring;
+            _userDatabaseAccess = userAccess;
         }
 
         /// <summary>

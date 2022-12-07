@@ -4,10 +4,15 @@ using RecipesData.Database;
 using RecipesData.Model;
 using Xunit.Abstractions;
 
-namespace RecipeDataTest.BusinessLogic{
-    public class BambosessionTest{
+namespace RecipeDataTest.BusinessLogic
+{
+    public class BambosessionTest
+    {
 
         private readonly ITestOutputHelper _extraOutput;
+
+        private readonly ITestHelper _testHelper;
+
         private readonly BambooSessionDataControl _sut;
 
         private readonly Mock<IBambooSessionAccess> _acces = new Mock<IBambooSessionAccess>();
@@ -30,7 +35,10 @@ namespace RecipeDataTest.BusinessLogic{
 
         private readonly List<Seat> _availableSeats;
 
-        public BambosessionTest(){
+        public BambosessionTest(ITestOutputHelper outputHelper)
+        {
+            _extraOutput = outputHelper;
+            _testHelper = new TestHelper();
             _sut = new BambooSessionDataControl(_acces.Object);
             _id = Guid.NewGuid();
 
@@ -40,21 +48,21 @@ namespace RecipeDataTest.BusinessLogic{
             _seat = new Seat(null, _id);
             var validIngredient = new Ingredient("banana", 5, "kg");
             var validInstruction = new Instruction(1, "peel the banana");
-            _validRecipe = new Recipe( "Banana-bread", "best banana bread in the world",
+            _validRecipe = new Recipe("Banana-bread", "best banana bread in the world",
                 "http://picture.png", 30, 4, validUser);
             _validRecipe.Ingredients.Add(validIngredient);
             _validRecipe.Instructions.Add(validInstruction);
 
             _validBambosession = new BambooSession(_id, validUser, "My home", _validRecipe, "Come to my lovely place and have a nice candel lit dinner", DateTime.Now, 2);
 
-                _ListofBambooSessions     = new List<BambooSession>{
+            _ListofBambooSessions = new List<BambooSession>{
                 _validBambosession,
                 _validBambosession,
                 _validBambosession
             };
 
             Seat seat = new Seat(validUser);
-            
+
             _availableSeats = new List<Seat>() {
                 seat,
                 seat,
@@ -63,21 +71,21 @@ namespace RecipeDataTest.BusinessLogic{
                 seat
             };
         }
-    
-    
+
+
         [Fact]
         public void Get_WhenValidId_ReturnsBamboosession()
         {
             //Arrange
             _acces.Setup(x => x.GetBambooSession(_id))
             .Returns(_validBambosession);
-            
+
             //Act
 
             var response = _sut.Get(_id);
-          
+
             //Assert
-            Assert.NotNull(response);
+            _testHelper.AssertNotNull(response);
             Assert.Equal(_validBambosession.SessionId, response.SessionId);
 
         }
@@ -88,14 +96,14 @@ namespace RecipeDataTest.BusinessLogic{
             //Arrange
             _acces.Setup(x => x.GetBambooSession(_id))
             .Throws(new Exception());
-            
+
             //Act
 
             var response = _sut.Get(_id);
-          
+
             //Assert
             Assert.Null(response);
-         
+
         }
 
         [Fact]
@@ -105,13 +113,13 @@ namespace RecipeDataTest.BusinessLogic{
 
             _acces.Setup(x => x.GetBambooSessions())
             .Returns(_ListofBambooSessions);
-            
+
             //Act
 
             var response = _sut.Get();
-          
+
             //Assert
-            Assert.NotNull(response);
+            _testHelper.AssertNotNull(response);
             Assert.Equal(_ListofBambooSessions.Count, response.Count);
 
         }
@@ -122,14 +130,14 @@ namespace RecipeDataTest.BusinessLogic{
             //Arrange
             _acces.Setup(x => x.GetBambooSessions())
             .Throws(new Exception());
-            
+
             //Act
 
             var response = _sut.Get();
-          
+
             //Assert
             Assert.Null(response);
-         
+
         }
 
         [Fact]
@@ -138,7 +146,7 @@ namespace RecipeDataTest.BusinessLogic{
             //Arrange
             _acces.Setup(x => x.JoinBambooSession(_session, validUser, _seat))
             .Returns(true);
-            
+
             //Act
 
             var response = _sut.Join(_session, validUser, _seat);
@@ -154,13 +162,12 @@ namespace RecipeDataTest.BusinessLogic{
             //Arrange
             _acces.Setup(x => x.JoinBambooSession(_session, validUser, _seat))
             .Returns(false);
-            
+
             //Act
 
             var response = _sut.Join(_validBambosession, validUser, _seat);
           
             //Assert
-            Assert.NotNull(response);
             Assert.False(response);
 
         }
@@ -171,7 +178,7 @@ namespace RecipeDataTest.BusinessLogic{
             //Arrange
             _acces.Setup(x => x.JoinBambooSession(_validBambosession, validUser, _seat))
             .Throws(new Exception());
-            
+
             //Act
 
             var response = _sut.Join(_validBambosession, validUser, _seat);
@@ -187,13 +194,13 @@ namespace RecipeDataTest.BusinessLogic{
             //Arrange
             _acces.Setup(x => x.GetSeatsBySessionId(_id))
             .Returns(_availableSeats);
-            
+
             //Act
 
             var response = _sut.GetSeatsBySessionId(_id);
-          
+
             //Assert
-            Assert.NotNull(response);
+            _testHelper.AssertNotNull(response);
             Assert.Equal(_availableSeats.Count, response.Count);
 
         }
@@ -201,14 +208,14 @@ namespace RecipeDataTest.BusinessLogic{
         [Fact]
         public void getseat_WhenThrowAnException()
         {
-             //Arrange
+            //Arrange
             _acces.Setup(x => x.GetSeatsBySessionId(_id))
             .Throws(new Exception());
-            
+
             //Act
 
             var response = _sut.GetSeatsBySessionId(_id);
-          
+
             //Assert
             Assert.Null(response);
         }

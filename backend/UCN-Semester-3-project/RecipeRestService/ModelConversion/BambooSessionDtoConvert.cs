@@ -7,15 +7,16 @@ namespace RecipeRestService.ModelConversion
     {
         public static BambooSessionDto? FromBambooSession(BambooSession inBambooSession)
         {
-            User host = null;
-            Recipe recipe = null;
             BambooSessionDto? bambooSessionDTO = null;
             if (inBambooSession != null)
             {
                 bambooSessionDTO = new BambooSessionDto(inBambooSession.SessionId, inBambooSession.Host.UserId, inBambooSession.Address, inBambooSession.Recipe.RecipeId, inBambooSession.Description, inBambooSession.DateTime, inBambooSession.SlotsNumber);
                 foreach (var seat in inBambooSession.Seats)
-                {                 
-                    bambooSessionDTO.Seats.Add(SeatDtoConvert.FromSeat(seat));
+                {             
+                    SeatDto? seatDto =  SeatDtoConvert.FromSeat(seat);
+                    if(seatDto != null){   
+                        bambooSessionDTO.Seats.Add(seatDto);
+                    }
                 }
             }
             return bambooSessionDTO;
@@ -23,17 +24,19 @@ namespace RecipeRestService.ModelConversion
 
         public static List<BambooSessionDto>? FromBambooSessionCollection(List<BambooSession> inBambooSessions)
         {
-            List<BambooSessionDto> bambooSessionDTOs = null;
+            List<BambooSessionDto>? bambooSessionDTOs = null;
             if (inBambooSessions != null)
             {
                 bambooSessionDTOs = new List<BambooSessionDto>();
-                BambooSessionDto tempDto;
+                BambooSessionDto? tempDto;
                 foreach (BambooSession bambooSession in inBambooSessions)
                 {
                     if (bambooSession != null)
                     {
                         tempDto = FromBambooSession(bambooSession);
-                        bambooSessionDTOs.Add(tempDto);
+                        if(tempDto != null){
+                            bambooSessionDTOs.Add(tempDto);
+                        }
                     }
                 }
             }
@@ -43,9 +46,12 @@ namespace RecipeRestService.ModelConversion
         public static BambooSession? ToBambooSession(BambooSessionDto inDto, User host, Recipe recipe)
         {
             BambooSession bambooSession = new BambooSession(inDto.SessionId, host, inDto.Address, recipe, inDto.Description, inDto.DateTime, inDto.SlotsNumber);
-            foreach (var seat in inDto.Seats)
+            foreach (var seatDto in inDto.Seats)
                 {
-                    bambooSession.Seats.Add(SeatDtoConvert.ToSeat(seat));
+                    Seat? seat = SeatDtoConvert.ToSeat(seatDto);
+                    if(seat != null){
+                        bambooSession.Seats.Add(seat);
+                    }
                 }
             return bambooSession;
         }

@@ -42,10 +42,17 @@ namespace RecipeRestService.DTO
             this.LastName = lastName;
             this.Password = password;
             this.Address = address;
+            this.Role = "";
         }
 
         public UserDto()
         {
+            this.Email = "";
+            this.FirstName = "";
+            this.LastName = "";
+            this.Password = "";
+            this.Address = "";
+            this.Role = "";
         }
 
     }

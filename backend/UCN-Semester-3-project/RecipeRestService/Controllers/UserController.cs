@@ -14,14 +14,14 @@ namespace UserRestService.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UserDataControl _rControl;
-        private readonly IConfiguration _configuration;
+        private readonly IUserData _rControl;
 
-        public UserController(IConfiguration inConfiguration)
+        private readonly ISecurityHelper _securityHelper;
+
+        public UserController(IUserData userData, ISecurityHelper securityHelper)
         {
-            _configuration = inConfiguration;
-            UserDatabaseAccess access = new UserDatabaseAccess(inConfiguration);
-            _rControl = new UserDataControl(access);
+            _rControl = userData;
+            _securityHelper = securityHelper;
         }
 
         [HttpGet, Route("{id}")]
@@ -29,10 +29,10 @@ namespace UserRestService.Controllers
         public ActionResult<UserDto> Get(string id)
         {
             Guid UserId = Guid.Parse(id);
-            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
             //check if user is user role all others are allowed to see the other users
             if(role == Role.USER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+                if(_securityHelper.IsJWTEqualRequestId(Request, id)){
                     return new StatusCodeResult(403);
                 }
             }
@@ -90,7 +90,12 @@ namespace UserRestService.Controllers
             Guid insertedGuid = Guid.Empty;
             if (inUser != null)
             {
-                insertedGuid = _rControl.Add(UserDtoConvert.ToUser(inUser));
+                User? user = UserDtoConvert.ToUser(inUser);
+                if(user != null){
+                insertedGuid = _rControl.Add(user);
+                }else{
+                    foundReturn = new StatusCodeResult(500);
+                }
             }
             if (insertedGuid != Guid.Empty)
             {
@@ -110,19 +115,23 @@ namespace UserRestService.Controllers
             ActionResult foundReturn;
             bool updated = false;
 
-            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
 
             //check if user or verified user are theimselves
             if(role == Role.USER || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, inUser.UserId.ToString())){
+                if(_securityHelper.IsJWTEqualRequestId(Request, inUser.UserId.ToString())){
                     return new StatusCodeResult(403);
                 }
             }
 
             if (inUser != null)
             {
-                var userId = inUser.UserId;
-                updated = _rControl.Put(UserDtoConvert.ToUser(inUser));
+                User? user = UserDtoConvert.ToUser(inUser);
+                if(user !=  null){
+                    updated = _rControl.Put(user);
+                }else{
+                    updated = false;
+                }
             }
             if (updated)
             {
@@ -141,11 +150,11 @@ namespace UserRestService.Controllers
         {
             Guid userId = Guid.Parse(id);
 
-             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);            
+             Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);            
 
             //check if user or verified user are theimselves
             if(role == Role.USER || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+                if(_securityHelper.IsJWTEqualRequestId(Request, id)){
                     return new StatusCodeResult(403);
                 }
             }

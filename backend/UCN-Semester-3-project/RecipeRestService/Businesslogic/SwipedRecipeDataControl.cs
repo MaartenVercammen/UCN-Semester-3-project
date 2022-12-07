@@ -68,12 +68,12 @@ namespace RecipeRestService.Businesslogic
             return swipedRecipeToAdd;
         }
 
-        public bool Delete(Guid id)
+        public bool Delete(Guid id, Guid userId)
         {
             bool removed;
             try
             {
-                removed = _SwipedRecipeAccess.DeleteSR(id);
+                removed = _SwipedRecipeAccess.DeleteSR(id, userId);
             }
             catch (Exception)
             {

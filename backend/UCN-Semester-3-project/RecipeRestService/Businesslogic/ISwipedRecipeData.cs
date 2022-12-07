@@ -8,6 +8,6 @@ namespace RecipeRestService.Businesslogic
         List<SwipedRecipe>? GetPerUser(Guid userId);
         List<SwipedRecipe>? GetLikedPerUser(Guid userId);
         SwipedRecipe? Add(SwipedRecipe swipedRecipeToAdd);
-        bool Delete(Guid id); 
+        bool Delete(Guid id, Guid userId); 
     }
 }

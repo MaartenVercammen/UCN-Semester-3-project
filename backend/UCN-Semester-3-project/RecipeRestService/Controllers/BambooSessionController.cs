@@ -4,7 +4,6 @@ using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
-using RecipesData.Database;
 using RecipesData.Model;
 
 namespace BambooSessionController.Controllers
@@ -15,19 +14,19 @@ namespace BambooSessionController.Controllers
     public class BambooSessionController : ControllerBase
     {
         private readonly IBambooSessionData _bControl;
-        private readonly UserDataControl _uControl;
-        private readonly RecipedataControl _rControl;
-        private readonly IConfiguration _configuration;
+        private readonly ISecurityHelper _securityHelper;
+
+        private readonly IUserData _userData;
+
+        private readonly IRecipeData _recipeData;
 
 
-        public BambooSessionController(IConfiguration inConfiguration, IBambooSessionData data)
+        public BambooSessionController(ISecurityHelper securityHelper, IBambooSessionData data, IUserData userData, IRecipeData recipeData)
         {
-            _configuration = inConfiguration;
+            _securityHelper = securityHelper;
             _bControl = data;
-            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
-            _uControl = new UserDataControl(uAccess);
-            RecipeDatabaseAccess rAccess = new RecipeDatabaseAccess(inConfiguration);
-            _rControl = new RecipedataControl(rAccess);
+            _userData = userData;
+            _recipeData = recipeData;
         }
 
         [HttpGet, Route("{id}")]
@@ -36,8 +35,8 @@ namespace BambooSessionController.Controllers
         {
             Guid bamboosessionId = Guid.Parse(id);
             ActionResult<BambooSessionDto> foundReturn;
-            BambooSession bambooSession = _bControl.Get(bamboosessionId);
-            BambooSessionDto bambooSessionDto;
+            BambooSession? bambooSession = _bControl.Get(bamboosessionId);
+            BambooSessionDto? bambooSessionDto;
 
             if (bambooSession != null)
             {
@@ -59,8 +58,8 @@ namespace BambooSessionController.Controllers
         {
 
             ActionResult<List<BambooSessionDto>> foundReturn;
-            List<BambooSession> bambooSessions = _bControl.Get();
-            List<BambooSessionDto> bambooSessionsDto;
+            List<BambooSession>? bambooSessions = _bControl.Get();
+            List<BambooSessionDto>? bambooSessionsDto;
 
             if (bambooSessions != null)
             {
@@ -86,22 +85,32 @@ namespace BambooSessionController.Controllers
         [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
         {
-             // user id
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            // user id
+            Guid insertedGuid = Guid.Empty;
+            ActionResult foundReturn;
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             inBamboo.Host = userId;
-
-            // recipe id
-            Guid recipeId = inBamboo.Recipe;
-
-             ActionResult foundReturn;
-             Guid insertedGuid = Guid.Empty;
-
-            if (inBamboo != null && (userId != Guid.Empty || userId != null) && (recipeId != Guid.Empty || recipeId != null))
-             {
-                User host = _uControl.Get(userId);
-                Recipe recipe = _rControl.Get(recipeId);
-                 insertedGuid = _bControl.Add(BambooSessionDtoConvert.ToBambooSession(inBamboo, host, recipe));
-             }
+            if (inBamboo != null)
+            {
+                User? host = _userData.Get(userId);
+                Recipe? recipe = _recipeData.Get(inBamboo.Recipe);
+                if (host != null && recipe != null)
+                {
+                    BambooSession? bambooSession = BambooSessionDtoConvert.ToBambooSession(inBamboo, host, recipe);
+                    if (bambooSession != null)
+                    {
+                        insertedGuid = _bControl.Add(bambooSession);
+                    }
+                    else
+                    {
+                        insertedGuid = Guid.Empty;
+                    }
+                }
+                else
+                {
+                    insertedGuid = Guid.Empty;
+                }
+            }
             if (insertedGuid != Guid.Empty)
             {
                 foundReturn = Ok(insertedGuid);
@@ -129,8 +138,8 @@ namespace BambooSessionController.Controllers
 
 
 
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
-            User? user = _uControl.Get(userId);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            User? user = _userData.Get(userId);
 
             bool IsDone = _bControl.Join(session, user, seat);
 
@@ -146,8 +155,7 @@ namespace BambooSessionController.Controllers
         {
             ActionResult foundreturn;
             Guid sessionId = Guid.Parse(session);
-            List<Seat> seats = _bControl.GetSeatsBySessionId(sessionId);
-            List<SeatDto> seatDtos = SeatDtoConvert.FromSeatCollection(seats);
+            List<Seat>? seats = _bControl.GetSeatsBySessionId(sessionId);
             if (seats == null)
             {
                 foundreturn = new StatusCodeResult(500);
@@ -160,7 +168,15 @@ namespace BambooSessionController.Controllers
                 }
                 else
                 {
-                    foundreturn = Ok(seatDtos);
+                    List<SeatDto>? seatDtos = SeatDtoConvert.FromSeatCollection(seats);
+                    if (seatDtos != null)
+                    {
+                        foundreturn = Ok(seatDtos);
+                    }
+                    else
+                    {
+                        foundreturn = new StatusCodeResult(500);
+                    }
                 }
             }
             return foundreturn;
@@ -168,13 +184,17 @@ namespace BambooSessionController.Controllers
 
         [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         [HttpDelete, Route("{id}")]
-        public ActionResult<bool> Delete(string id){
+        public ActionResult<bool> Delete(string id)
+        {
             ActionResult result;
             Guid sessionId = Guid.Parse(id);
             bool Isdone = _bControl.Delete(sessionId);
-            if(Isdone){
+            if (Isdone)
+            {
                 result = Ok(Isdone);
-            }else{
+            }
+            else
+            {
                 result = NotFound();
             }
 
