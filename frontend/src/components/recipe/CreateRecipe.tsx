@@ -133,7 +133,7 @@ const CreateRecipe: React.FC = () => {
           </label>
         </div>
         <h4>ingredients</h4>
-        <ul>
+        <ul className={style.ingredientList}>
           {IngredientsList &&
             IngredientsList.map((ingredient, index) => (
               <li>

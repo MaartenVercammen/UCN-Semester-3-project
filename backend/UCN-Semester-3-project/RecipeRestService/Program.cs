@@ -72,7 +72,9 @@ builder.Services.AddSingleton<IUserAccess, UserDatabaseAccess>();
 builder.Services.AddSingleton<IAuthenticationData, AuthenticationDataControl>();
 builder.Services.AddSingleton<IBambooSessionData, BambooSessionDataControl>();
 builder.Services.AddSingleton<IBambooSessionAccess, BambooSessionDatabaseAccess>();
+builder.Services.AddSingleton<IRecipeData, RecipedataControl>();
 builder.Services.AddSingleton<IRecipeAccess, RecipeDatabaseAccess>();
+builder.Services.AddSingleton<ISecurityHelper, SecurityHelper>();
 
 var app = builder.Build();
 
