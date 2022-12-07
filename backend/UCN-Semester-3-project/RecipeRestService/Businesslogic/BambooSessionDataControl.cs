@@ -77,18 +77,21 @@ namespace RecipeRestService.Businesslogic
         public bool Join(BambooSession session, User user, Seat seat)
         {
             bool returnValue;
-            try{
+            try
+            {
                 List<Seat> seats = _BambooSessionAccess.GetSeatsBySessionId(session.SessionId);
                 foreach (Seat s in seats)
                 {
 
-                    if (s.User.UserId != null && s.User.UserId == user.UserId)
+                    if (s.User != null && s.User.UserId == user.UserId)
                     {
                         return false;
                     }
                 }
                 returnValue = _BambooSessionAccess.JoinBambooSession(session, user, seat);
-            }catch(Exception ex){
+            }
+            catch(Exception )
+            {
                 returnValue = false;
             }
 

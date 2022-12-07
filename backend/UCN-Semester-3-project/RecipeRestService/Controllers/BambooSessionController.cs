@@ -31,7 +31,7 @@ namespace BambooSessionController.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<BambooSessionDto> GetBambooSession(string id)
         {
             Guid bamboosessionId = Guid.Parse(id);
@@ -54,7 +54,7 @@ namespace BambooSessionController.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<BambooSessionDto>> GetBambooSessions()
         {
 
@@ -83,7 +83,7 @@ namespace BambooSessionController.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult Post([FromBody] BambooSessionDto inBamboo)
         {
              // user id
@@ -141,7 +141,7 @@ namespace BambooSessionController.Controllers
         }
 
         [HttpGet, Route("{session}/seats")]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<List<SeatDto>> GetSeatsBySessionId(string session)
         {
             ActionResult foundreturn;
@@ -166,7 +166,7 @@ namespace BambooSessionController.Controllers
             return foundreturn;
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         [HttpDelete, Route("{id}")]
         public ActionResult<bool> Delete(string id){
             ActionResult result;
