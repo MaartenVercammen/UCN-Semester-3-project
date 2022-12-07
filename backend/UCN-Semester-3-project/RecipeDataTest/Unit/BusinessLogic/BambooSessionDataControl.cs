@@ -206,10 +206,12 @@ namespace RecipeDataTest.BusinessLogic
         {
             //Arrange
             _acces.Setup(x =>
-                    x.JoinBambooSession(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId))
+                    x.JoinBambooSession(Data._validBambooSession, Data._inValidUser, Data._seat))
                 .Returns(true);
+            _acces.Setup(x => x.GetSeatsBySessionId(Data._validBambooSession.SessionId))
+                .Returns(Data._seats);
             //Act
-            var result = _sut.Join(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId);
+            var result = _sut.Join(Data._validBambooSession, Data._inValidUser, Data._seat);
             //Assert
             Assert.True(result);
         }
@@ -219,10 +221,10 @@ namespace RecipeDataTest.BusinessLogic
         {
             //Arrange
             _acces.Setup(x =>
-                    x.JoinBambooSession(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId))
+                    x.JoinBambooSession(Data._validBambooSession, Data._validUser, Data._seat))
                 .Returns(false);
             //Act
-            var result = _sut.Join(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId);
+            var result = _sut.Join(Data._validBambooSession, Data._validUser, Data._seat);
             //Assert
             Assert.False(result);
         }
@@ -232,10 +234,10 @@ namespace RecipeDataTest.BusinessLogic
         {
             //Arrange
             _acces.Setup(x =>
-                    x.JoinBambooSession(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId))
+                    x.JoinBambooSession(Data._validBambooSession, Data._validUser, Data._seat))
                 .Throws(new Exception());
             //Act
-            var result = _sut.Join(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId);
+            var result = _sut.Join(Data._validBambooSession, Data._validUser, Data._seat);
             //Assert
             Assert.False(result);
         }

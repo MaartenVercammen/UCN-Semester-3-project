@@ -181,9 +181,15 @@ public class BambooSessionControllerTest
         //Arrange
         _securityHelper.Setup(x => x.GetUserFromJWT("token"))
             .Returns(Data.Data._validUser.UserId);
+        _bControl.Setup(x => x.GetSeatBySessionAndSeatId(Data.Data._validBambooSession, Data.Data._seat.SeatId))
+            .Returns(Data.Data._seat);
         _bControl.Setup(x =>
-                x.Join(Data.Data._validBambooSession.SessionId, Data.Data._validUser.UserId, Data.Data._seat.SeatId))
+                x.Join(Data.Data._validBambooSession, Data.Data._validUser, Data.Data._seat))
             .Returns(true);
+        _bControl.Setup(x => x.Get(Data.Data._validBambooSession.SessionId))
+            .Returns(Data.Data._validBambooSession);
+        _userData.Setup(x => x.Get(Data.Data._validUser.UserId))
+            .Returns(Data.Data._validUser);
         //Act
         var result = _sut.JoinBambooSession(Data.Data._validBambooSession.SessionId.ToString(),
             Data.Data._seat.SeatId.ToString());
@@ -201,7 +207,7 @@ public class BambooSessionControllerTest
         _securityHelper.Setup(x => x.GetUserFromJWT("token"))
             .Returns(Data.Data._validUser.UserId);
         _bControl.Setup(x =>
-                x.Join(Data.Data._validBambooSession.SessionId, Data.Data._validUser.UserId, Data.Data._seat.SeatId))
+                x.Join(Data.Data._validBambooSession, Data.Data._validUser, Data.Data._seat))
             .Returns(false);
         //Act
         var result = _sut.JoinBambooSession(Data.Data._validBambooSession.SessionId.ToString(),
