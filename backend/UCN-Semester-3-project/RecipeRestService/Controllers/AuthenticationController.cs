@@ -15,15 +15,16 @@ namespace RecipeRestService.Controllers
 
     [Route("[controller]")]
     [ApiController]
-    public class AuthorizationConrtoller : ControllerBase
+    public class AuthorizationController : ControllerBase
     {
 
         private readonly IAuthenticationData _access;
-        private readonly IConfiguration _configuration;
-        public AuthorizationConrtoller(IAuthenticationData access, IConfiguration configuration)
+        private readonly ISecurityHelper _securityHelper;
+        
+        public AuthorizationController(IAuthenticationData access, ISecurityHelper securityHelper)
         {
             _access = access;
-            _configuration = configuration;
+            _securityHelper = securityHelper;
         }
 
         [HttpPost]
@@ -62,10 +63,9 @@ namespace RecipeRestService.Controllers
                 user.UserId.ToString())
             };
             
-
-            SecurityHelper securityHelper = new SecurityHelper(_configuration);
+            
             // Create header with algorithm and token type - and secret added
-            SymmetricSecurityKey SIGNING_KEY = securityHelper.GetSecurityKey();
+            SymmetricSecurityKey SIGNING_KEY = _securityHelper.GetSecurityKey();
             SigningCredentials credentials = new SigningCredentials(SIGNING_KEY, SecurityAlgorithms.HmacSha256);
 
             // Time to live for newly created JWT Token
