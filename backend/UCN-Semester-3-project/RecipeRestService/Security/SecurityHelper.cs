@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using RecipesData.Model;
 
 namespace RecipeRestService.Security {
-    public class SecurityHelper {
+    public class SecurityHelper : ISecurityHelper {
 
         private readonly IConfiguration _configuration;
 
@@ -15,11 +15,9 @@ namespace RecipeRestService.Security {
 
         // Create key for signing
         public SymmetricSecurityKey GetSecurityKey() {
-            SymmetricSecurityKey SIGNING_KEY = null;
-            if (_configuration != null) {
-                string SECRET_KEY = _configuration["SECRET_KEY"];
-                SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
-            }
+            SymmetricSecurityKey SIGNING_KEY;
+            string SECRET_KEY = _configuration["SECRET_KEY"];
+            SIGNING_KEY = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SECRET_KEY));
             return SIGNING_KEY;
         }
 

@@ -16,20 +16,19 @@ namespace RecipeRestService.Controllers
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
-        private readonly RecipedataControl _rControl;
-        private readonly UserDataControl _uControl;
-        private readonly IConfiguration _configuration;
+        private readonly IRecipeData _rControl;
+        private readonly IUserData _uControl;
 
-        public RecipesController(IConfiguration inConfiguration)
+        private readonly ISecurityHelper _securityHelper;
+
+        public RecipesController(IUserData userdata, IRecipeData recipeData, ISecurityHelper securityHelper)
         {
-            _configuration = inConfiguration;
-            RecipeDatabaseAccess access = new RecipeDatabaseAccess(inConfiguration);
-            _rControl = new RecipedataControl(access);
-            UserDatabaseAccess uAccess = new UserDatabaseAccess(inConfiguration);
-            _uControl = new UserDataControl(uAccess);
+            _rControl = recipeData;
+            _uControl = userdata;
+            _securityHelper = securityHelper;
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<RecipeDto> Get(string id)
         {
@@ -49,7 +48,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<RecipeDto>> Get()
         {
             ActionResult<List<RecipeDto>> foundReturn;
@@ -81,11 +80,12 @@ namespace RecipeRestService.Controllers
 
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, userId)){
+            if (_securityHelper.IsJWTEqualRequestId(Request, userId))
+            {
                 return new StatusCodeResult(403);
             }
 
@@ -119,17 +119,28 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
-            Guid userid = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Guid userid = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             inRecipe.Author = userid;
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
             if (inRecipe != null && (userid != Guid.Empty || userid != null))
             {
-                User author = _uControl.Get(inRecipe.Author);
-                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe, author));
+                User? author = _uControl.Get(inRecipe.Author);
+                if (author != null)
+                {
+                    Recipe? recipe = RecipeDtoConvert.ToRecipe(inRecipe, author);
+                    if (recipe != null)
+                    {
+                        insertedGuid = _rControl.Add(recipe);
+                    }
+                    else
+                    {
+                        insertedGuid = Guid.Empty;
+                    }
+                }
             }
             if (insertedGuid != Guid.Empty)
             {
@@ -143,39 +154,48 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult Delete(string id)
         {
-            
-            Guid recipeId = Guid.Parse(id);
-
-            Recipe recipe = _rControl.Get(recipeId);
-
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, recipe.Author.ToString())){
-                return new StatusCodeResult(403);
-            }
 
             ActionResult foundReturn;
-            bool IsCompleted = _rControl.Delete(recipeId);
-            if (IsCompleted)
+            Guid recipeId = Guid.Parse(id);
+
+            Recipe? recipe = _rControl.Get(recipeId);
+
+            if (recipe == null)
             {
-                foundReturn = new StatusCodeResult(200);
+                foundReturn = new StatusCodeResult(500);
             }
             else
             {
-                foundReturn = new StatusCodeResult(500);
+
+                if (_securityHelper.IsJWTEqualRequestId(Request, recipe.Author.UserId.ToString()))
+                {
+                    return new StatusCodeResult(403);
+                }
+
+                bool IsCompleted = _rControl.Delete(recipeId);
+                if (IsCompleted)
+                {
+                    foundReturn = new StatusCodeResult(200);
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(500);
+                }
             }
             return foundReturn;
 
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("/Random")]
         public ActionResult<RecipeDto> GetRandomRecipe()
         {
             ActionResult foundReturn;
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
-            Recipe recipe = _rControl.GetRandomRecipe(userId);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            Recipe? recipe = _rControl.GetRandomRecipe(userId);
             if (recipe != null)
             {
                 foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
@@ -194,21 +214,16 @@ namespace RecipeRestService.Controllers
             ActionResult foundReturn;
             bool updated = false;
 
-            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
-
-            //check if user or verified user are theimselves
-            if (role == Role.VERIFIEDUSER || role == Role.USER)
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            if (userId != inRecipe.Author && role != Role.ADMIN)
             {
-                Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
-                if (userId != inRecipe.Author)
-                {
-                    return new StatusCodeResult(403);
-                }
+                return new StatusCodeResult(403);
             }
 
             if (inRecipe != null)
             {
-                var userId = inRecipe.RecipeId;
+                var recipeId = inRecipe.RecipeId;
                 updated = _rControl.Put(RecipeDtoConvert.ToRecipe(inRecipe, _uControl.Get(userId)));
             }
             if (updated)

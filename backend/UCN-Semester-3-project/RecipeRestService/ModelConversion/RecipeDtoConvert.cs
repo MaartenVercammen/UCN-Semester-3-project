@@ -7,17 +7,19 @@ namespace RecipeRestService.ModelConversion
     {
         public static List<RecipeDto>? FromRecipeCollection(List<Recipe> inRecipes)
         {
-            List<RecipeDto> recipeDTOs = null;
+            List<RecipeDto>? recipeDTOs = null;
             if (inRecipes != null)
             {
                 recipeDTOs = new List<RecipeDto>();
-                RecipeDto tempDto;
+                RecipeDto? tempDto;
                 foreach (Recipe recipe in inRecipes)
                 {
                     if (recipe != null)
                     {
                         tempDto = FromRecipe(recipe);
-                        recipeDTOs.Add(tempDto);
+                        if(tempDto != null){
+                            recipeDTOs.Add(tempDto);
+                        }
                     }
                 }
             }
@@ -41,8 +43,10 @@ namespace RecipeRestService.ModelConversion
         
         public static Recipe? ToRecipe(RecipeDto inDto, User author)
         {
-
-            return new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, author);
+            Recipe recipe = new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, author);
+            recipe.Ingredients = inDto.Ingredients;
+            recipe.Instructions = inDto.Instructions;
+            return recipe;
         }
     }
 }

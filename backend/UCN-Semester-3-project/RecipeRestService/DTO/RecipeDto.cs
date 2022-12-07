@@ -44,8 +44,10 @@ namespace RecipeRestService.DTO
         {
             this.Ingredients = new List<Ingredient>();
             this.Instructions = new List<Instruction>();
+            this.Name = "";
+            this.Description = "";
+            this.PictureURL = "";
         }
 
     }
 }
-

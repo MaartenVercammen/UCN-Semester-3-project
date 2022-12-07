@@ -2,10 +2,11 @@ namespace RecipesData.Model
 {
     public enum Role
     {
+        ADMIN,
         USER,
-        VERIFIEDUSER,
-        ADMIN
+        VERIFIEDUSER
     }
+
     public class User
     {
         public Guid UserId { get; set; }
@@ -57,6 +58,11 @@ namespace RecipesData.Model
 
         public User()
         {
+            Email = "";
+            FirstName = "";
+            LastName = "";
+            Password = "";
+            Address = "";
         }
 
     }

@@ -1,0 +1,73 @@
+.container {
+    min-height: 85vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    max-width: 575px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #444444;
+    text-align: center;
+}
+
+.createBambooPage {
+    text-align: start;
+}
+
+.pickRecipe {
+    display: flex;
+    justify-content: flex-start;
+    gap: 2rem;
+}
+
+.recipeSelect {
+    min-width: 5rem;
+}
+
+.createBambooInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+#formChild {
+    margin: .5rem 0;
+}
+
+.dateContainer {
+    display: block;
+}
+
+.chooseDate {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+}
+
+#dateAndTimeBtn {
+    padding: 0 1.5rem;
+    background-color: transparent;
+    background-color: #DCBEA8;
+    border: none;
+    border-radius: 12px;
+    height: 2.5rem;
+    color: #faf9f9;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.createBambooBtn {
+    width: 26rem;
+    background-color: #D8A8DC;
+    border: none;
+    border-radius: 12px;
+    height: 2.5rem;
+    color: #faf9f9;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}

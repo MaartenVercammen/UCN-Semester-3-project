@@ -1,6 +1,5 @@
 using RecipesData.Database;
 using RecipesData.Model;
-using UserRestService.Businesslogic;
 
 namespace RecipeRestService.Businesslogic
 {

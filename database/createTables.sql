@@ -77,7 +77,8 @@ create table bambooSessionUser (
     sessionId varchar(255) not null,
     foreign key (sessionId) references bambooSession(sessionId)
     on delete cascade,
-    userId varchar(255) not null,
+    userId varchar(255),
+    seat varchar(255) not null,
     foreign key (userId) references "user"(userId)
     on delete cascade,
     primary key (sessionId, userId)

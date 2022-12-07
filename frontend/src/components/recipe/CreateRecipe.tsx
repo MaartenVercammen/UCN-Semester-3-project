@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
-import { Ingredient, Instruction, Recipe } from '../../types';
+import UserService from '../../service/userService';
+import { Ingredient, Instruction, Recipe, User } from '../../types';
 import style from './CreateRecipe.module.css';
 
 const CreateRecipe: React.FC = () => {
@@ -32,16 +33,20 @@ const CreateRecipe: React.FC = () => {
   };
 
   const submitForm = async (e) => {
+    const token = sessionStorage.getItem('user');
+    const activeUser: User = JSON.parse(token || '{}');
+    const id = activeUser.userId;
+    const user: User = (await UserService.getUser(id)).data;
     e.preventDefault();
     if (validateForm()) {
       const recipe: Recipe = {
-        recipeId: '00000000-0000-0000-0000-000000000000',
+        recipeId: crypto.randomUUID.toString(),
         name: name,
         description: description,
         pictureURL: picture,
         time: time,
         portionNum: portion,
-        author: '00000000-0000-0000-0000-000000000000',
+        author: user.userId,
         ingredients: IngredientsList,
         instructions: InstructionsList
       };
@@ -128,7 +133,7 @@ const CreateRecipe: React.FC = () => {
           </label>
         </div>
         <h4>ingredients</h4>
-        <ul>
+        <ul className={style.ingredientList}>
           {IngredientsList &&
             IngredientsList.map((ingredient, index) => (
               <li>

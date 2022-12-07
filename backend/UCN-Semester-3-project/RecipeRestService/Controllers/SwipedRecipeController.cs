@@ -15,14 +15,14 @@ namespace RecipeRestService.Controllers
     [Route("[controller]")]
     public class SwipedRecipeController : ControllerBase
     {
-        private readonly SwipedRecipeDataControl _swControl;
-        private readonly IConfiguration _configuration;
+        private readonly ISwipedRecipeData _swControl;
 
-        public SwipedRecipeController(IConfiguration inConfiguration)
+        private readonly ISecurityHelper _securityHelper;
+
+        public SwipedRecipeController(ISwipedRecipeData swipedRecipeData, ISecurityHelper securityHelper)
         {
-            _configuration = inConfiguration;
-            SwipedRecipeDatabaseAccess access = new SwipedRecipeDatabaseAccess(inConfiguration);
-            _swControl = new SwipedRecipeDataControl(access);
+            _swControl = swipedRecipeData;
+            _securityHelper = securityHelper;
         }
 
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
@@ -30,7 +30,7 @@ namespace RecipeRestService.Controllers
         public ActionResult<SwipedRecipeDto> Get(string id)
         {
             Guid swRecipeId = Guid.Parse(id);
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
 
             ActionResult<SwipedRecipeDto> foundReturn;
             SwipedRecipe? foundSwipedRecipe = _swControl.Get(swRecipeId, userId);
@@ -53,7 +53,7 @@ namespace RecipeRestService.Controllers
         {
             Guid userId = Guid.Parse(id);
 
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+            if(_securityHelper.IsJWTEqualRequestId(Request, id)){
                 return new StatusCodeResult(403);
             }
 
@@ -92,7 +92,7 @@ namespace RecipeRestService.Controllers
         {
             Guid userId = Guid.Parse(id);
 
-            if(new SecurityHelper(_configuration).IsJWTEqualRequestId(Request, id)){
+            if(_securityHelper.IsJWTEqualRequestId(Request, id)){
                 return new StatusCodeResult(403);
             }
 
@@ -132,18 +132,44 @@ namespace RecipeRestService.Controllers
         {
             ActionResult<SwipedRecipeDto> foundReturn;
 
-            Guid userId = new SecurityHelper(_configuration).GetUserFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
             inSwipedRecipeDto.UserId = userId;
 
             SwipedRecipe? foundSwipedRecipe;
             if (inSwipedRecipeDto != null)
             {
-                foundSwipedRecipe = _swControl.Add(SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto));
+                SwipedRecipe? swipedRecipe = SwipedRecipeDtoConvert.ToSWRecipe(inSwipedRecipeDto);
+                if(swipedRecipe != null){
+                foundSwipedRecipe = _swControl.Add(swipedRecipe);
                 foundReturn= Ok(foundSwipedRecipe); 
+                }else{
+                    foundReturn = new StatusCodeResult(500);
+                }
             }
             else
             {
                 foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+        }
+
+        [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        public ActionResult Delete(string id)
+        {
+            ActionResult foundReturn;
+            Guid swRecipeId = Guid.Parse(id);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+
+            SwipedRecipe? swipedRecipe = _swControl.Get(swRecipeId, userId);
+            if (swipedRecipe != null)
+            {
+                _swControl.Delete(swRecipeId, userId);
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = NotFound();
             }
             return foundReturn;
         }
