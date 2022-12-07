@@ -6,6 +6,7 @@ using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
+using UserRestService.Businesslogic;
 
 namespace UserRestService.Controllers
 {
@@ -14,14 +15,14 @@ namespace UserRestService.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UserDataControl _rControl;
-        private readonly IConfiguration _configuration;
+        private readonly IUserData _rControl;
 
-        public UserController(IConfiguration inConfiguration)
+        private readonly ISecurityHelper _securityHelper;
+
+        public UserController(IUserData userData, ISecurityHelper securityHelper)
         {
-            _configuration = inConfiguration;
-            UserDatabaseAccess access = new UserDatabaseAccess(inConfiguration);
-            _rControl = new UserDataControl(access);
+            _rControl = userData;
+            _securityHelper = securityHelper;
         }
 
         [HttpGet, Route("{id}")]
@@ -29,11 +30,11 @@ namespace UserRestService.Controllers
         public ActionResult<UserDto> Get(string id)
         {
             Guid UserId = Guid.Parse(id);
-            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
             //check if user is user role all others are allowed to see the other users
             string token = Request.Headers["Authorization"];
             if(role == Role.USER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, id)){
+                if(_securityHelper.IsJWTEqualRequestId(token, id)){
                     return new StatusCodeResult(403);
                 }
             }
@@ -85,7 +86,7 @@ namespace UserRestService.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Post([FromBody] UserDto inUser)
+        public ActionResult<Guid> Post([FromBody] UserDto inUser)
         {
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
@@ -106,17 +107,17 @@ namespace UserRestService.Controllers
 
         [HttpPut]
         [Authorize(Roles = "USER,VERIFIEDUSER,ADMIN")]
-        public ActionResult Edit(UserDto inUser)
+        public ActionResult<bool> Edit(UserDto inUser)
         {
             ActionResult foundReturn;
             bool updated = false;
 
-            Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
 
             //check if user or verified user are theimselves
             string token = Request.Headers["Authorization"];
             if(role == Role.USER || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, inUser.UserId.ToString())){
+                if(_securityHelper.IsJWTEqualRequestId(token, inUser.UserId.ToString())){
                     return new StatusCodeResult(403);
                 }
             }
@@ -128,7 +129,7 @@ namespace UserRestService.Controllers
             }
             if (updated)
             {
-                foundReturn = Ok();
+                foundReturn = Ok(updated);
             }
             else
             {
@@ -139,16 +140,16 @@ namespace UserRestService.Controllers
 
         [HttpDelete, Route("{id}")]
         [Authorize(Roles = "USER,VERIFIEDUSER,ADMIN")]
-        public ActionResult Delete(string id)
+        public ActionResult<bool> Delete(string id)
         {
             Guid userId = Guid.Parse(id);
 
-             Role role = new SecurityHelper(_configuration).GetRoleFromJWT(Request.Headers["Authorization"]);            
+             Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);            
 
             //check if user or verified user are theimselves
             string token = Request.Headers["Authorization"];
             if(role == Role.USER || role == Role.VERIFIEDUSER){
-                if(new SecurityHelper(_configuration).IsJWTEqualRequestId(token, id)){
+                if(_securityHelper.IsJWTEqualRequestId(token, id)){
                     return new StatusCodeResult(403);
                 }
             }
@@ -157,7 +158,7 @@ namespace UserRestService.Controllers
             bool IsCompleted = _rControl.Delete(userId);
             if (IsCompleted)
             {
-                foundReturn = new StatusCodeResult(200);
+                foundReturn = Ok(IsCompleted);
             }
             else
             {

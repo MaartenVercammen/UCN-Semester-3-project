@@ -187,8 +187,7 @@ public class SwipedRecipeControllerTest
         var model = Assert.IsAssignableFrom<StatusCodeResult>(viewResult.Result);
         Assert.Equal(403, model.StatusCode);
     }
-
-    //TODO: for some reason the moq returns null instead of returns
+    
     [Fact]
     public void Post_WhenValidInfo_ReturnSwipedRecipeDto()
     {

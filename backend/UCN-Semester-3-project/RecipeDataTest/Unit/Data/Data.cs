@@ -3,12 +3,32 @@ using RecipesData.Model;
 
 namespace RecipeDataTest.Unit.Data{
 
-public static class Data
+public class Data
 {
     //user
     public static readonly User _validUser = new User("email", "mark", "mark", "password", "home", Role.USER);
     public static readonly User _inValidUser = new User("email", "mark", "mark", "wrong", "home", Role.USER);
-    
+
+    public static readonly UserDto _UserDto = new UserDto("email", "mark", "mark", "password", "home", Role.USER);
+
+    public static readonly List<UserDto> _UserDtos = new List<UserDto>()
+    {
+        _UserDto,
+        _UserDto,
+        _UserDto,
+        _UserDto,
+        _UserDto,
+    };
+
+    public static readonly List<User> _users = new List<User>()
+    {
+        _validUser,
+        _validUser,
+        _validUser,
+        _validUser,
+        _validUser
+    };
+
     //recipe
     public static readonly Recipe _recipe = new Recipe("bananan", "just a fruit", "http://banana.png", 10, 5, _validUser);
     public static readonly DateTime _dateTime = new DateTime(2021, 10, 10, 10, 10, 10);
