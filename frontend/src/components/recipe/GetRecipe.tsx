@@ -13,7 +13,7 @@ const GetRecipe: React.FC = () => {
   const [user, setUser] = useState<User>();
   const [liked, setLiked] = useState<SwipedRecipe[]>([]);
 
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   const getData = async () => {
     const response = await RecipeService.getRecipe(window.location.pathname.split('/')[2]);
@@ -35,7 +35,7 @@ const GetRecipe: React.FC = () => {
   const deleteRecipe = async () => {
     if (confirm('Are you sure you want to delete this recipe?')) {
       await RecipeService.deleteRecipe(recipe.recipeId);
-      navigation('/app');
+      navigate('/recipes');
     }
   };
 
@@ -49,9 +49,8 @@ const GetRecipe: React.FC = () => {
     return isLiked;
   };
 
-  // TODO: implement edit recipe
   const editRecipe = async () => {
-    alert('not implemented yet :(');
+    navigate('/recipes/' + recipe.recipeId + '/edit');
   };
 
   const getUser = async () => {
@@ -59,13 +58,6 @@ const GetRecipe: React.FC = () => {
     const activeUser: User = JSON.parse(token || '{}');
     const id = activeUser.userId;
     const user: User = (await UserService.getUser(id)).data;
-<<<<<<< HEAD
-    if (user.userId === recipe.author) {
-      navigation('/recipes/' + recipe.recipeId + '/edit');
-      
-  } else {
-      alert('You can only edit recipes you have created');
-=======
     setUser(user);
     getLiked(user.userId);
   };
@@ -93,7 +85,6 @@ const GetRecipe: React.FC = () => {
       await RecipeService.swipeRecipe(swipe);
       alert('Recipe disliked!');
       window.location.reload();
->>>>>>> dev
     }
   };
 

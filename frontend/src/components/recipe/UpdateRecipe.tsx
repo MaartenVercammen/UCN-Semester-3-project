@@ -5,6 +5,7 @@ import { Ingredient, Instruction, Recipe, User } from '../../types';
 import style from './UpdateRecipe.module.css';
 import Header from '../pages/Header';
 import UserService from '../../service/userService';
+import Navbar from '../pages/Navbar';
 
 const UpdateRecipe: React.FC = () => {
   const [IngredientsList, setIngredientsList] = useState<Ingredient[]>([]);
@@ -249,6 +250,7 @@ const UpdateRecipe: React.FC = () => {
 
           <button form="createRecipeForm" className={style.editRecipeBtn} onClick={editRecipe}>Edit recipe</button>
         </div>
+        <Navbar />
       </div>
     </>
   );

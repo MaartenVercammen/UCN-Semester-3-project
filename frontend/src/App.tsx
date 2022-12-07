@@ -19,7 +19,7 @@ const ViewRecipes = lazy(() => import ('./components/pages/ViewRecipes'));
 const ProtectedRoutes = lazy(() => import('./helper/protectedRoutes'));
 const Start = lazy(() => import('./components/pages/Start'));
 const EditUser = lazy(() => import ('./components/user/EditUser'));
-const UpdateRecipe = lazy(() => import('./components/recipe/UpdateRecipe'));
+const UpdateRecipe = lazy(() => import ('./components/recipe/UpdateRecipe'));
 const ViewBambooSessions = lazy(() => import ('./components/pages/ViewBambooSessions'));
 
 const App: React.FC = () => {
