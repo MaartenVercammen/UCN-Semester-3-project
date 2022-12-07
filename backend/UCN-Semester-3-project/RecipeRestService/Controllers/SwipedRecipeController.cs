@@ -153,7 +153,7 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
-        [HttpDelete, Route("{id")]
+        [HttpDelete, Route("{id}")]
         [Authorize(Roles = "ADMIN,VERIFIED,USER")]
         public ActionResult Delete(string id)
         {
