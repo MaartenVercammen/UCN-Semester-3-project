@@ -25,7 +25,7 @@ namespace RecipeRestService.Controllers
             _securityHelper = securityHelper;
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<SwipedRecipeDto> Get(string id)
         {
@@ -48,7 +48,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet, Route("user/{id}")]
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<SwipedRecipeDto>> GetPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
@@ -87,7 +87,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet, Route("user/{id}/liked")]
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<SwipedRecipeDto>> GetLikedPerUser(string id)
         {
             Guid userId = Guid.Parse(id);
@@ -127,7 +127,7 @@ namespace RecipeRestService.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<SwipedRecipeDto> Post(SwipedRecipeDto inSwipedRecipeDto)
         {
             ActionResult<SwipedRecipeDto> foundReturn;
@@ -150,6 +150,27 @@ namespace RecipeRestService.Controllers
             else
             {
                 foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+        }
+
+        [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        public ActionResult Delete(string id)
+        {
+            ActionResult foundReturn;
+            Guid swRecipeId = Guid.Parse(id);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+
+            SwipedRecipe? swipedRecipe = _swControl.Get(swRecipeId, userId);
+            if (swipedRecipe != null)
+            {
+                _swControl.Delete(swRecipeId, userId);
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = NotFound();
             }
             return foundReturn;
         }

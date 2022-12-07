@@ -51,5 +51,11 @@ export interface BambooSession{
   description: string,
   dateTime : string,
   slotsNumber : number,
-  attendees: User[],
+  seats: Seat[],
+}
+
+export interface Seat {
+  sessionId: string,
+  user: User,
+  seatId: string,
 }

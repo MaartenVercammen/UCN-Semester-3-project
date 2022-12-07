@@ -1,7 +1,7 @@
 import React, {lazy} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import style from './Start.module.css';
-const Header = lazy(() => import('./Header'));
+const LightHeader = lazy(() => import('./LightHeader'));
 
 const Start: React.FC = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Start: React.FC = () => {
     <>
       <div className={style.container}>
       <div className={style.btnStyling}>
-        <div className={style.header}><Header /></div>
+        <div className={style.header}><LightHeader /></div>
         <div className={style.btnContainer}>
           <button className={style.logInBtn} onClick={() => navigate('/login')}>Log in</button>
           <button className={style.signUpBtn} onClick={() => navigate('/signup')}>Sign up</button>

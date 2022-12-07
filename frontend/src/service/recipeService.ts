@@ -11,6 +11,7 @@ const getRandomRecipe = () => instance.get<Recipe>('/Random');
 const swipeRecipe = (swipedRecipe: SwipedRecipe) => instance.post('/SwipedRecipe', JSON.stringify(swipedRecipe));
 const deleteRecipe = (recipeId: string) => instance.delete('/Recipes/' + recipeId);
 const getLiked = (userId: string) => instance.get<Recipe[]>('/Recipes/user/' + userId + '/liked');
+const getSwiped = (userId: string) => instance.get<SwipedRecipe[]>('/SwipedRecipe/user/' + userId+ '/liked');
 
 const RecipeService = {
   createRecipe,
@@ -19,7 +20,8 @@ const RecipeService = {
   getRandomRecipe,
   swipeRecipe,
   deleteRecipe,
-  getLiked
+  getLiked,
+  getSwiped
 };
 
 export default RecipeService;

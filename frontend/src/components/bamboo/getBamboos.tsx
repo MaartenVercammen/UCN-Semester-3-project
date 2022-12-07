@@ -6,24 +6,24 @@ import { BambooSession, Recipe } from '../../types';
 import style from './GetBamboos.module.css';
 
 const GetBamboos: React.FC = () => {
-  const [bamboos, setBamboos] = useState<BambooSession[]>([]);
-  const [recipe, setRecipe] = useState<Recipe>();
+  const [bambooRecipe, setBambooRecipe] = useState<{bambooSession: BambooSession, recipe: Recipe}[]>([]);
 
   const navigate = useNavigate();
 
   const getData = async () => {
-    const response = await BambooService.getBambooSessions();
-    const data = response.data;
-    setBamboos(data);
-    data.forEach(element => {
-    getRecipe(element.recipe);
+    const responseBamboo = await BambooService.getBambooSessions();
+    const dataBamboo = responseBamboo.data;
+    const list = await dataBamboo.map(async(bamboo: BambooSession) => {
+      const recipe: Recipe = await getRecipe(bamboo.recipe);
+      return {bambooSession: bamboo, recipe: recipe};
     });
+    setBambooRecipe(list? await Promise.all(list) : []);
   };
 
   const getRecipe = async (id: string) => {
     const response = await RecipeService.getRecipe(id);
     const data = response.data;
-    setRecipe(data);
+    return data;
   };
 
   useEffect(() => {
@@ -34,20 +34,20 @@ const GetBamboos: React.FC = () => {
     <>
       <div className={style.pageContent}>
         <h2 style={{ color: '#A8ACDC' }}>explore <span style={{ color: '#444444' }}>bamboo sessions</span></h2>
-        {bamboos.map((bamboo: BambooSession) => (
+        {bambooRecipe.map(({bambooSession, recipe} ) => (
           <div
             className={style.recipe}
-            key={bamboo.sessionId + bamboo.host}
+            key={bambooSession.sessionId + bambooSession.host}
             id={style.recipeChild}
-            onClick={() => navigate('/bamboosessions/' + bamboo.sessionId)}
+            onClick={() => navigate('/bamboosessions/' + bambooSession.sessionId)}
           >
             <div className={style.imgWrapper}>
-              <img src={recipe?.pictureURL} alt="" />
+              <img src={recipe.pictureURL} alt="" />
             </div>
             <div className={style.recipeContent} id={style.recipeChild}>
-              <h2>{recipe?.name}</h2>
+              <h2>{recipe.name}</h2>
               <div className={style.prepTime}>
-                <p>{bamboo.description}</p>
+                <p>{bambooSession.description}</p>
               </div>
             </div>
           </div>

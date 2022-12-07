@@ -70,7 +70,7 @@ const CreateBamboo: React.FC = () => {
         description: description,
         dateTime: date,
         slotsNumber: slots,
-        attendees: []
+        seats: []
       };
       const res = await BambooService.createBambooSession(bamboo);
       if (res.status === 200) {

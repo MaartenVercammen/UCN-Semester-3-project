@@ -10,9 +10,11 @@ namespace RecipesData.Database
 
         Guid CreateBambooSession(BambooSession bambooSession);
 
-        bool DeleteBambooSession(Guid id);
+        bool DeleteBambooSession(Guid sessionId);
 
-        bool JoinBambooSession(Guid sessionId, Guid userId, Guid seat);
+        bool JoinBambooSession(BambooSession session, User user, Seat seat);
         List<Seat> GetSeatsBySessionId(Guid sessionId);
+
+        Seat? GetSeatBySessionAndSeatId(BambooSession session, Guid Seat);
     }
 }

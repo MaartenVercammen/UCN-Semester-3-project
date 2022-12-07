@@ -28,7 +28,7 @@ namespace RecipeRestService.Controllers
             _securityHelper = securityHelper;
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<RecipeDto> Get(string id)
         {
@@ -48,7 +48,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<RecipeDto>> Get()
         {
             ActionResult<List<RecipeDto>> foundReturn;
@@ -80,7 +80,7 @@ namespace RecipeRestService.Controllers
 
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
         public ActionResult<List<RecipeDto>> GetLiked(string userId)
         {
@@ -119,7 +119,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
             Guid userid = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
@@ -150,7 +150,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpDelete, Route("{id}")]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult Delete(string id)
         {
 
@@ -178,7 +178,7 @@ namespace RecipeRestService.Controllers
 
         }
 
-        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("/Random")]
         public ActionResult<RecipeDto> GetRandomRecipe()
         {
