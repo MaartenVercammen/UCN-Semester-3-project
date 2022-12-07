@@ -5,7 +5,7 @@ using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.Security;
 using RecipesData.Model;
-using UserRestService.Controllers;
+using RecipeRestService.Controllers;
 
 namespace RecipeDataTest.Unit.Controller;
 
@@ -225,7 +225,7 @@ public class UserControllerTest
         var model = Assert.IsAssignableFrom<StatusCodeResult>(viewResult.Result);
         Assert.Equal(403, model.StatusCode);
     }
-    
+
     [Fact]
     public void Delete_WhenGivenValidId_ReturnsTrue()
     {

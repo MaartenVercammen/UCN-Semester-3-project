@@ -7,7 +7,7 @@ using RecipeRestService.Security;
 using RecipesData.Database;
 using RecipesData.Model;
 
-namespace UserRestService.Controllers
+namespace RecipeRestService.Controllers
 {
     [ApiController]
     [Authorize]
@@ -94,8 +94,6 @@ namespace UserRestService.Controllers
                 User? user = UserDtoConvert.ToUser(inUser);
                 if(user != null){
                 insertedGuid = _rControl.Add(user);
-                }else{
-                    foundReturn = new StatusCodeResult(500);
                 }
             }
             if (insertedGuid != Guid.Empty)
@@ -111,7 +109,7 @@ namespace UserRestService.Controllers
 
         [HttpPut]
         [Authorize(Roles = "USER,VERIFIEDUSER,ADMIN")]
-        public ActionResult<bool> Edit(UserDto inUser)
+        public ActionResult<bool> Edit(UserDto? inUser)
         {
             ActionResult foundReturn;
             bool updated = false;
@@ -131,8 +129,6 @@ namespace UserRestService.Controllers
                 User? user = UserDtoConvert.ToUser(inUser);
                 if(user !=  null){
                     updated = _rControl.Put(user);
-                }else{
-                    updated = false;
                 }
             }
             if (updated)

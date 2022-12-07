@@ -102,6 +102,4 @@ public class AuthorizationConrtollerTest
         var model = Assert.IsAssignableFrom<StatusCodeResult>(viewResult.Result);
         Assert.Equal(500, model.StatusCode);
     }
-    
-    
 }

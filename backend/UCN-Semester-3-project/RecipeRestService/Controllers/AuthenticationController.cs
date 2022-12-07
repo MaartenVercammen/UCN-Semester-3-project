@@ -38,14 +38,9 @@ namespace RecipeRestService.Controllers
                 
                 if(userDto != null){
                     User? user = UserDtoConvert.ToUser(userDto);
-                    if(user != null){
-                        Response.Headers["token"] = GenerateToken(user);
-                        Response.Headers["Access-Control-Expose-Headers"] = "token";
-                        actionResult = Ok(userDto);
-                    }
-                    else{
-                        actionResult = new StatusCodeResult(401);
-                    }
+                    Response.Headers["token"] = GenerateToken(user);
+                    Response.Headers["Access-Control-Expose-Headers"] = "token";
+                    actionResult = Ok(userDto);
                 }
                 else{
                     actionResult = new StatusCodeResult(401);

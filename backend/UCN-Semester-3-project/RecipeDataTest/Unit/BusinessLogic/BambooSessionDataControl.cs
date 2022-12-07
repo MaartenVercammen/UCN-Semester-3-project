@@ -1,4 +1,5 @@
 using Moq;
+using RecipeDataTest.Unit.Data;
 using RecipesData.Database;
 using RecipesData.Model;
 using Xunit.Abstractions;
@@ -19,9 +20,12 @@ namespace RecipeDataTest.BusinessLogic
         private readonly BambooSession _validBambooSession;
         private readonly List<BambooSession> _ListofBambooSessions;
 
+        private readonly ITestHelper _testHelper;
+
         public BambooSessionDataControlTest(ITestOutputHelper output)
         {
             _extraOutput = output;
+            _testHelper = new TestHelper();
             _sut = new BambooSessionDataControl(_acces.Object);
             _user = new User("mail", "mark", "mark", "password","recipe street 3200 Diest" ,Role.USER);
             _recipe = new Recipe("bananan", "just a fruit", "http://banana.png", 10, 5, _user);
@@ -132,6 +136,108 @@ namespace RecipeDataTest.BusinessLogic
             Assert.Null(response);
 
         }
-    
+
+        [Fact]
+        public void Delete_WhenValidId_ReturnsTrue()
+        {
+            //Arrange
+            _acces.Setup(x => x.DeleteBambooSession(Data._validBambooSession.SessionId))
+                .Returns(true);
+            //Act
+            var result = _sut.Delete(Data._validBambooSession.SessionId);
+
+            //Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Delete_WhenInValidId_ReturnsFalse()
+        {
+            //Arrange
+            _acces.Setup(x => x.DeleteBambooSession(Data._validBambooSession.SessionId))
+                .Returns(false);
+            //Act
+            var result = _sut.Delete(Data._validBambooSession.SessionId);
+
+            //Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Delete_WhenError_ReturnsFalse()
+        {
+            //Arrange
+            _acces.Setup(x => x.DeleteBambooSession(Data._validBambooSession.SessionId))
+                .Throws(new Exception());
+            //Act
+            var result = _sut.Delete(Data._validBambooSession.SessionId);
+
+            //Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void GetSeatsBySessionId_WhenValidId_ReturnListOfSeat()
+        {
+            //Arrange
+            _acces.Setup(x => x.GetSeatsBySessionId(Data._validBambooSession.SessionId))
+                .Returns(Data._seats);
+            //Act
+            var result = _sut.GetSeatsBySessionId(Data._validBambooSession.SessionId);
+            //Assert
+            _testHelper.AssertNotNull(result);
+            Assert.Equal(Data._seats.Count, result.Count);
+        }
+
+        [Fact]
+        public void GetSeatsBySessionId_WhenError_ReturnNull()
+        {
+            //Arrange
+            _acces.Setup(x => x.GetSeatsBySessionId(Data._validBambooSession.SessionId))
+                .Throws(new Exception());
+            //Act
+            var result = _sut.GetSeatsBySessionId(Data._validBambooSession.SessionId);
+            //Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Join_WhenValidInfo_ReturnsTrue()
+        {
+            //Arrange
+            _acces.Setup(x =>
+                    x.JoinBambooSession(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId))
+                .Returns(true);
+            //Act
+            var result = _sut.Join(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId);
+            //Assert
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Join_WhenInValidInfo_ReturnsFalse()
+        {
+            //Arrange
+            _acces.Setup(x =>
+                    x.JoinBambooSession(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId))
+                .Returns(false);
+            //Act
+            var result = _sut.Join(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId);
+            //Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Join_WhenError_Returnsfalse()
+        {
+            //Arrange
+            _acces.Setup(x =>
+                    x.JoinBambooSession(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId))
+                .Throws(new Exception());
+            //Act
+            var result = _sut.Join(Data._validBambooSession.SessionId, Data._validUser.UserId, Data._seat.SeatId);
+            //Assert
+            Assert.False(result);
+        }
     }
 }

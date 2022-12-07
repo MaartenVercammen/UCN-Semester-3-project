@@ -6,6 +6,7 @@ using RecipeRestService.Controllers;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
+using RecipesData.Model;
 
 namespace RecipeDataTest.Unit.Controller;
 

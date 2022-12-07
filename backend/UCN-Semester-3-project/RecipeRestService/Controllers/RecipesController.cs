@@ -136,10 +136,6 @@ namespace RecipeRestService.Controllers
                     {
                         insertedGuid = _rControl.Add(recipe);
                     }
-                    else
-                    {
-                        insertedGuid = Guid.Empty;
-                    }
                 }
             }
             if (insertedGuid != Guid.Empty)
@@ -162,13 +158,7 @@ namespace RecipeRestService.Controllers
             Guid recipeId = Guid.Parse(id);
 
             Recipe? recipe = _rControl.Get(recipeId);
-
-            if (recipe == null)
-            {
-                foundReturn = new StatusCodeResult(500);
-            }
-            else
-            {
+            
 
                 if (_securityHelper.IsJWTEqualRequestId(Request.Headers["Authorization"], recipe.Author.UserId.ToString()))
                 {
@@ -184,8 +174,7 @@ namespace RecipeRestService.Controllers
                 {
                     foundReturn = new StatusCodeResult(500);
                 }
-            }
-            return foundReturn;
+                return foundReturn;
 
         }
 

@@ -44,6 +44,16 @@ public class Data
         _validBambooSession
     };
 
+    public static readonly Seat _seat = new Seat(_validUser);
+
+    public static readonly List<Seat> _seats = new List<Seat>()
+    {
+        _seat,
+        _seat,
+        _seat,
+        _seat
+    };
+
     //SwipedRecipe
     public static readonly SwipedRecipe _swipedRecipeLiked = new SwipedRecipe(_validUser.UserId, _recipe.RecipeId, true);
     public static readonly SwipedRecipe _swipedRecipeDisliked = new SwipedRecipe(_validUser.UserId, _recipe.RecipeId, false);

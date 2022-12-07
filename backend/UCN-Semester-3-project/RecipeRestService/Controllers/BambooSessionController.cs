@@ -6,7 +6,7 @@ using RecipeRestService.ModelConversion;
 using RecipeRestService.Security;
 using RecipesData.Model;
 
-namespace BambooSessionController.Controllers
+namespace RecipeRestService.Controllers
 {
     [ApiController]
     [Authorize]

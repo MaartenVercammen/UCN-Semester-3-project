@@ -171,6 +171,26 @@ public class RecipeControllerTest
     }
 
     [Fact]
+    public void GetLiked_WhenGetUserIsNotSameAsLoggedInUser_Return403()
+    {
+        //Arrange
+        List<Recipe> recipes = new List<Recipe>();
+        _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
+            .Returns(recipes);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
+        //Act
+        var result = _sut.GetLiked(_validUser.UserId.ToString());
+        //Assert
+        var viewResult = Assert.IsType<ActionResult<List<RecipeDto>>>(result);
+        var statusCodeResult = Assert.IsAssignableFrom<StatusCodeResult>(viewResult.Result);
+        Assert.Equal(403, statusCodeResult.StatusCode);
+
+    }
+
+    [Fact]
     public void GetLiked_WhenGivenIdAndErrorOccured_Return500()
     {
         //Arrange
@@ -242,6 +262,24 @@ public class RecipeControllerTest
         var statusCodeResult = Assert.IsAssignableFrom<StatusCodeResult>(result);
         Assert.Equal(200, statusCodeResult.StatusCode);
     }
+
+    [Fact]
+    public void Delete_WhenRecipeAuthorIsNotLoggedInUser_ReturnsStatusCode200()
+    {
+        //Arrange
+        _acces.Setup(x => x.Delete(_validRecipe.RecipeId))
+            .Returns(true);
+        _acces.Setup(x => x.Get(_validRecipe.RecipeId))
+            .Returns(_validRecipe);
+        _securityHelper.Setup(x => x.IsJWTEqualRequestId("token", _validUser.UserId.ToString()))
+            .Returns(true);
+        //Act
+        var result = _sut.Delete(_validRecipe.RecipeId.ToString());
+        //Assert
+        var statusCodeResult = Assert.IsAssignableFrom<StatusCodeResult>(result);
+        Assert.Equal(403, statusCodeResult.StatusCode);
+    }
+
 
     [Fact]
     public void Delete_WhenDeleteWasUnSuccessFull_ReturnsStatusCode500()

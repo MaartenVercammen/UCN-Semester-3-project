@@ -35,8 +35,6 @@ namespace RecipeRestService.Businesslogic
                 IsDone = _BambooSessionAccess.DeleteBambooSession(id);
             }catch(Exception ex){
                 IsDone = false;
-                System.Console.WriteLine(ex.StackTrace);
-                System.Console.WriteLine(ex.Message);
             }
 
             return IsDone;
@@ -74,8 +72,6 @@ namespace RecipeRestService.Businesslogic
             try{
                 seats = _BambooSessionAccess.GetSeatsBySessionId(sessionId);
             }catch(Exception ex){
-                System.Console.WriteLine(ex.StackTrace);
-                System.Console.WriteLine(ex.Message);
                 seats = null;
             }
 
