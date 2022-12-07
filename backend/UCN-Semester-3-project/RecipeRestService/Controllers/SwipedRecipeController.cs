@@ -153,5 +153,26 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
+        [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIED,USER")]
+        public ActionResult Delete(string id)
+        {
+            ActionResult foundReturn;
+            Guid swRecipeId = Guid.Parse(id);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+
+            SwipedRecipe? swipedRecipe = _swControl.Get(swRecipeId, userId);
+            if (swipedRecipe != null)
+            {
+                _swControl.Delete(swRecipeId, userId);
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = NotFound();
+            }
+            return foundReturn;
+        }
+
     }
 }
