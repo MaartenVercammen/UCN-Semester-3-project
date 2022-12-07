@@ -83,7 +83,7 @@ namespace RecipeRestService.Controllers
 
         [HttpPost]
         [AllowAnonymous] //TODO: Change [AllowAnonymus] to [Authorize(Roles = "ADMIN,VERIFIED" )] once frontend is implemented
-        public ActionResult Post([FromBody] BambooSessionDto inBamboo)
+        public ActionResult<Guid> Post([FromBody] BambooSessionDto inBamboo)
         {
             // user id
             Guid insertedGuid = Guid.Empty;
@@ -100,10 +100,6 @@ namespace RecipeRestService.Controllers
                     if (bambooSession != null)
                     {
                         insertedGuid = _bControl.Add(bambooSession);
-                    }
-                    else
-                    {
-                        insertedGuid = Guid.Empty;
                     }
                 }
                 else
@@ -159,14 +155,7 @@ namespace RecipeRestService.Controllers
                 else
                 {
                     List<SeatDto>? seatDtos = SeatDtoConvert.FromSeatCollection(seats);
-                    if (seatDtos != null)
-                    {
-                        foundreturn = Ok(seatDtos);
-                    }
-                    else
-                    {
-                        foundreturn = new StatusCodeResult(500);
-                    }
+                    foundreturn = Ok(seatDtos);
                 }
             }
             return foundreturn;

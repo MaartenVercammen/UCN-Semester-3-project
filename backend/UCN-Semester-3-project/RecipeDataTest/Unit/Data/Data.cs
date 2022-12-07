@@ -34,9 +34,12 @@ public class Data
     public static readonly DateTime _dateTime = new DateTime(2021, 10, 10, 10, 10, 10);
 
     // BambooSession
-    public static readonly BambooSession _validBambooSession = new BambooSession(Guid.Parse("00000000-0000-0000-0000-000000000000"), _validUser, "address"
+    public static readonly BambooSession _validBambooSession = new BambooSession(Guid.NewGuid(), _validUser, "address"
     , _recipe, "desc", _dateTime, 4);
 
+    public static readonly BambooSessionDto _validBambooSessionDto = new BambooSessionDto(_validBambooSession.SessionId,
+        _validUser.UserId, "home", _recipe.RecipeId, "test", DateTime.Now, 5);
+    
     public static readonly List<BambooSession> _ListofBambooSessions = new List<BambooSession>
     {
         _validBambooSession,

@@ -30,7 +30,7 @@ namespace RecipeRestService.Security {
         }
 
         public bool IsJWTEqualRequestId(string token, string userid){
-            Guid tokenId = new SecurityHelper(_configuration).GetUserFromJWT(token.ToString());
+            Guid tokenId = GetUserFromJWT(token);
             
             if(tokenId.ToString() != userid){
                 return true;
