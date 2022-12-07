@@ -9,7 +9,7 @@ const getUser = (userId: string) => instance.get<User>('/User/' + userId);
 const deleteUser = (userId: string) => instance.delete('/User/' + userId);
 const updateUser = (user: User) => instance.put('/User/', JSON.stringify(user));
 
-const login = (email: string, password: string) => instanceNoJWT.post<AxiosResponse<User>>("/AuthorizationConrtoller", {}, {
+const login = (email: string, password: string) => instanceNoJWT.post<AxiosResponse<User>>("/AuthorizationController", {}, {
   headers:{
     Password: password,
     Email: email,
