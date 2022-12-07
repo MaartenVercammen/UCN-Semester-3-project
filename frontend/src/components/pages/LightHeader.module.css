@@ -1,0 +1,26 @@
+nav {
+    display: flex;
+    height: 6rem;
+    justify-content: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .panda {
+    height: 70px;
+  }
+  
+  .pandaLogo {
+    color: #F0F0F0;
+    font-size: 1.9rem;
+    padding: 10px;
+    margin-left: 10px;
+    text-shadow: #444444 2px 2px;
+  }
+  
+  .pandaLogo span {
+    color: #DCBEA8;
+  }

@@ -14,6 +14,7 @@ public class Seat
 
     public Seat(Guid seatId)
     {
+        User = null;
         SeatId = seatId;
     }
 

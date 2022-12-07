@@ -12,13 +12,6 @@ namespace RecipeRestService.DTO
         public string Address { get; set; }
         public string Role { get; set; }
 
-
-        // TODO: Add recipes, liked recipes, disliked recipes, owned bamboo sessions
-        //public List<Recipe> Recipes { get; set; }
-        //public List<SwipedRecipe> LikedRecipes { get; set; }
-        //public List<SwipedRecipe> DislikedRecipes { get; set; }
-        //public List<BambooSession> OwnedBambooSessions { get; set; }
-
         public UserDto(Guid userId, string email, string firstName, string lastName, string password, string address, Role role)
         {
             this.UserId = userId;

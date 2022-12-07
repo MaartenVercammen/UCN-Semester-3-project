@@ -23,6 +23,12 @@ namespace RecipeDataTest.BusinessLogic
 
         private readonly Guid _id;
 
+        private readonly User validUser;
+
+        private readonly BambooSession _session;
+
+        private readonly Seat _seat;
+
         private readonly Guid _userId = Guid.Parse("c513d6c8-b67f-4db5-a44f-1d117859ac9d");
 
         private readonly List<BambooSession> _ListofBambooSessions;
@@ -36,8 +42,10 @@ namespace RecipeDataTest.BusinessLogic
             _sut = new BambooSessionDataControl(_acces.Object);
             _id = Guid.NewGuid();
 
-            var validUser = new User(_userId, "mail", "mark", "mark", "pass",
+            validUser = new User(_userId,  "mail", "mark", "mark", "pass",
                 "street", Role.USER);
+            var _session = new BambooSession(_id, validUser, "My home", _validRecipe, "Come to my lovely place and have a nice candel lit dinner", DateTime.Now, 2);
+            _seat = new Seat(null, _id);
             var validIngredient = new Ingredient("banana", 5, "kg");
             var validInstruction = new Instruction(1, "peel the banana");
             _validRecipe = new Recipe("Banana-bread", "best banana bread in the world",
@@ -136,13 +144,13 @@ namespace RecipeDataTest.BusinessLogic
         public void join_WhenValidId_ReturnsBamboosession()
         {
             //Arrange
-            _acces.Setup(x => x.JoinBambooSession(_id, _userId, _id))
+            _acces.Setup(x => x.JoinBambooSession(_session, validUser, _seat))
             .Returns(true);
 
             //Act
 
-            var response = _sut.Join(_id, _userId, _id);
-
+            var response = _sut.Join(_session, validUser, _seat);
+          
             //Assert
             Assert.True(response);
 
@@ -152,13 +160,13 @@ namespace RecipeDataTest.BusinessLogic
         public void join_WhenInValidId_ReturnsBamboosession()
         {
             //Arrange
-            _acces.Setup(x => x.JoinBambooSession(_id, _userId, _id))
+            _acces.Setup(x => x.JoinBambooSession(_session, validUser, _seat))
             .Returns(false);
 
             //Act
 
-            var response = _sut.Join(_validBambosession.SessionId, _userId, _id);
-
+            var response = _sut.Join(_validBambosession, validUser, _seat);
+          
             //Assert
             Assert.False(response);
 
@@ -168,13 +176,13 @@ namespace RecipeDataTest.BusinessLogic
         public void join_WhenThrowError_ReturnsNull()
         {
             //Arrange
-            _acces.Setup(x => x.JoinBambooSession(_validBambosession.SessionId, _userId, _id))
+            _acces.Setup(x => x.JoinBambooSession(_validBambosession, validUser, _seat))
             .Throws(new Exception());
 
             //Act
 
-            var response = _sut.Join(_validBambosession.SessionId, _userId, _id);
-
+            var response = _sut.Join(_validBambosession, validUser, _seat);
+          
             //Assert
             Assert.False(response);
 
