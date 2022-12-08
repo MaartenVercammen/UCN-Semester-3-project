@@ -165,6 +165,7 @@ const CreateRecipe: React.FC = () => {
                   <div className={style.btnAddContainer}>
                     <button
                       className={style.btnAdd}
+                      id={style.removeBtn}
                       onClick={(e) => {
                         const newIngredientList = IngredientsList.filter((_, i) => i != index);
                         setIngredientsList([...newIngredientList]);
@@ -179,11 +180,12 @@ const CreateRecipe: React.FC = () => {
             <div className={style.btnAddContainer}>
               <button
                 className={style.btnAdd}
+                id={style.btnAdd}
                 onClick={() =>
                   setIngredientsList([...IngredientsList, { name: '', amount: 0, unit: '' }])
                 }
               >
-                Add
+                Add ingredient
               </button>
             </div>
           </ul>
@@ -197,6 +199,7 @@ const CreateRecipe: React.FC = () => {
                   <textarea
                     value={instruction.description}
                     className={style.instructionListChild}
+                    id={style.descriptionTA}
                     onChange={(e) => {
                       const newInstruction: Instruction = {
                         step: index,
@@ -211,6 +214,7 @@ const CreateRecipe: React.FC = () => {
                   />
                   <button
                   className={style.instructionListChild}
+                  id={style.removeBtn}
                     onClick={(e) => {
                       const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
                         (item, i) => ({
@@ -230,11 +234,12 @@ const CreateRecipe: React.FC = () => {
             <div className={style.btnAddContainer}>
               <button
                 className={style.btnAdd}
+                id={style.btnAdd}
                 onClick={() =>
                   setInstructionsList([...InstructionsList, { description: '', step: 0 }])
                 }
               >
-                Add
+                Add instruction
               </button>
             </div>
           </ol>

@@ -1,30 +1,35 @@
 .container {
   display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 1fr;
-    max-width: 575px;
-    margin-left: auto;
-    margin-right: auto;
-    color: #444444;
-    text-align: center;
-    height: 70vh;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  max-width: 575px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #444444;
+  text-align: center;
+  height: 70vh;
 }
+
+
 
 .createRecipeForm {
   display: block;
   gap: 1rem;
   justify-content: center;
   align-items: center;
+  max-width: 575px;
 }
 
 .createRecipeForm input {
-  width: 80%;
+  width: 30rem;
   justify-content: center;
   margin: .5rem 0;
 }
 
-.container h2, h4 {
+.container h2,
+h4 {
   text-align: left;
   color: #333333;
   margin-left: 3rem;
@@ -42,17 +47,18 @@
   margin: 1rem 0;
 }
 
-li, ul {
+li,
+ul {
   list-style: none;
   list-style-type: none;
 }
 
- .createRecipeInput {
+.createRecipeInput {
   width: 100%;
-    border: none;
-    border-bottom: 1px solid #dfdfdf;
-    background-color: #faf9f9;
-    height: 1.4rem;
+  border: none;
+  border-bottom: 1px solid #dfdfdf;
+  background-color: #faf9f9;
+  height: 1.4rem;
 }
 
 .btnAddContainer {
@@ -70,10 +76,23 @@ li, ul {
 
 .instructionList {
   display: flex;
-  margin-top: .5rem;
+  margin: 1.5rem 0;
   height: 2rem;
   justify-content: center;
   align-items: center;
+}
+
+.instructionListChild {
+  margin: 1rem;
+}
+
+#descriptionTA {
+  width: 15rem;
+  height: 2.5rem;
+  border: none;
+  border-bottom: 1px solid #dfdfdf;
+  background-color: #faf9f9;
+  height: 1.4rem;
 }
 
 .createRecipeBtn {
@@ -87,4 +106,43 @@ li, ul {
   font-size: 1rem;
   cursor: pointer;
   margin-bottom: 2rem;
+}
+
+.btnAddContainer {
+  width: 30vw;
+  display: flex;
+  justify-content: center;
+}
+
+#btnAdd {
+  background-color: #f3f7ed;
+  font-weight: 400;
+  font-size: 12px;
+  color: #60A04C;
+  width: 8rem;
+  height: 4vh;
+  border: 2px;
+  border: 10px;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: .1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#removeBtn {
+  background-color: #FFF2F2;
+  color: #FF7F7F;
+  border-color: #FF7F7F;
+  font-weight: 400;
+  font-size: 12px;
+  width: 6rem;
+  height: 4vh;
+  border: 2px;
+  border: 10px;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: .1em;
+  border-radius: 5px;
+  cursor: pointer;
 }
