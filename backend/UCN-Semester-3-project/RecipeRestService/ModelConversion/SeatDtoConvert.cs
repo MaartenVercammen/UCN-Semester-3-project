@@ -14,6 +14,10 @@ namespace RecipeRestService.ModelConversion{
                     seatDto = new SeatDto(userDto, inSeat.SeatId);
                 }
             }
+            else
+            {
+                seatDto = new SeatDto(inSeat.SeatId);
+            }
             return seatDto;
         }
     
