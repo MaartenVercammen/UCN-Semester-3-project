@@ -1,0 +1,63 @@
+﻿<Window x:Class="AdminPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdminPanel"
+        xmlns:viewModel="clr-namespace:AdminPanel.MVVM.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="920"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="NoResize"
+        Background="Transparent">
+
+    <!--Where the data is coming from-->
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+    
+    <Border Background="#333333"
+            CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--Logo Area -->
+            <StackPanel>
+                
+                <Image Source="/assets/images/panda.png"
+                       Width="100"
+                       Height="75"
+                       />
+                <Label Content="Foodpanda.dev"
+                       FontSize="28"
+                       Foreground="#d3a9d9"
+                       Margin="10"/>
+            </StackPanel>
+            
+            <!-- navbar -->
+            <StackPanel Grid.Row="1" Grid.Column="0">
+                <RadioButton Content="Overiew"
+                             IsChecked="True"
+                             Style="{StaticResource ManuButtonStyle}"
+                             Command="{Binding OverviewCommand}"/>
+                <RadioButton Content="User"
+                             Style="{StaticResource ManuButtonStyle}"
+                             Command="{Binding UserViewCommand}"/>
+                <RadioButton Content="Recipe"
+                             Style="{StaticResource ManuButtonStyle}" />
+            </StackPanel>
+            <!--Main Area-->
+            <StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                <ContentControl Content="{Binding CurrentView}"/>
+            </StackPanel>
+            
+        </Grid>
+    </Border>
+</Window>

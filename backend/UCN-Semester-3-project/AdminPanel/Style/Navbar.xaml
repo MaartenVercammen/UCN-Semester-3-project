@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--Selector-->
+    <Style BasedOn="{StaticResource {x:Type RadioButton}}"
+           TargetType="{x:Type RadioButton}"
+           x:Key="ManuButtonStyle">
+        <!--Base style-->
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <!--To access info from parent (TemplateBinding) -->
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid 
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            Background="{TemplateBinding Background}"
+                            >
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       VerticalAlignment="Center"
+                                       FontSize="24"
+                                       Margin="20,5,5,0"
+                                       Foreground="#FFF"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style.Setters>
+        <!--Style depending on state-->
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="#111111"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

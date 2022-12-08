@@ -1,0 +1,25 @@
+﻿<Application x:Class="AdminPanel.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AdminPanel"
+             xmlns:viewmodel="clr-namespace:AdminPanel.MVVM.ViewModel"
+             xmlns:view="clr-namespace:AdminPanel.MVVM.View"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         <ResourceDictionary>
+             <!--Load in Styles-->
+             <ResourceDictionary.MergedDictionaries>
+                 <ResourceDictionary Source="../Style/Navbar.xaml"/>
+             </ResourceDictionary.MergedDictionaries>
+
+             <!--Bind ViewModel and Model-->
+             <DataTemplate DataType="{x:Type viewmodel:OverviewViewModel}">
+                 <view:Overview />
+             </DataTemplate>
+
+             <DataTemplate DataType="{x:Type viewmodel:UserViewModel}">
+                 <view:UserView />
+             </DataTemplate>
+         </ResourceDictionary>
+    </Application.Resources>
+</Application>
