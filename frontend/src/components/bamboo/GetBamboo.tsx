@@ -54,6 +54,10 @@ const GetBamboo: React.FC = () => {
         alert('You have successfully joined this session!');
         window.location.reload();
       }
+      if(response.status == 500){
+        alert("Seat has been taken");
+        window.location.reload();
+      }
     }
   };
 
@@ -77,7 +81,7 @@ const GetBamboo: React.FC = () => {
       <div className={style.recipeImg}>
         <img src={recipe?.pictureURL} alt="" />
       </div>
-      <h6>recipe author: {author?.firstName + " " + author?.lastName}</h6> 
+      <h6>recipe author: {author?.firstName + " " + author?.lastName}</h6>
       <h1>Bamboo Session: {recipe?.name}</h1>
       <div className={style.container}>
         <h4>organized by: {author?.firstName + " " + author?.lastName}</h4>
