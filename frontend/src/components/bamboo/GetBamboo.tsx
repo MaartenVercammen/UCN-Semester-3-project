@@ -14,6 +14,7 @@ const GetBamboo: React.FC = () => {
   const [bamboo, setBamboo] = useState<BambooSession>();
   const [seats, setSeats] = useState<Seat[]>();
   const [emptySeats, setEmptySeats] = useState<number>(0);
+  const [host, setHost] = useState<User>();
 
   const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const GetBamboo: React.FC = () => {
     getRecipe(data.recipe);
     setSeats(data.seats);
     getEmptySeats(data.seats);
+    getHost(data.host);
   };
 
   const getRecipe = async (id: string) => {
@@ -37,6 +39,12 @@ const GetBamboo: React.FC = () => {
     const response = await UserService.getUser(id);
     const data = response.data;
     setAuthor(data);
+  };
+
+  const getHost = async (id: string) => {
+    const response = await UserService.getUser(id);
+    const data = response.data;
+    setHost(data);
   };
 
   const deleteBamboo = async () => {
@@ -53,6 +61,9 @@ const GetBamboo: React.FC = () => {
       if (response.status === 200 && response.data == true) {
         alert('You have successfully joined this session!');
         window.location.reload();
+      }
+      if(response.status === 500) {
+        alert('This seat is already taken!');
       }
     }
   };
@@ -77,10 +88,10 @@ const GetBamboo: React.FC = () => {
       <div className={style.recipeImg}>
         <img src={recipe?.pictureURL} alt="" />
       </div>
-      <h6>recipe author: {author?.firstName + " " + author?.lastName}</h6> 
+      <h6>recipe author: {author?.firstName + " " + author?.lastName}</h6>
       <h1>Bamboo Session: {recipe?.name}</h1>
       <div className={style.container}>
-        <h4>organized by: {author?.firstName + " " + author?.lastName}</h4>
+        <h4>organized by: {host?.firstName+ " " + host?.lastName}</h4>
         <h5>description: </h5>
         <p>{bamboo?.description}</p>
         <h5>Where?</h5>
