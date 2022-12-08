@@ -119,7 +119,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN,VERIFIED")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<bool> JoinBambooSession(string sessionId, string seatId)
         {
             ActionResult foundReturn;

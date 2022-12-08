@@ -62,8 +62,9 @@ const GetBamboo: React.FC = () => {
         alert('You have successfully joined this session!');
         window.location.reload();
       }
-      if(response.status === 500) {
-        alert('This seat is already taken!');
+      if(response.status == 200 && response.data == false){
+        alert("Seat has been taken");
+        window.location.reload();
       }
     }
   };
