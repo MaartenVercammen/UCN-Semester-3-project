@@ -51,217 +51,198 @@ const CreateRecipe: React.FC = () => {
         instructions: InstructionsList
       };
       const res = await RecipeService.createRecipe(recipe);
-      //TODO change path to recipe list
-      navigate('/');
+      navigate('/' + res.data.recipeId); // idk if this is ok xd
     }
   };
 
   return (
     <div className={style.container}>
-      <h2>create recipe</h2>
-      <p>{errorMessages && errorMessages.map((error) => <p>{error}</p>)}</p>
-      <form className={style.formContainer} onSubmit={submitForm} id="createRecipeForm">
-        <div className={style.formChild}>
-          <label htmlFor="name">
-            recipe name
-            <input
-              className={style.createRecipeInput}
-              type="text"
-              id="name"
-              name="name"
-              onChange={(e) => setname(e.target.value)}
-              required
-              min="5"
-              max="50"
-            ></input>
-          </label>
-        </div>
-        <div className={style.formChild}>
-          <label htmlFor="description">
-            description
-            <input
-              className={style.createRecipeInput}
-              type="text"
-              id="description"
-              name="description"
-              onChange={(e) => setdescription(e.target.value)}
-              required
-              min="5"
-            ></input>
-          </label>
-        </div>
-        <div className={style.formChild}>
-          <label htmlFor="pictureURL">
-            picture url
-            <input
-              className={style.createRecipeInput}
-              type="text"
-              id="pictureURL"
-              name="pictureURL"
-              onChange={(e) => setpicture(e.target.value)}
-              required
-              pattern="http(s*)://(.*)[.png, .webp, .jpeg]"
-            ></input>
-          </label>
-        </div>
-        <div className={style.formChild}>
-          <label htmlFor="time">
-            time (min)
-            <input
-              className={style.createRecipeInput}
-              type="number"
-              id="time"
-              name="time"
-              onChange={(e) => settime(Number.parseInt(e.target.value))}
-              required
-              min="1"
-            ></input>
-          </label>
-        </div>
-        <div className={style.formChild}>
-          <label htmlFor="portionNum">
-            portion size
-            <input
-              className={style.createRecipeInput}
-              type="number"
-              id="portionNum"
-              name="portionNum"
-              onChange={(e) => setportion(Number.parseInt(e.target.value))}
-              required
-              min="1"
-            ></input>
-          </label>
-        </div>
-        <h4>ingredients</h4>
-        <ul className={style.ingredientList}>
-          {IngredientsList &&
-            IngredientsList.map((ingredient, index) => (
-              <li>
-                <p>&#x2022;</p>
-                <label>
-                  Name
-                  <input
-                    className={style.createRecipeInput}
-                    type="text"
-                    value={ingredient.name}
+      <div className={style.createRecipePage}>
+        <h1>Create recipe</h1>
+        <p>{errorMessages && errorMessages.map((error) => <p>{error}</p>)}</p>
+        <form className={style.createRecipeForm} onSubmit={submitForm} id="createRecipeForm">
+          <input
+            className={style.createRecipeInput}
+            type="text"
+            id="name"
+            name="name"
+            placeholder="recipe name"
+            onChange={(e) => setname(e.target.value)}
+            required
+            min="5"
+            max="50"
+          />
+          <input
+            className={style.createRecipeInput}
+            type="text"
+            id="description"
+            name="description"
+            placeholder="recipe description"
+            onChange={(e) => setdescription(e.target.value)}
+            required
+            min="5"
+          />
+          <input
+            className={style.createRecipeInput}
+            type="text"
+            id="pictureURL"
+            name="pictureURL"
+            placeholder="picture URL"
+            onChange={(e) => setpicture(e.target.value)}
+            required
+            pattern="http(s*)://(.*)[.png, .webp, .jpeg]"
+          />
+          <input
+            className={style.createRecipeInput}
+            type="number"
+            id="time"
+            name="time"
+            placeholder="time to prepaee (in minutes)"
+            onChange={(e) => settime(Number.parseInt(e.target.value))}
+            required
+            min="1"
+          />
+          <input
+            className={style.createRecipeInput}
+            type="number"
+            id="portionNum"
+            name="portionNum"
+            placeholder="number of portions"
+            onChange={(e) => setportion(Number.parseInt(e.target.value))}
+            required
+            min="1"
+          />
+          <h4 className={style.createRecipeSubtitle}>ingredients</h4>
+          <ul className={style.ingredientList}>
+            {IngredientsList &&
+              IngredientsList.map((ingredient, index) => (
+                <div className={style.ingredientList}>
+                <li className={style.ingredientListChild}>
+                  <p>&#x2022;</p>
+                    <input
+                      className={style.createRecipeInput}
+                      type="text"
+                      value={ingredient.name}
+                      placeholder="ingredient name"
+                      onChange={(e) => {
+                        const newIngredient: Ingredient = { ...ingredient, name: e.target.value };
+                        const newIngredientList = IngredientsList;
+                        newIngredientList[index] = newIngredient;
+                        setIngredientsList([...newIngredientList]);
+                      }}
+                      min="1"
+                      required
+                    />
+                    <input
+                      className={style.createRecipeInput}
+                      type="number"
+                      value={ingredient.amount}
+                      placeholder="amount"
+                      onChange={(e) => {
+                        const newIngredient: Ingredient = {
+                          ...ingredient,
+                          amount: Number.parseInt(e.target.value)
+                        };
+                        const newIngredientList = IngredientsList;
+                        newIngredientList[index] = newIngredient;
+                        setIngredientsList([...newIngredientList]);
+                      }}
+                      min="1"
+                      required
+                    />
+                    <input
+                      className={style.createRecipeInput}
+                      type="text"
+                      value={ingredient.unit}
+                      placeholder="unit"
+                      onChange={(e) => {
+                        const newIngredient: Ingredient = { ...ingredient, unit: e.target.value };
+                        const newIngredientList = IngredientsList;
+                        newIngredientList[index] = newIngredient;
+                        setIngredientsList([...newIngredientList]);
+                      }}
+                    />
+                  <div className={style.btnAddContainer}>
+                    <button
+                      className={style.btnAdd}
+                      onClick={(e) => {
+                        const newIngredientList = IngredientsList.filter((_, i) => i != index);
+                        setIngredientsList([...newIngredientList]);
+                      }}
+                    >
+                      remove
+                    </button>
+                  </div>
+                </li>
+                </div>
+              ))}
+            <div className={style.btnAddContainer}>
+              <button
+                className={style.btnAdd}
+                onClick={() =>
+                  setIngredientsList([...IngredientsList, { name: '', amount: 0, unit: '' }])
+                }
+              >
+                Add
+              </button>
+            </div>
+          </ul>
+          <h4>instructions</h4>
+          <ol>
+            {InstructionsList &&
+              InstructionsList.map((instruction, index) => (
+                <div className={style.instructionListContainer}>
+                <li className={style.instructionList}>
+                  <p className={style.instructionListChild}>{index + 1}</p>
+                  <textarea
+                    value={instruction.description}
+                    className={style.instructionListChild}
                     onChange={(e) => {
-                      const newIngredient: Ingredient = { ...ingredient, name: e.target.value };
-                      const newIngredientList = IngredientsList;
-                      newIngredientList[index] = newIngredient;
-                      setIngredientsList([...newIngredientList]);
-                    }}
-                    min="1"
-                    required
-                  ></input>
-                </label>
-                <label>
-                  amount
-                  <input
-                    className={style.createRecipeInput}
-                    type="number"
-                    value={ingredient.amount}
-                    onChange={(e) => {
-                      const newIngredient: Ingredient = {
-                        ...ingredient,
-                        amount: Number.parseInt(e.target.value)
+                      const newInstruction: Instruction = {
+                        step: index,
+                        description: e.target.value
                       };
-                      const newIngredientList = IngredientsList;
-                      newIngredientList[index] = newIngredient;
-                      setIngredientsList([...newIngredientList]);
+                      const newInstructionsList = InstructionsList;
+                      newInstructionsList[index] = newInstruction;
+                      setInstructionsList([...newInstructionsList]);
                     }}
-                    min="1"
+                    minLength={5}
                     required
-                  ></input>
-                </label>
-                <label>
-                  unit
-                  <input
-                    className={style.createRecipeInput}
-                    type="text"
-                    value={ingredient.unit}
-                    onChange={(e) => {
-                      const newIngredient: Ingredient = { ...ingredient, unit: e.target.value };
-                      const newIngredientList = IngredientsList;
-                      newIngredientList[index] = newIngredient;
-                      setIngredientsList([...newIngredientList]);
-                    }}
-                  ></input>
-                </label>
-                <div className={style.btnAddContainer}>
+                  />
                   <button
-                    className={style.btnAdd}
+                  className={style.instructionListChild}
                     onClick={(e) => {
-                      const newIngredientList = IngredientsList.filter((_, i) => i != index);
-                      setIngredientsList([...newIngredientList]);
+                      const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
+                        (item, i) => ({
+                          ...item,
+                          step: i
+                        })
+                      );
+
+                      setInstructionsList([...newInstructionsList]);
                     }}
                   >
-                    X
+                    remove
                   </button>
-                </div>
-              </li>
-            ))}
-          <div className={style.btnAddContainer}>
-            <button
-              className={style.btnAdd}
-              onClick={() =>
-                setIngredientsList([...IngredientsList, { name: '', amount: 0, unit: '' }])
-              }
-            >
-              Add
-            </button>
-          </div>
-        </ul>
-        <h4>instructions</h4>
-        <ol>
-          {InstructionsList &&
-            InstructionsList.map((instruction, index) => (
-              <li>
-                <p>{index + 1}</p>
-                <textarea
-                  value={instruction.description}
-                  onChange={(e) => {
-                    const newInstruction: Instruction = {
-                      step: index,
-                      description: e.target.value
-                    };
-                    const newInstructionsList = InstructionsList;
-                    newInstructionsList[index] = newInstruction;
-                    setInstructionsList([...newInstructionsList]);
-                  }}
-                  minLength={5}
-                  required
-                ></textarea>
-                <button
-                  onClick={(e) => {
-                    const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
-                      (item, i) => ({
-                        ...item,
-                        step: i
-                      })
-                    );
-
-                    setInstructionsList([...newInstructionsList]);
-                  }}
-                >
-                  X
-                </button>
-              </li>
-            ))}
-          <div className={style.btnAddContainer}>
-            <button
-              className={style.btnAdd}
-              onClick={() =>
-                setInstructionsList([...InstructionsList, { description: '', step: 0 }])
-              }
-            >
-              Add
-            </button>
-          </div>
-        </ol>
-        <button type="submit" form="createRecipeForm">
-          Create
-        </button>
-      </form>
+                </li>
+              </div>
+              ))}
+            <div className={style.btnAddContainer}>
+              <button
+                className={style.btnAdd}
+                onClick={() =>
+                  setInstructionsList([...InstructionsList, { description: '', step: 0 }])
+                }
+              >
+                Add
+              </button>
+            </div>
+          </ol>
+          <button type="submit" form="createRecipeForm" className={style.createRecipeBtn}>
+            Create
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

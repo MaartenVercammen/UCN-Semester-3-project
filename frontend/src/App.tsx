@@ -44,7 +44,7 @@ const App: React.FC = () => {
 
       <Route path='/' element={<ProtectedRoutes isAllowed={[Role.ADMIN, Role.VERIFIEDUSER]} redirectPath="/app" />}>
       <Route path='/recipes/:id/edit' element={<UpdateRecipe />} />
-        <Route path="/createRecipe" element={<Create />} />
+        <Route path="/create" element={<Create />} />
         <Route path="/create" element={<Create />} />
         <Route path="/createRecipe" element={<CreateRecipeTab />} />
         <Route path="/bambooSessions/:id" element={<BambooSession />} />
