@@ -167,14 +167,13 @@ const CreateRecipe: React.FC = () => {
                       }}
                     />
                     <button
-                        className={style.btnAdd}
-                        id={style.btnRemove}
-                        onClick={(e) => {
-                          const newIngredientList = IngredientsList.filter((_, i) => i != index);
-                          setIngredientsList([...newIngredientList]);
-                        }}
-                      >
-                        remove
+                      id={style.btnRemove}
+                      onClick={(e) => {
+                        const newIngredientList = IngredientsList.filter((_, i) => i != index);
+                        setIngredientsList([...newIngredientList]);
+                      }}
+                    >
+                      remove
                     </button>
                   </li>
                 </div>

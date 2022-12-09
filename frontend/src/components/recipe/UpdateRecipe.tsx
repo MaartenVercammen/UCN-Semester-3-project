@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
 import { Ingredient, Instruction, Recipe, User } from '../../types';
 import style from './UpdateRecipe.module.css';
-import Header from '../pages/Header';
 import UserService from '../../service/userService';
-import Navbar from '../pages/Navbar';
 
 const UpdateRecipe: React.FC = () => {
   const [IngredientsList, setIngredientsList] = useState<Ingredient[]>([]);
@@ -22,9 +20,9 @@ const UpdateRecipe: React.FC = () => {
   const validateForm = () => {
     let ok = true;
     let error: string[] = [];
-    if (name.length, description.length, picture.length, time, portion === 0) {
-        error.push('All fields are required');
-        ok = false;
+    if ((name.length, description.length, picture.length, time, portion === 0)) {
+      error.push('All fields are required');
+      ok = false;
     }
     if (InstructionsList.length <= 0) {
       error.push('Add at least 1 instruction');
@@ -45,28 +43,33 @@ const UpdateRecipe: React.FC = () => {
     const id = activeUser.userId;
     const user: User = (await UserService.getUser(id)).data;
     const recipe: Recipe = (await RecipeService.getRecipe(id)).data;
-    if (recipe.author === user.userId) {
-        recipe.name = name;
-        recipe.description = description;
-        recipe.pictureURL = picture;
-        recipe.time = time;
-        recipe.portionNum = portion;
-        recipe.ingredients = IngredientsList;
-        recipe.instructions = InstructionsList;
-        
-        // update
-        const res = await RecipeService.updateRecipe(recipe);
+    if (recipe.author === user.userId && validateForm()) {
+      recipe.name = name;
+      recipe.description = description;
+      recipe.pictureURL = picture;
+      recipe.time = time;
+      recipe.portionNum = portion;
+      recipe.ingredients = IngredientsList;
+      recipe.instructions = InstructionsList;
+
+      // update
+      const res = await RecipeService.updateRecipe(recipe);
+      if (res.status == 200) {
         alert('Information updated');
         navigate('/recipes/' + recipe.recipeId);
+      } else {
+        alert('Something went wrong. Try again');
+      }
     }
-};
+  };
 
   return (
     <>
-      <Header />
       <div className={style.container}>
         <div className={style.editPage}>
-          <h1><span style={{ color: '#A8ACDC' }}>Edit</span> recipe </h1>
+          <h1>
+            <span style={{ color: '#A8ACDC' }}>Edit</span> recipe{' '}
+          </h1>
           <form className={style.editRecipeForm}>
             <input
               className={style.updateRecipeInput}
@@ -124,135 +127,138 @@ const UpdateRecipe: React.FC = () => {
             <h4>ingredients</h4>
 
             <ul className={style.ingredientList}>
-          {IngredientsList &&
-            IngredientsList.map((ingredient, index) => (
-              <li>
-                <p>&#x2022;</p>
-                <label>
-                  Name
-                  <input
-                    className={style.createRecipeInput}
-                    type="text"
-                    value={ingredient.name}
-                    onChange={(e) => {
-                      const newIngredient: Ingredient = { ...ingredient, name: e.target.value };
-                      const newIngredientList = IngredientsList;
-                      newIngredientList[index] = newIngredient;
-                      setIngredientsList([...newIngredientList]);
-                    }}
-                    min="1"
-                    required
-                  ></input>
-                </label>
-                <label>
-                  amount
-                  <input
-                    className={style.createRecipeInput}
-                    type="number"
-                    value={ingredient.amount}
-                    onChange={(e) => {
-                      const newIngredient: Ingredient = {
-                        ...ingredient,
-                        amount: Number.parseInt(e.target.value)
-                      };
-                      const newIngredientList = IngredientsList;
-                      newIngredientList[index] = newIngredient;
-                      setIngredientsList([...newIngredientList]);
-                    }}
-                    min="1"
-                    required
-                  ></input>
-                </label>
-                <label>
-                  unit
-                  <input
-                    className={style.createRecipeInput}
-                    type="text"
-                    value={ingredient.unit}
-                    onChange={(e) => {
-                      const newIngredient: Ingredient = { ...ingredient, unit: e.target.value };
-                      const newIngredientList = IngredientsList;
-                      newIngredientList[index] = newIngredient;
-                      setIngredientsList([...newIngredientList]);
-                    }}
-                  ></input>
-                </label>
-                <div className={style.btnAddContainer}>
-                  <button
-                    className={style.btnAdd}
-                    onClick={(e) => {
-                      const newIngredientList = IngredientsList.filter((_, i) => i != index);
-                      setIngredientsList([...newIngredientList]);
-                    }}
-                  >
-                    X
-                  </button>
-                </div>
-              </li>
-            ))}
-          <div className={style.btnAddContainer}>
-            <button
-              className={style.btnAdd}
-              onClick={() =>
-                setIngredientsList([...IngredientsList, { name: '', amount: 0, unit: '' }])
-              }
-            >
-              Add
-            </button>
-          </div>
-        </ul>
-        <h4>instructions</h4>
-        <ul>
-          {InstructionsList &&
-            InstructionsList.map((instruction, index) => (
-              <li>
-                <p>{index + 1}</p>
-                <textarea
-                  value={instruction.description}
-                  onChange={(e) => {
-                    const newInstruction: Instruction = {
-                      step: index,
-                      description: e.target.value
-                    };
-                    const newInstructionsList = InstructionsList;
-                    newInstructionsList[index] = newInstruction;
-                    setInstructionsList([...newInstructionsList]);
-                  }}
-                  minLength={5}
-                  required
-                ></textarea>
+              {IngredientsList &&
+                IngredientsList.map((ingredient, index) => (
+                  <div className={style.ingredientListContainer}>
+                    <li>
+                      <p>&#x2022;</p>
+                      <input
+                        className={style.ingredientInput}
+                        type="text"
+                        value={ingredient.name}
+                        placeholder="ingredient name"
+                        onChange={(e) => {
+                          const newIngredient: Ingredient = { ...ingredient, name: e.target.value };
+                          const newIngredientList = IngredientsList;
+                          newIngredientList[index] = newIngredient;
+                          setIngredientsList([...newIngredientList]);
+                        }}
+                        min="1"
+                        required
+                      />
+                      <input
+                        className={style.ingredientInput}
+                        type="number"
+                        value={ingredient.amount}
+                        placeholder="amount"
+                        onChange={(e) => {
+                          const newIngredient: Ingredient = {
+                            ...ingredient,
+                            amount: Number.parseInt(e.target.value)
+                          };
+                          const newIngredientList = IngredientsList;
+                          newIngredientList[index] = newIngredient;
+                          setIngredientsList([...newIngredientList]);
+                        }}
+                        min="1"
+                        required
+                      />
+                      <input
+                        className={style.ingredientInput}
+                        type="text"
+                        value={ingredient.unit}
+                        placeholder="unit"
+                        onChange={(e) => {
+                          const newIngredient: Ingredient = { ...ingredient, unit: e.target.value };
+                          const newIngredientList = IngredientsList;
+                          newIngredientList[index] = newIngredient;
+                          setIngredientsList([...newIngredientList]);
+                        }}
+                      />
+                      <button
+                        id={style.btnRemove}
+                        onClick={(e) => {
+                          const newIngredientList = IngredientsList.filter((_, i) => i != index);
+                          setIngredientsList([...newIngredientList]);
+                        }}
+                      >
+                        remove
+                      </button>
+                    </li>
+                  </div>
+                ))}
+              <div className={style.btnAddContainer}>
                 <button
-                  onClick={(e) => {
-                    const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
-                      (item, i) => ({
-                        ...item,
-                        step: i
-                      })
-                    );
-
-                    setInstructionsList([...newInstructionsList]);
-                  }}
+                  id={style.btnAdd}
+                  className={style.btnAdd}
+                  onClick={() =>
+                    setIngredientsList([...IngredientsList, { name: '', amount: 0, unit: '' }])
+                  }
                 >
-                  X
+                  Add ingredient
                 </button>
-              </li>
-            ))}
-          <div className={style.btnAddContainer}>
-            <button
-              className={style.btnAdd}
-              onClick={() =>
-                setInstructionsList([...InstructionsList, { description: '', step: 0 }])
-              }
-            >
-              Add
-            </button>
-          </div>
-        </ul>
+              </div>
+            </ul>
+
+            <h4>instructions</h4>
+
+            <ul className={style.instructionLI}>
+              {InstructionsList &&
+                InstructionsList.map((instruction, index) => (
+                  <div className={style.instructionListContainer}>
+                    <li>
+                      <p>{index + 1}</p>
+                      <textarea
+                        value={instruction.description}
+                        id={style.descriptionTA}
+                        onChange={(e) => {
+                          const newInstruction: Instruction = {
+                            step: index,
+                            description: e.target.value
+                          };
+                          const newInstructionsList = InstructionsList;
+                          newInstructionsList[index] = newInstruction;
+                          setInstructionsList([...newInstructionsList]);
+                        }}
+                        minLength={5}
+                        required
+                      />
+                      <button
+                        id={style.btnRemove}
+                        onClick={(e) => {
+                          const newInstructionsList = InstructionsList.filter(
+                            (_, i) => i != index
+                          ).map((item, i) => ({
+                            ...item,
+                            step: i
+                          }));
+
+                          setInstructionsList([...newInstructionsList]);
+                        }}
+                      >
+                        remove
+                      </button>
+                    </li>
+                  </div>
+                ))}
+              <div className={style.btnAddContainer}>
+                <button
+                  className={style.btnAdd}
+                  id={style.btnAdd}
+                  onClick={() =>
+                    setInstructionsList([...InstructionsList, { description: '', step: 0 }])
+                  }
+                >
+                  Add instruction
+                </button>
+              </div>
+            </ul>
           </form>
 
-          <button form="createRecipeForm" className={style.editRecipeBtn} onClick={editRecipe}>Edit recipe</button>
+          <button form="createRecipeForm" className={style.editRecipeBtn} onClick={editRecipe}>
+            Edit recipe
+          </button>
         </div>
-        <Navbar />
       </div>
     </>
   );
