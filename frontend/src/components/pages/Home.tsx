@@ -6,6 +6,7 @@ const Swipe = lazy(() => import('../swipe/swipe'));
 
 
 const Home: React.FC = () => {
+
   return (
     <div className={style.homePage}>
       <Header />

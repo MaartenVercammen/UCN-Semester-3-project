@@ -20,6 +20,7 @@ const Swipe: React.FC = () => {
 
   useEffect(() => {
     get3Cards();
+
   }, []);
 
   const get3Cards = async () => {
@@ -35,6 +36,12 @@ const Swipe: React.FC = () => {
 
   const getCard = async () => {
     const res = await RecipeService.getRandomRecipe();
+    if(res.status == 401){
+      console.log("No more recipes");
+      setTimeout(() => {
+        getCard();
+      }, 1000);
+    }
     const recipe: Recipe = res.data;
     cards.push(recipe);
     setcards([...cards]);

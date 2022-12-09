@@ -19,12 +19,10 @@ const Login: React.FC = () => {
       const data = res.data; //user
       const JWT = res.headers.token; //token
       sessionStorage.setItem('user', JSON.stringify(data));
-
-      if (JWT != undefined) {
-        sessionStorage.setItem('token', JWT);
-      }
-      
+      sessionStorage.setItem('token', JWT);
+      setTimeout(() => {sessionStorage.removeItem('token')}, 1000*60*60);
       navigate('/app');
+
     } catch (e) {
       alert('Entered email or password is incorrect');
     }
