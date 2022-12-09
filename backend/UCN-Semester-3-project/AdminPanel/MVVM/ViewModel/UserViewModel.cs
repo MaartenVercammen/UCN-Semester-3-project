@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using AdminPanel.MVVM.Model;
+using AdminPanel.Service;
 using AdminPanel.Tools;
 
 namespace AdminPanel.MVVM.ViewModel
@@ -20,7 +22,8 @@ namespace AdminPanel.MVVM.ViewModel
 
         public UserViewModel()
         {
-            User = new User(Guid.NewGuid(), "Mark", "Mark", "email", "password", "Home", "USER");
+           Repository repository= new Repository();
+           User = repository.GetUser(Guid.Parse("6cc2fb6f-762d-4f17-a930-40dbd7aff7e3"));
         }
     }
 }

@@ -12,3 +12,4 @@ obj/
 dist/
 node_modules/
 .env.*
+/backend/UCN-Semester-3-project/packages

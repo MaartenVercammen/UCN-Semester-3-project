@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace AdminPanel.MVVM.Model
 {
@@ -51,14 +52,15 @@ namespace AdminPanel.MVVM.Model
             this.FullName = $"{firstName} {lastName}";
         }
 
-        public User()
+        public User(JObject result)
         {
-            this.Email = "";
-            this.FirstName = "";
-            this.LastName = "";
-            this.Password = "";
-            this.Address = "";
-            this.Role = "";
+            this.UserId = (Guid)result["userId"];
+            this.Email = (string)result["email"];
+            this.FirstName = (string)result["firstName"];
+            this.LastName = (string)result["lastName"]; 
+            this.Password = (string)result["password"];
+            this.Address = (string)result["address"];
+            this.Role = (string)result["role"];
             this.FullName = $"{FirstName} {LastName}";
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using AdminPanel.Service;
 using AdminPanel.Tools;
 
 namespace AdminPanel.MVVM.ViewModel
@@ -37,6 +38,7 @@ namespace AdminPanel.MVVM.ViewModel
             
             UserViewCommand = new RelayCommand(o => CurrentView = UserViewModel);
             OverviewCommand = new RelayCommand(o => CurrentView = OverviewViewModel);
+
         }
         
     }
