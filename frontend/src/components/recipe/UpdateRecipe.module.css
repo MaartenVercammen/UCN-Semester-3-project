@@ -138,3 +138,9 @@ li, ul {
     list-style: none;
     list-style-type: none;
 }
+
+Navbar {
+    position: flex;
+    justify-content: center;
+    align-items: center;
+}
