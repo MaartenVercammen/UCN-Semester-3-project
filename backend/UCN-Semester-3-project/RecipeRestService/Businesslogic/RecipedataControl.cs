@@ -67,35 +67,7 @@ namespace RecipeRestService.Businesslogic
             }
             return foundRecipes;
         }
-
-        // TODO: Fix this method - retrieve random from db
-        public Recipe? GetRandomRecipe(Guid userId)
-        {
-            Recipe? recipe;
-            try{
-                recipe = _RecipeAccess.GetRandomRecipe(userId);
-                return recipe;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public List<Recipe>? GetLikedByUser(Guid userId)
-        {
-            List<Recipe>? recipes = new List<Recipe>();
-            try{
-                recipes = _RecipeAccess.GetLikedByUser(userId);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-            return recipes;
-        }
-
-         public bool Put(Recipe recipeToUpdate)
+        public bool Put(Recipe recipeToUpdate)
         {
             bool update = false;
             try
@@ -107,6 +79,35 @@ namespace RecipeRestService.Businesslogic
                 update = false;
             }
             return update;
+        }
+
+        public Recipe GetRandomRecipe(Guid userId)
+        {
+            Recipe? recipe;
+            try
+            {
+                recipe = _RecipeAccess.GetRandomRecipe(userId);
+            }
+            catch (Exception)
+            {
+                recipe = null;
+            }
+
+            return recipe;
+        }
+
+        public List<Recipe>? GetLikedByUser(Guid userId)
+        {
+            List<Recipe>? recipes = new List<Recipe>();
+            try
+            {
+                recipes = _RecipeAccess.GetLikedByUser(userId);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return recipes;
         }
     }
 }

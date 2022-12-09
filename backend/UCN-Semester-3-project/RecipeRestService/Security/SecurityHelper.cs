@@ -29,9 +29,8 @@ namespace RecipeRestService.Security {
             return Guid.Parse(claimValue);
         }
 
-        public bool IsJWTEqualRequestId(HttpRequest request, string userid){
-            var token = request.Headers["Authorization"];
-            Guid tokenId = new SecurityHelper(_configuration).GetUserFromJWT(token.ToString());
+        public bool IsJWTEqualRequestId(string token, string userid){
+            Guid tokenId = GetUserFromJWT(token);
             
             if(tokenId.ToString() != userid){
                 return true;

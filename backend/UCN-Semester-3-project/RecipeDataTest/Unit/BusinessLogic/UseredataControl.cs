@@ -164,6 +164,31 @@ namespace RecipeDataTest.BusinessLogic
 
             //Assert
             Assert.Equal(Guid.Empty, outId);
-        }        
+        }
+
+        [Fact]
+        public void Put_WhenValid_ReturnsTrue()
+        {
+            //Arrange
+            _acces.Setup(x => x.UpdateUser(_validUser))
+                .Returns(true);
+            //Act
+            var response = _sut.Put(_validUser);
+            //Assert
+            Assert.True(response);
+        }
+
+        [Fact]
+        public void Put_WhenErrorIsThrown_ReturnsFalse()
+        {
+            //Arrange
+            _acces.Setup(x => x.UpdateUser(_validUser))
+                .Throws(new Exception());
+            //Act
+            var response = _sut.Put(_validUser);
+            //Assert
+            Assert.False(response);
+        } 
+        
     }
 }

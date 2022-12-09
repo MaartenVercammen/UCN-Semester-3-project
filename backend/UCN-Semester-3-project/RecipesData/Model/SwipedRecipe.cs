@@ -1,5 +1,9 @@
 using System;
 
+namespace RecipesData.Model
+{
+	
+
 public class SwipedRecipe
 {
 	public Guid UserId {get;set;}
@@ -17,4 +21,5 @@ public class SwipedRecipe
     {
         
     }
+}
 }

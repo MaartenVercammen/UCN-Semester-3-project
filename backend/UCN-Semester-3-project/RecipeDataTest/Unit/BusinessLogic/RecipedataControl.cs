@@ -18,6 +18,7 @@ namespace RecipeDataTest.BusinessLogic
 
         // Valid object
         private readonly Recipe _validRecipe;
+        private readonly User _validUser;
 
 
         public RecipeDataControlTest(ITestOutputHelper output)
@@ -26,12 +27,12 @@ namespace RecipeDataTest.BusinessLogic
             _testHelper = new TestHelper();
             _sut = new RecipedataControl(_acces.Object);
             // Valid object
-            var validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
+            _validUser = new User(Guid.Parse("00000000-0000-0000-0000-000000000000"),  "mail", "mark", "mark", "pass",
                 "street", Role.USER);
             var validIngredient = new Ingredient("banana", 5, "kg");
             var validInstruction = new Instruction(1, "peel the banana");
             _validRecipe = new Recipe( "Banana-bread", "best banana bread in the world",
-                "http://picture.png", 30, 4, validUser);
+                "http://picture.png", 30, 4, _validUser);
             _validRecipe.Ingredients.Add(validIngredient);
             _validRecipe.Instructions.Add(validInstruction);
         }
@@ -184,10 +185,8 @@ namespace RecipeDataTest.BusinessLogic
             Guid id = Guid.NewGuid();
             Recipe inrecipe = _validRecipe;
             inrecipe.RecipeId = id;
-            
+
             _acces.Setup(x => x.GetRandomRecipe(id))
-                .Returns(inrecipe);
-            _acces.Setup(x => x.GetRecipeById(id))
                 .Returns(_validRecipe);
             //Act
             Recipe? recipe = _sut.GetRandomRecipe(id);
@@ -217,32 +216,38 @@ namespace RecipeDataTest.BusinessLogic
             Assert.Null(recipe);
         }
 
-        public void UpdateRecipe_WhenGivenRecipeId_ReturnsTrue()
+        [Fact]
+        public void GetLiked_WhenValidUserId_ReturnLikedRecipes()
         {
             //Arrange
-            Guid id = Guid.NewGuid();
-            Recipe inrecipe = _validRecipe;
-            inrecipe.RecipeId = id;
-            _acces.Setup(x => x.UpdateRecipe(inrecipe))
-                .Returns(true);
+            var likedRecipes = new List<Recipe>()
+            {
+                _validRecipe,
+                _validRecipe,
+                _validRecipe,
+                _validRecipe
+            };
+            _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
+                .Returns(likedRecipes);
             //Act
-            bool isDone = _sut.Put(inrecipe);
+            List<Recipe> recipes = _sut.GetLikedByUser(_validUser.UserId);
+
             //Assert
-            Assert.True(isDone);
+            Assert.NotNull(recipes);
+            Assert.Equal(recipes.Count, likedRecipes.Count);
         }
 
-        public void UpdateRecipe_WhenGivenRecipeId_ReturnsFalse()
+        [Fact]
+        public void GetLiked_WhenExceptionThrow_ReturnNull()
         {
             //Arrange
-            Guid id = Guid.NewGuid();
-            Recipe inrecipe = _validRecipe;
-            inrecipe.RecipeId = id;
-            _acces.Setup(x => x.UpdateRecipe(inrecipe))
-                .Returns(false);
+            _acces.Setup(x => x.GetLikedByUser(_validUser.UserId))
+                .Throws(new Exception());
             //Act
-            bool isDone = _sut.Put(inrecipe);
+            List<Recipe> recipes = _sut.GetLikedByUser(_validUser.UserId);
+
             //Assert
-            Assert.False(isDone);
+            Assert.Null(recipes);
         }
     }
 }
