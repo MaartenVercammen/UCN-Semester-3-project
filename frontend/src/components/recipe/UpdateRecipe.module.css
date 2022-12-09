@@ -13,19 +13,22 @@
 }
 
 .updateRecipeInput {
-    width: 100%;
+    width: 30rem;
+    justify-content: center;
+    margin: .5rem 0;
     border: none;
     border-bottom: 1px solid #dfdfdf;
     background-color: #faf9f9;
     height: 1.4rem;
 }
 
-.editRecipeForm  {
-    margin: 4rem 5rem;
-    display: grid;
+.editRecipeForm {
+    display: block;
     gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    max-width: 575px;
 }
-
 
 .ingredientContainer {
     width: 50vh;
@@ -35,15 +38,12 @@
 
 .btnAddContainer {
     width: 50vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
 }
 
-.btn-x button {
-    width: 50vw;
-    height: 1rem;
-}
 
 .editRecipeBtn {
     width: 26rem;
@@ -55,4 +55,86 @@
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
+    margin: 2rem 0;
+}
+
+#btnRemove {
+    background-color: #FFF2F2;
+    color: #FF7F7F;
+    border-color: #FF7F7F;
+    font-weight: 400;
+    font-size: 12px;
+    width: 10rem;
+    height: 3vh;
+    border: 2px;
+    border-style: solid;
+    border-width: .1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#btnAdd {
+    background-color: #f3f7ed;
+    font-weight: 400;
+    font-size: 12px;
+    color: #60A04C;
+    width: 8rem;
+    height: 3vh;
+    border: 2px;
+    border-style: solid;
+    border-width: .1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.instructionLI {
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.instructionListContainer li {
+    display: flex;
+    margin: 1.5rem 0;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+#descriptionTA {
+    width: 15rem;
+    margin: 1rem;
+    height: 2.5rem;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+.ingredientList {
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.ingredientListContainer li {
+    display: grid;
+    grid-template-rows: 1fr;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.ingredientInput {
+    width: 20rem;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+li, ul {
+    list-style: none;
+    list-style-type: none;
 }

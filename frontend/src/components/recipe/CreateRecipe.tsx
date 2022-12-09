@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import RecipeService from '../../service/recipeService';
 import UserService from '../../service/userService';
 import { Ingredient, Instruction, Recipe, User } from '../../types';
-import style from './CreateRecipe.module.css';
+import style from './UpdateRecipe.module.css';
 
 const CreateRecipe: React.FC = () => {
   const [IngredientsList, setIngredientsList] = useState<Ingredient[]>([]);
@@ -57,12 +57,13 @@ const CreateRecipe: React.FC = () => {
 
   return (
     <div className={style.container}>
-      <div className={style.createRecipePage}>
-        <h1>Create recipe</h1>
-        <p>{errorMessages && errorMessages.map((error) => <p>{error}</p>)}</p>
-        <form className={style.createRecipeForm} onSubmit={submitForm} id="createRecipeForm">
+      <div className={style.editPage}>
+        <h1>
+          <span style={{ color: '#A8ACDC' }}>Create</span> recipe{' '}
+        </h1>
+        <form className={style.editRecipeForm}>
           <input
-            className={style.createRecipeInput}
+            className={style.updateRecipeInput}
             type="text"
             id="name"
             name="name"
@@ -73,17 +74,18 @@ const CreateRecipe: React.FC = () => {
             max="50"
           />
           <input
-            className={style.createRecipeInput}
+            className={style.updateRecipeInput}
             type="text"
             id="description"
             name="description"
-            placeholder="recipe description"
+            placeholder="description"
             onChange={(e) => setdescription(e.target.value)}
             required
             min="5"
+            max="50"
           />
           <input
-            className={style.createRecipeInput}
+            className={style.updateRecipeInput}
             type="text"
             id="pictureURL"
             name="pictureURL"
@@ -93,17 +95,17 @@ const CreateRecipe: React.FC = () => {
             pattern="http(s*)://(.*)[.png, .webp, .jpeg]"
           />
           <input
-            className={style.createRecipeInput}
+            className={style.updateRecipeInput}
             type="number"
             id="time"
             name="time"
-            placeholder="time to prepaee (in minutes)"
+            placeholder="time to prepare (min)"
             onChange={(e) => settime(Number.parseInt(e.target.value))}
             required
             min="1"
           />
           <input
-            className={style.createRecipeInput}
+            className={style.updateRecipeInput}
             type="number"
             id="portionNum"
             name="portionNum"
@@ -112,15 +114,17 @@ const CreateRecipe: React.FC = () => {
             required
             min="1"
           />
-          <h4 className={style.createRecipeSubtitle}>ingredients</h4>
+
+          <h4>ingredients</h4>
+
           <ul className={style.ingredientList}>
             {IngredientsList &&
               IngredientsList.map((ingredient, index) => (
-                <div className={style.ingredientList}>
-                <li className={style.ingredientListChild}>
-                  <p>&#x2022;</p>
+                <div className={style.ingredientListContainer}>
+                  <li>
+                    <p>&#x2022;</p>
                     <input
-                      className={style.createRecipeInput}
+                      className={style.ingredientInput}
                       type="text"
                       value={ingredient.name}
                       placeholder="ingredient name"
@@ -134,7 +138,7 @@ const CreateRecipe: React.FC = () => {
                       required
                     />
                     <input
-                      className={style.createRecipeInput}
+                      className={style.ingredientInput}
                       type="number"
                       value={ingredient.amount}
                       placeholder="amount"
@@ -151,7 +155,7 @@ const CreateRecipe: React.FC = () => {
                       required
                     />
                     <input
-                      className={style.createRecipeInput}
+                      className={style.ingredientInput}
                       type="text"
                       value={ingredient.unit}
                       placeholder="unit"
@@ -162,25 +166,23 @@ const CreateRecipe: React.FC = () => {
                         setIngredientsList([...newIngredientList]);
                       }}
                     />
-                  <div className={style.btnAddContainer}>
                     <button
-                      className={style.btnAdd}
-                      id={style.removeBtn}
-                      onClick={(e) => {
-                        const newIngredientList = IngredientsList.filter((_, i) => i != index);
-                        setIngredientsList([...newIngredientList]);
-                      }}
-                    >
-                      remove
+                        className={style.btnAdd}
+                        id={style.btnRemove}
+                        onClick={(e) => {
+                          const newIngredientList = IngredientsList.filter((_, i) => i != index);
+                          setIngredientsList([...newIngredientList]);
+                        }}
+                      >
+                        remove
                     </button>
-                  </div>
-                </li>
+                  </li>
                 </div>
               ))}
             <div className={style.btnAddContainer}>
               <button
-                className={style.btnAdd}
                 id={style.btnAdd}
+                className={style.btnAdd}
                 onClick={() =>
                   setIngredientsList([...IngredientsList, { name: '', amount: 0, unit: '' }])
                 }
@@ -189,47 +191,47 @@ const CreateRecipe: React.FC = () => {
               </button>
             </div>
           </ul>
+
           <h4>instructions</h4>
-          <ol>
+
+          <ul className={style.instructionLI}>
             {InstructionsList &&
               InstructionsList.map((instruction, index) => (
                 <div className={style.instructionListContainer}>
-                <li className={style.instructionList}>
-                  <p className={style.instructionListChild}>{index + 1}</p>
-                  <textarea
-                    value={instruction.description}
-                    className={style.instructionListChild}
-                    id={style.descriptionTA}
-                    onChange={(e) => {
-                      const newInstruction: Instruction = {
-                        step: index,
-                        description: e.target.value
-                      };
-                      const newInstructionsList = InstructionsList;
-                      newInstructionsList[index] = newInstruction;
-                      setInstructionsList([...newInstructionsList]);
-                    }}
-                    minLength={5}
-                    required
-                  />
-                  <button
-                  className={style.instructionListChild}
-                  id={style.removeBtn}
-                    onClick={(e) => {
-                      const newInstructionsList = InstructionsList.filter((_, i) => i != index).map(
-                        (item, i) => ({
+                  <li>
+                    <p>{index + 1}</p>
+                    <textarea
+                      value={instruction.description}
+                      id={style.descriptionTA}
+                      onChange={(e) => {
+                        const newInstruction: Instruction = {
+                          step: index,
+                          description: e.target.value
+                        };
+                        const newInstructionsList = InstructionsList;
+                        newInstructionsList[index] = newInstruction;
+                        setInstructionsList([...newInstructionsList]);
+                      }}
+                      minLength={5}
+                      required
+                    />
+                    <button
+                      id={style.btnRemove}
+                      onClick={(e) => {
+                        const newInstructionsList = InstructionsList.filter(
+                          (_, i) => i != index
+                        ).map((item, i) => ({
                           ...item,
                           step: i
-                        })
-                      );
+                        }));
 
-                      setInstructionsList([...newInstructionsList]);
-                    }}
-                  >
-                    remove
-                  </button>
-                </li>
-              </div>
+                        setInstructionsList([...newInstructionsList]);
+                      }}
+                    >
+                      remove
+                    </button>
+                  </li>
+                </div>
               ))}
             <div className={style.btnAddContainer}>
               <button
@@ -242,11 +244,12 @@ const CreateRecipe: React.FC = () => {
                 Add instruction
               </button>
             </div>
-          </ol>
-          <button type="submit" form="createRecipeForm" className={style.createRecipeBtn}>
-            Create
-          </button>
+          </ul>
         </form>
+
+        <button form="createRecipeForm" className={style.editRecipeBtn} onClick={submitForm}>
+          Create recipe
+        </button>
       </div>
     </div>
   );

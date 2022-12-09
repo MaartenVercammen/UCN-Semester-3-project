@@ -66,7 +66,7 @@ const UpdateRecipe: React.FC = () => {
       <Header />
       <div className={style.container}>
         <div className={style.editPage}>
-          <h1>Edit recipe </h1>
+          <h1><span style={{ color: '#A8ACDC' }}>Edit</span> recipe </h1>
           <form className={style.editRecipeForm}>
             <input
               className={style.updateRecipeInput}
@@ -202,7 +202,7 @@ const UpdateRecipe: React.FC = () => {
           </div>
         </ul>
         <h4>instructions</h4>
-        <ol>
+        <ul>
           {InstructionsList &&
             InstructionsList.map((instruction, index) => (
               <li>
@@ -247,7 +247,7 @@ const UpdateRecipe: React.FC = () => {
               Add
             </button>
           </div>
-        </ol>
+        </ul>
           </form>
 
           <button form="createRecipeForm" className={style.editRecipeBtn} onClick={editRecipe}>Edit recipe</button>
