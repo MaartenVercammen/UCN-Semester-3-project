@@ -22,3 +22,12 @@ ul {
 .icon li  {
     color: #f0f0f0;
 }
+
+.navbarChild a {
+    color: #F0F0F0;
+}
+
+.navbarChild {
+    text-decoration: none;
+    list-style-type: none;
+}

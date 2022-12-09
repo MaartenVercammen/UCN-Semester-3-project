@@ -11,4 +11,7 @@ obj/
 #react deployment
 dist/
 node_modules/
-.env.*
+.env
+frontend/.env.production
+.gitignore
+frontend/.env.development

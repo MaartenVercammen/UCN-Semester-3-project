@@ -196,5 +196,35 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
+        [HttpPut]
+        [Authorize(Roles = "VERIFIEDUSER,ADMIN")]
+        public ActionResult Edit(RecipeDto inRecipe)
+        {
+            ActionResult foundReturn;
+            bool updated = false;
+
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            if (userId != inRecipe.Author && role != Role.ADMIN)
+            {
+                return new StatusCodeResult(403);
+            }
+
+            if (inRecipe != null)
+            {
+                var recipeId = inRecipe.RecipeId;
+                updated = _rControl.Put(RecipeDtoConvert.ToRecipe(inRecipe, _uControl.Get(userId)));
+            }
+            if (updated)
+            {
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            return foundReturn;
+        }
+
     }
 }

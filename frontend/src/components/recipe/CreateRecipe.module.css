@@ -1,46 +1,62 @@
 .container {
-  grid-auto-columns: 1fr;
-  max-width: 500px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  max-width: 575px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.container h2, h4 {
+  color: #444444;
   text-align: center;
-  color: #333333;
+  height: 70vh;
 }
 
-li {
-  display: flex;
+.createRecipeForm {
+  display: block;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  max-width: 575px;
+}
+
+.createRecipeForm input {
+  width: 30rem;
+  justify-content: center;
+  margin: .5rem 0;
+}
+
+.container h2,
+h4 {
+  text-align: left;
+  color: #333333;
+  margin-left: 3rem;
+  margin-top: 4rem;
+}
+
+.ingredientList li {
+  display: block;
   flex-flow: row nowrap;
   gap: 1rem;
-}
-
-label {
-  margin-right: 0.5rem;
+  list-style-type: none;
 }
 
 .formChild {
   margin: 1rem 0;
 }
 
- .createRecipeInput {
+li,
+ul {
+  list-style: none;
+  list-style-type: none;
+}
+
+.createRecipeInput {
   width: 100%;
-  border: 2px;
-  border-style: solid;
-  border-color: #F0F0F0;
-  border-radius: 20px;
-  border-width: .1em;
-  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid #dfdfdf;
+  background-color: #faf9f9;
   height: 1.4rem;
-}
-
-.createRecipeInput:valid {
-  background-color: #EFF7ED;
-}
-
-.createRecipeInput:invalid {
-  background-color: #F7EEF8;
 }
 
 .btnAddContainer {
@@ -54,4 +70,78 @@ label {
   display: flex;
   flex-flow: column nowrap;
   gap: 1rem;
+}
+
+.instructionList {
+  display: flex;
+  margin: 1.5rem 0;
+  height: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.instructionListChild {
+  margin: 1rem;
+}
+
+#descriptionTA {
+  width: 15rem;
+  height: 2.5rem;
+  border: none;
+  border-bottom: 1px solid #dfdfdf;
+  background-color: #faf9f9;
+  height: 1.4rem;
+}
+
+.createRecipeBtn {
+  width: 26rem;
+  background-color: #D8A8DC;
+  border: none;
+  border-radius: 12px;
+  height: 2.5rem;
+  color: #faf9f9;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.btnAddContainer {
+  width: 50vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#btnAdd {
+  background-color: #f3f7ed;
+  font-weight: 400;
+  font-size: 12px;
+  color: #60A04C;
+  width: 8rem;
+  height: 4vh;
+  border: 2px;
+  border: 10px;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: .1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#removeBtn {
+  background-color: #FFF2F2;
+  color: #FF7F7F;
+  border-color: #FF7F7F;
+  font-weight: 400;
+  font-size: 12px;
+  width: 6rem;
+  height: 4vh;
+  border: 2px;
+  border: 10px;
+  border-style: solid;
+  border-radius: 20px;
+  border-width: .1em;
+  border-radius: 5px;
+  cursor: pointer;
 }

@@ -43,8 +43,10 @@ namespace RecipeRestService.ModelConversion
         
         public static Recipe? ToRecipe(RecipeDto inDto, User author)
         {
-
-            return new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, author);
+            Recipe recipe = new Recipe(inDto.RecipeId, inDto.Name, inDto.Description, inDto.PictureURL, inDto.Time, inDto.PortionNum, author);
+            recipe.Ingredients = inDto.Ingredients;
+            recipe.Instructions = inDto.Instructions;
+            return recipe;
         }
     }
 }

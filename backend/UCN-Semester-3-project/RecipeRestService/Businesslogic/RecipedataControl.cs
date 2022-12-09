@@ -69,9 +69,18 @@ namespace RecipeRestService.Businesslogic
         }
         public bool Put(Recipe recipeToUpdate)
         {
-            throw new NotImplementedException();
+            bool update = false;
+            try
+            {
+                update = _RecipeAccess.UpdateRecipe(recipeToUpdate);
+            }
+            catch (Exception)
+            {
+                update = false;
+            }
+            return update;
         }
-        
+
         public Recipe GetRandomRecipe(Guid userId)
         {
             Recipe? recipe;
@@ -90,7 +99,8 @@ namespace RecipeRestService.Businesslogic
         public List<Recipe>? GetLikedByUser(Guid userId)
         {
             List<Recipe>? recipes = new List<Recipe>();
-            try{
+            try
+            {
                 recipes = _RecipeAccess.GetLikedByUser(userId);
             }
             catch (Exception)
