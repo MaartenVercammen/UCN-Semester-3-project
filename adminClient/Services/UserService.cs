@@ -19,7 +19,9 @@ namespace admin_client.Services
         public async Task<List<User>> GetUsers()
         {
             List<User> users = null;
-            var response = await _client.GetAsync($"https://localhost:7088/User");
+            var task = _client.GetAsync("https://localhost:7088/User");
+            task.Wait();
+            var response = task.Result;
             if (response.IsSuccessStatusCode)
             {
                 users = await response.Content.ReadFromJsonAsync<List<User>>();

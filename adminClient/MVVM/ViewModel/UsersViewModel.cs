@@ -1,6 +1,8 @@
 ﻿using admin_client.MVVM.Model;
+using admin_client.MVVM.View;
 using admin_client.Services;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +24,18 @@ namespace admin_client.MVVM.ViewModel
             {
                 Users.Add(user);
             }
+        }
+
+        [ICommand]
+        async Task GoToDetails(User user)
+        {
+            if (user == null)
+                return;
+
+            await Shell.Current.GoToAsync(nameof(UserView), true, new Dictionary<string, object>
+            {
+                {"User", user }
+            });
         }
     }
 }

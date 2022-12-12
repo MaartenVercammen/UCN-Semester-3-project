@@ -17,12 +17,15 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		builder.Services.AddSingleton<UserView>();
-		builder.Services.AddSingleton<UsersView>();
-		builder.Services.AddSingleton<UserService>();
-		builder.Services.AddSingleton<UserViewModel>();
-		builder.Services.AddSingleton<UsersViewModel>();
+        builder.Services.AddSingleton<UserService>();
 
-		return builder.Build();
+        builder.Services.AddTransient<UserView>();
+        builder.Services.AddSingleton<UserViewModel>();
+
+
+        builder.Services.AddSingleton<UsersViewModel>();
+        builder.Services.AddSingleton<UsersView>();
+
+        return builder.Build();
 	}
 }

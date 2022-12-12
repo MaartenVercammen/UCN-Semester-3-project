@@ -9,4 +9,6 @@ public partial class UserView : ContentPage
 		InitializeComponent();
 		BindingContext = viewModel;
 	}
+
+	
 }

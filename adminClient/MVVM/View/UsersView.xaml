@@ -6,18 +6,28 @@
              xmlns:model="clr-namespace:admin_client.MVVM.Model"
              x:DataType="viewmodel:UsersViewModel"
              Title="Users">
-    <VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding Users}">
+    <RefreshView>
+        <CollectionView ItemsSource="{Binding Users}"
+                    SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:User">
-                    <StackLayout>
-                        <Label Text="{Binding FirstName}"/>
-                    </StackLayout>
+                    <Frame HeightRequest="125">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:UsersViewModel}}, Path=GoToDetailsCommand}"
+                                            CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding UserId, StringFormat='ID: {0} '}"/>
+                            <Label Text="{Binding FirstName, StringFormat='Firstname: {0} '}"/>
+                            <Label Text="{Binding LastName, StringFormat='Lastname: {0} '}"/>
+                            <Label Text="{Binding Role, StringFormat='Role: {0}'}"/>
+                        </VerticalStackLayout>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            
+
         </CollectionView>
-        
-        
-    </VerticalStackLayout>
+    </RefreshView>
+
 </ContentPage>

@@ -7,7 +7,12 @@
              x:DataType="modelview:UserViewModel"
              Title="User">
     <VerticalStackLayout>
-        <Label Text="{Binding User.FirstName}"/>
-        <Label Text="Test"/>
+        <Label Text="{Binding User.UserId, StringFormat='ID: {0} '}"/>
+        <Label Text="{Binding User.FirstName, StringFormat='Firstname: {0} '}"/>
+        <Label Text="{Binding User.LastName, StringFormat='Lastname: {0} '}"/>
+        <Label Text="{Binding User.Address, StringFormat='Adress: {0}'}"/>
+        <Label Text="{Binding User.Email, StringFormat='Email: {0}'}"/>
+        <Label Text="{Binding User.Role, StringFormat='Role: {0}'}"/>
+        
     </VerticalStackLayout>
 </ContentPage>
