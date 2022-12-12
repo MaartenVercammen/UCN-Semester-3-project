@@ -1,4 +1,8 @@
-﻿namespace adminClient;
+﻿using admin_client.MVVM.View;
+using admin_client.MVVM.ViewModel;
+using admin_client.Services;
+
+namespace adminClient;
 
 public static class MauiProgram
 {
@@ -12,6 +16,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		builder.Services.AddSingleton<UserView>();
+		builder.Services.AddSingleton<UsersView>();
+		builder.Services.AddSingleton<UserService>();
+		builder.Services.AddSingleton<UserViewModel>();
+		builder.Services.AddSingleton<UsersViewModel>();
 
 		return builder.Build();
 	}

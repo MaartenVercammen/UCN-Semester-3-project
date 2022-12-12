@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="admin_client.MVVM.View.UsersView"
+             xmlns:viewmodel="clr-namespace:admin_client.MVVM.ViewModel"
+             xmlns:model="clr-namespace:admin_client.MVVM.Model"
+             x:DataType="viewmodel:UsersViewModel"
+             Title="Users">
+    <VerticalStackLayout>
+        <CollectionView ItemsSource="{Binding Users}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:User">
+                    <StackLayout>
+                        <Label Text="{Binding FirstName}"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
+        
+        
+    </VerticalStackLayout>
+</ContentPage>

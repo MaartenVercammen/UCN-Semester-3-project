@@ -3,12 +3,12 @@
     x:Class="adminClient.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:adminClient"
+    xmlns:view="clr-namespace:admin_client.MVVM.View"
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate view:UserView}"
         Route="MainPage" />
 
 </Shell>

@@ -1,4 +1,4 @@
-﻿namespace adminClient;
+namespace admin_client.MVVM.View;
 
 public partial class MainPage : ContentPage
 {

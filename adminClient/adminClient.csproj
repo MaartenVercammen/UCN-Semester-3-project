@@ -48,4 +48,17 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="MVVM\View\UsersView.xaml.cs">
+	    <DependentUpon>UsersView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MVVM\View\UserView.xaml.cs">
+	    <DependentUpon>UserView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>
