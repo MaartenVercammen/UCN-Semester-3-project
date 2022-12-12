@@ -1,6 +1,7 @@
 ﻿using admin_client.MVVM.View;
 using admin_client.MVVM.ViewModel;
 using admin_client.Services;
+using adminClient.Services;
 
 namespace adminClient;
 
@@ -18,10 +19,11 @@ public static class MauiProgram
 			});
 
         builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<BambooSessionService>();
+        builder.Services.AddSingleton<RecipeService>();
 
         builder.Services.AddTransient<UserView>();
         builder.Services.AddSingleton<UserViewModel>();
-
 
         builder.Services.AddSingleton<UsersViewModel>();
         builder.Services.AddSingleton<UsersView>();
