@@ -20,7 +20,7 @@
         <Label Text="{Binding User.Email, StringFormat='Email: {0}'}"/>
         <Label Text="{Binding User.Role, StringFormat='Role: {0}'}"/>
 
-        <Button Text="Save" Command="{Binding saveCommand}"/>
+        <Button Text="Save" Command="{Binding SaveCommand}"/>
 
     </VerticalStackLayout>
 </ContentPage>
