@@ -21,7 +21,7 @@
                         <Label Text="{Binding SeatId, StringFormat='Slots: {0}'}"/>
                         <Label>
                             <Label.Text>
-                                <MultiBinding StringFormat="{}User {0} {1}" Mode="OneWay">
+                                <MultiBinding StringFormat="{}User {0} {1}">
                                     <Binding Path="User.FirstName"/>
                                     <Binding Path="User.LastName"/>
                                 </MultiBinding>

@@ -6,9 +6,21 @@
     xmlns:view="clr-namespace:adminClient.MVVM.View"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate view:BambooSessionOverview}"
-        Route="MainPage" />
+    <FlyoutItem>
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate view:MainPage}"
+            Route="MainPage" />
+        <ShellContent
+            Title="Users"
+            ContentTemplate="{DataTemplate view:UsersView}"
+            Route="UsersView" />
+        <ShellContent
+            Title="BambooSession"
+            ContentTemplate="{DataTemplate view:BambooSessionOverview}"
+            Route="BambooSessionOverview" />
+    </FlyoutItem>
+    
+    
 
 </Shell>
