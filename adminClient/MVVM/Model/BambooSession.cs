@@ -22,7 +22,7 @@ namespace adminClient.MVVM.Model
         public User HostObject {get; set;}
         public string Host
         {
-            get => HostObject.UserId; set
+            get => HostObject.UserId.ToString(); set
             {
                 var task = GetHost(value, new UserService());
                 task.Wait();

@@ -4,7 +4,7 @@ namespace adminClient.MVVM.View;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+	int count = 42069;
 
 	public MainPage(MainPageView modelView)
 	{

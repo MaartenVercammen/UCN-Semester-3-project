@@ -69,7 +69,9 @@ namespace adminClient.Services
         public async Task<bool> UpdateUser(User user)
         {
             bool IsDone = false;
-            var response = await _client.PutAsJsonAsync($"https://localhost:7088/User", JsonSerializer.Serialize(user));
+            var task = _client.PutAsJsonAsync<User>("https://localhost:7088/User",user);
+            task.Wait();
+            var response = task.Result;
             if (response.IsSuccessStatusCode)
             {
                 IsDone = bool.Parse(await response.Content.ReadAsStringAsync());

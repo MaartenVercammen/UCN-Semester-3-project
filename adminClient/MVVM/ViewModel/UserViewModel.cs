@@ -18,10 +18,22 @@ namespace adminClient.MVVM.ViewModel
         [ObservableProperty]
         User user;
 
+        [ObservableProperty]
+        bool isDone = false;
+
+        UserService _userService;
+
+        public UserViewModel(UserService userService)
+        {
+            _userService = userService;
+        }
+
         [RelayCommand]
         public void Save()
         {
-            Console.WriteLine("Save");
+            var task = _userService.UpdateUser(User);
+            task.Wait();
+            IsDone = task.Result;
         }
 
     }

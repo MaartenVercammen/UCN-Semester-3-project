@@ -9,18 +9,31 @@
     <VerticalStackLayout>
         <HorizontalStackLayout Spacing="10">
             <Label Text="Id"/>
-            <Label Text="{Binding User.UserId}"/>
+            <Label Text="{Binding User.UserId, Mode=TwoWay}"/>
         </HorizontalStackLayout>
         <HorizontalStackLayout Spacing="10">
             <Label Text="Firstname"/>
             <Entry Text="{Binding User.FirstName, Mode=TwoWay}"/>
         </HorizontalStackLayout>
-        <Label Text="{Binding User.LastName, StringFormat='Lastname: {0} '}"/>
-        <Label Text="{Binding User.Address, StringFormat='Adress: {0}'}"/>
-        <Label Text="{Binding User.Email, StringFormat='Email: {0}'}"/>
-        <Label Text="{Binding User.Role, StringFormat='Role: {0}'}"/>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Lastname"/>
+            <Entry Text="{Binding User.LastName, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Adress"/>
+            <Entry Text="{Binding User.Address, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Email"/>
+            <Entry Text="{Binding User.Email, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Role"/>
+            <Entry Text="{Binding User.Role, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
 
         <Button Text="Save" Command="{Binding SaveCommand}"/>
+        <Label Text="{Binding IsDone}"/>
 
     </VerticalStackLayout>
 </ContentPage>
