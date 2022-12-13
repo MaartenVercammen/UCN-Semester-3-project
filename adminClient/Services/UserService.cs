@@ -47,7 +47,9 @@ namespace adminClient.Services
         public async Task<bool> DeleteUser(string id)
         {
             bool IsDone = false;
-            var response = await _client.DeleteAsync($"https://localhost:7088/User/{id}");
+            var task = _client.DeleteAsync($"https://localhost:7088/User/{id}");
+            task.Wait();
+            var response = task.Result;
             if (response.IsSuccessStatusCode)
             {
                 IsDone = bool.Parse(await response.Content.ReadAsStringAsync());

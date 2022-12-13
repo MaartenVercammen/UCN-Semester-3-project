@@ -7,7 +7,6 @@ public partial class BambooSessionView : ContentPage
 	public BambooSessionView(BambooSessionViewModel viewModel )
 	{
 		InitializeComponent();
-
 		BindingContext = viewModel;
 	}
 }

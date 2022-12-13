@@ -6,7 +6,8 @@
              xmlns:model="clr-namespace:adminClient.MVVM.Model"
              x:DataType="viewmodel:UsersViewModel"
              Title="Users">
-    <RefreshView>
+    <RefreshView Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
         <CollectionView ItemsSource="{Binding Users}"
                     SelectionMode="None">
             <CollectionView.ItemTemplate>
@@ -21,6 +22,7 @@
                             <Label Text="{Binding UserId, StringFormat='ID: {0} '}"/>
                             <Label Text="{Binding FirstName, StringFormat='Firstname: {0} '}"/>
                             <Label Text="{Binding LastName, StringFormat='Lastname: {0} '}"/>
+                            <Label Text="{Binding Email, StringFormat='Email: {0} '}"/>
                             <Label Text="{Binding Role, StringFormat='Role: {0}'}"/>
                         </VerticalStackLayout>
                     </Frame>

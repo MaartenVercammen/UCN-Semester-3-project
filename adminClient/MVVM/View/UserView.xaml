@@ -32,7 +32,16 @@
             <Entry Text="{Binding User.Role, Mode=TwoWay}"/>
         </HorizontalStackLayout>
 
-        <Button Text="Save" Command="{Binding SaveCommand}"/>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Password"/>
+            <Entry Text="{Binding User.Password, Mode=OneWayToSource}"/>
+            <Label Text="Do not change unless you want to update the password"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Button Text="Save" Command="{Binding SaveCommand}"/>
+            <Button Text="Delete" Command="{Binding DeleteCommand}"/>
+        </HorizontalStackLayout>
         <Label Text="{Binding IsDone}"/>
 
     </VerticalStackLayout>

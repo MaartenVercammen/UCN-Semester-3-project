@@ -14,10 +14,19 @@ namespace adminClient.MVVM.ViewModel
 {
     public partial class UsersViewModel: ObservableObject
     {
+        private readonly UserService _userService;
         public ObservableCollection<User> Users { get; } = new();
+
+        [ObservableProperty]
+        bool isRefreshing;
         public UsersViewModel(UserService userService)
         {
-            var task = userService.GetUsers();
+            _userService= userService;
+            GetUsers();
+        }
+
+        private void GetUsers() {
+            var task = _userService.GetUsers();
             task.Wait();
             var userList = task.Result;
             foreach (var user in userList)
@@ -36,6 +45,14 @@ namespace adminClient.MVVM.ViewModel
             {
                 {"User", user }
             });
+        }
+
+        [RelayCommand]
+        void Refresh()
+        {
+            IsRefreshing = true;
+            GetUsers();
+            IsRefreshing = false;
         }
     }
 }

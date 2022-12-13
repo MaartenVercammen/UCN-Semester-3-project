@@ -59,7 +59,7 @@ namespace RecipesData.Database
                 try
                 {
                     // delete recipes created by user
-                    cmd.CommandText = "DELETE FROM recipe WHERE authorId = @id";
+                    cmd.CommandText = "Update recipe set authorId='00000000-0000-0000-0000-000000000000' WHERE authorId = @id";
                     cmd.Parameters.AddWithValue("id", guidString);
 
                     cmd.ExecuteNonQuery();

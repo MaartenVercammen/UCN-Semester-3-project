@@ -36,5 +36,13 @@ namespace adminClient.MVVM.ViewModel
             IsDone = task.Result;
         }
 
+        [RelayCommand]
+        public void Delete()
+        {
+            var task = _userService.DeleteUser(User.UserId.ToString());
+            task.Wait();
+            IsDone = task.Result;
+        }
+
     }
 }
