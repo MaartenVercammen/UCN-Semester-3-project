@@ -7,12 +7,20 @@
              x:DataType="modelview:UserViewModel"
              Title="User">
     <VerticalStackLayout>
-        <Label Text="{Binding User.UserId, StringFormat='ID: {0} '}"/>
-        <Label Text="{Binding User.FirstName, StringFormat='Firstname: {0} '}"/>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Id"/>
+            <Label Text="{Binding User.UserId}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Firstname"/>
+            <Entry Text="{Binding User.FirstName, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
         <Label Text="{Binding User.LastName, StringFormat='Lastname: {0} '}"/>
         <Label Text="{Binding User.Address, StringFormat='Adress: {0}'}"/>
         <Label Text="{Binding User.Email, StringFormat='Email: {0}'}"/>
         <Label Text="{Binding User.Role, StringFormat='Role: {0}'}"/>
-        
+
+        <Button Text="Save" Command="{Binding saveCommand}"/>
+
     </VerticalStackLayout>
 </ContentPage>

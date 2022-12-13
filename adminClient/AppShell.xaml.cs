@@ -8,6 +8,7 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
+		//Registerd route
 		Routing.RegisterRoute(nameof(UserView), typeof(UserView));
 	}
 }

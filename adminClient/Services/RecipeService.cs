@@ -12,7 +12,7 @@ namespace adminClient.Services
 {
     public class RecipeService : BaseService
     {
-        public async Task<List<Recipe>> GetRecipe()
+        public async Task<List<Recipe>> GetRecipes()
         {
             List<Recipe> recipes = null;
             var task = _client.GetAsync("https://localhost:7088/Recipes");

@@ -1,8 +1,8 @@
 ﻿using admin_client.MVVM.Model;
 using admin_client.MVVM.View;
 using admin_client.Services;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +26,7 @@ namespace admin_client.MVVM.ViewModel
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         async Task GoToDetails(User user)
         {
             if (user == null)

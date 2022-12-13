@@ -1,12 +1,16 @@
+using admin_client.MVVM.ViewModel;
+
 namespace admin_client.MVVM.View;
 
 public partial class MainPage : ContentPage
 {
 	int count = 0;
 
-	public MainPage()
+	public MainPage(MainPageView modelView)
 	{
 		InitializeComponent();
+
+		BindingContext = modelView;
 	}
 
 	private void OnCounterClicked(object sender, EventArgs e)
