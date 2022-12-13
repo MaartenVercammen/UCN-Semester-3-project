@@ -14,11 +14,20 @@ namespace adminClient.MVVM.ViewModel
 {
     public partial class BambooSessionOverviewViewModel : ObservableObject
     {
-
+        private readonly BambooSessionService _sessionService;
         public ObservableCollection<BambooSession> BambooSessions { get; } = new();
+
+        [ObservableProperty]
+        bool isRefreshing;
         public BambooSessionOverviewViewModel(BambooSessionService bambooSessionService)
         {
-            var task = bambooSessionService.GetBambooSessions();
+            _sessionService = bambooSessionService;
+            GetBambooSessions();
+        }
+
+        private void GetBambooSessions()
+        {
+            var task = _sessionService.GetBambooSessions();
             task.Wait();
             var bambooSessionsResult = task.Result;
             foreach (var bambooSession in bambooSessionsResult)
@@ -37,6 +46,14 @@ namespace adminClient.MVVM.ViewModel
             {
                 {"BambooSession", bambooSession }
             });
+        }
+
+        [RelayCommand]
+        void RefreshCommand()
+        {
+            IsRefreshing= true;
+            GetBambooSessions();
+            IsRefreshing= false;
         }
 
     }

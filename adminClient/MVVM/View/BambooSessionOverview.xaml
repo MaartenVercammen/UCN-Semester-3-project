@@ -6,7 +6,8 @@
              xmlns:model="clr-namespace:adminClient.MVVM.Model"
              x:DataType="viewmodel:BambooSessionOverviewViewModel"
              Title="BambooSessionOverview">
-    <RefreshView>
+    <RefreshView  Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
         <CollectionView ItemsSource="{Binding BambooSessions}"
                     SelectionMode="None">
             <CollectionView.ItemTemplate>

@@ -2,6 +2,7 @@
 using adminClient.Services;
 using adminClient.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,10 @@ namespace adminClient.MVVM.ViewModel
 
         [ObservableProperty]
         int bambooCount;
-        
+
+        [ObservableProperty]
+        bool isRefreshing;
+
 
         public MainPageView(UserService userService, RecipeService recipeService, BambooSessionService bambooSessionService)
         {
@@ -35,6 +39,11 @@ namespace adminClient.MVVM.ViewModel
             _bambooSessionService = bambooSessionService;
             _userService= userService;
 
+            GetData();
+        }
+
+        private void GetData()
+        {
             var recipes = GetRecipes();
             var bambbo = GetBabmboo();
             var users = GetUsers();
@@ -62,6 +71,14 @@ namespace adminClient.MVVM.ViewModel
         {
             var recipes = await _bambooSessionService.GetBambooSessions();
             return recipes;
+        }
+
+        [RelayCommand]
+        void RefreshCommand()
+        {
+            IsRefreshing = true;
+            GetData();
+            IsRefreshing= false;
         }
     }
 }

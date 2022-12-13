@@ -7,6 +7,8 @@
              x:DataType="viewmodel:MainPageView"
              >
 
+    <RefreshView  Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -31,8 +33,13 @@
             <Label Text="Recipe statistic"/>
             <Label Text="{Binding RecipeCount}"/>
 
+            <!-- Stat for Recipe -->
+            <Label Text="Visitors"/>
+            <Label Text="876868786453"/>
+
 
         </VerticalStackLayout>
     </ScrollView>
+    </RefreshView>
 
 </ContentPage>
