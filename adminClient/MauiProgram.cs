@@ -24,6 +24,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<BambooSessionService>();
         builder.Services.AddSingleton<RecipeService>();
+		builder.Services.AddSingleton<CountService>();
 
 		//User
         builder.Services.AddTransient<UserView>();

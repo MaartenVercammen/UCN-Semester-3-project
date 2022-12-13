@@ -49,7 +49,7 @@ namespace adminClient.MVVM.ViewModel
         }
 
         [RelayCommand]
-        void RefreshCommand()
+        void Refresh()
         {
             IsRefreshing= true;
             GetBambooSessions();

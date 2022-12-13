@@ -35,7 +35,7 @@
 
             <!-- Stat for Recipe -->
             <Label Text="Visitors"/>
-            <Label Text="876868786453"/>
+            <Label Text="{Binding Visitors}"/>
 
 
         </VerticalStackLayout>

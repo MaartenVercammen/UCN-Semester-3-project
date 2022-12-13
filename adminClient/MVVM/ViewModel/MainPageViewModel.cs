@@ -20,6 +20,8 @@ namespace adminClient.MVVM.ViewModel
 
         private readonly UserService _userService;
 
+        private readonly CountService _countService;
+
         [ObservableProperty]
         int userCount;
 
@@ -30,14 +32,18 @@ namespace adminClient.MVVM.ViewModel
         int bambooCount;
 
         [ObservableProperty]
+        int visitors;
+
+        [ObservableProperty]
         bool isRefreshing;
 
 
-        public MainPageView(UserService userService, RecipeService recipeService, BambooSessionService bambooSessionService)
+        public MainPageView(UserService userService, RecipeService recipeService, BambooSessionService bambooSessionService, CountService countService)
         {
             _recipeService = recipeService;
             _bambooSessionService = bambooSessionService;
             _userService= userService;
+            _countService = countService;
 
             GetData();
         }
@@ -47,12 +53,20 @@ namespace adminClient.MVVM.ViewModel
             var recipes = GetRecipes();
             var bambbo = GetBabmboo();
             var users = GetUsers();
+            var count = GetCount();
 
-            Task.WaitAll(recipes, bambbo, users);
+            Task.WaitAll(recipes, bambbo, users, count);
 
             UserCount = users.Result.Count;
             RecipeCount = recipes.Result.Count;
             BambooCount = bambbo.Result.Count;
+            Visitors = count.Result;
+        }
+
+        private async Task<int> GetCount()
+        {
+            var count = await _countService.GetCount();
+            return count;
         }
 
         private async Task<List<User>> GetUsers()
@@ -74,7 +88,7 @@ namespace adminClient.MVVM.ViewModel
         }
 
         [RelayCommand]
-        void RefreshCommand()
+        void Refresh()
         {
             IsRefreshing = true;
             GetData();
