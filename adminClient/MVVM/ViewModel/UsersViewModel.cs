@@ -1,6 +1,6 @@
-﻿using admin_client.MVVM.Model;
-using admin_client.MVVM.View;
-using admin_client.Services;
+﻿using adminClient.MVVM.Model;
+using adminClient.MVVM.View;
+using adminClient.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace admin_client.MVVM.ViewModel
+namespace adminClient.MVVM.ViewModel
 {
     public partial class UsersViewModel: ObservableObject
     {

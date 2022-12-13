@@ -1,6 +1,8 @@
-﻿using admin_client.MVVM.View;
-using admin_client.MVVM.ViewModel;
-using admin_client.Services;
+﻿using adminClient.MVVM.View;
+using adminClient.MVVM.ViewModel;
+using adminClient.Services;
+using adminClient.MVVM.View;
+using adminClient.MVVM.ViewModel;
 using adminClient.Services;
 
 namespace adminClient;
@@ -34,6 +36,15 @@ public static class MauiProgram
 		//MainPage
 		builder.Services.AddSingleton<MainPageView>();
 		builder.Services.AddSingleton<MainPage>();
+
+		//Bamboo overview
+		builder.Services.AddSingleton<BambooSessionOverview>();
+		builder.Services.AddSingleton<BambooSessionOverviewViewModel>();
+
+		//Bamboo
+		builder.Services.AddTransient<BambooSessionView>();
+		builder.Services.AddTransient<BambooSessionViewModel>();
+
 
         return builder.Build();
 	}

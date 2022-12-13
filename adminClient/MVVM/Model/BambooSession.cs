@@ -1,51 +1,51 @@
 
 
-namespace admin_client.MVVM.Model
+using adminClient.Services;
+
+namespace adminClient.MVVM.Model
 {
     public class BambooSession
     {
         public string SessionId {get;set;}
         public string Address {get;set;}
-        public string Recipe {get;set;}
+        public Recipe RecipeObject {get;set;}
+
+        public string Recipe { get => RecipeObject.RecipeId; set
+            {
+                var task2 = GetRecipe(value, new RecipeService());
+                task2.Wait();
+                RecipeObject = task2.Result;
+            } }
         public string Description {get;set;}
         public DateTime DateTime {get;set;}
         public int SlotsNumber {get;set;}
-        public string Host {get; set;}
+        public User HostObject {get; set;}
+        public string Host
+        {
+            get => HostObject.UserId; set
+            {
+                var task = GetHost(value, new UserService());
+                task.Wait();
+                HostObject = task.Result;
+            }
+        }
         public List<Seat> Seats {get;set;}
 
-        public BambooSession(string sessionId, string host, string address, string recipe, string description, DateTime dateTime, int slotsNumber)
+
+        public BambooSession() { }
+
+        private async Task<User> GetHost(string id, UserService userService)
         {
-            this.SessionId = sessionId;
-            this.Host = host;
-            this.Address = address;
-            this.Recipe = recipe;
-            this.Description = description;
-            this.DateTime = dateTime;
-            this.SlotsNumber = slotsNumber;
-            this.Seats = new List<Seat>();
+            var host = await userService.GetUser(id);
+            return host;
         }
 
-        public BambooSession(string host, string address, string recipe, string description, DateTime dateTime, int slotsNumber)
+        private async Task<Recipe> GetRecipe(string id, RecipeService recipeService)
         {
-            this.SessionId = Guid.NewGuid().ToString();
-            this.Host = host;
-            this.Address = address;
-            this.Recipe = recipe;
-            this.Description = description;
-            this.DateTime = dateTime;
-            this.SlotsNumber = slotsNumber;
-            this.Seats = new List<Seat>();
-            this.Host = Guid.Empty.ToString();
+            var recipe = await recipeService.GetRecipe(id);
+            return recipe;
         }
 
-        public BambooSession()
-        {
-            this.Seats = new List<Seat>();
-            this.Address = "";
-            this.Recipe = Guid.Empty.ToString();
-            this.Description = "";
-            this.Host =Guid.Empty.ToString();
-        }
-        
+
     }
 }

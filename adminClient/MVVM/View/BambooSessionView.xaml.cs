@@ -2,13 +2,12 @@ using adminClient.MVVM.ViewModel;
 
 namespace adminClient.MVVM.View;
 
-public partial class UserView : ContentPage
+public partial class BambooSessionView : ContentPage
 {
-	public UserView(UserViewModel viewModel)
+	public BambooSessionView(BambooSessionViewModel viewModel )
 	{
 		InitializeComponent();
+
 		BindingContext = viewModel;
 	}
-
-	
 }

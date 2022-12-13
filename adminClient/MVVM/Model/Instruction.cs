@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace admin_client.MVVM.Model
+namespace adminClient.MVVM.Model
 {
     public class Instruction
     {

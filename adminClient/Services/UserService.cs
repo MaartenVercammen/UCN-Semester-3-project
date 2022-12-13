@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using admin_client.MVVM.Model;
+using adminClient.MVVM.Model;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace admin_client.Services
+namespace adminClient.Services
 {
     public class UserService : BaseService
     {
@@ -34,7 +34,9 @@ namespace admin_client.Services
         public async Task<User> GetUser(string id)
         {
             User user = null;
-            var response = await _client.GetAsync($"https://localhost:7088/User/{id}");
+            var task = _client.GetAsync($"https://localhost:7088/User/{id}");
+            task.Wait();
+            var response = task.Result;
             if (response.IsSuccessStatusCode)
             {
                 user = await response.Content.ReadFromJsonAsync<User>();
