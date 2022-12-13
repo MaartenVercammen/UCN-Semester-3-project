@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="adminClient.MVVM.View.RecipeView"
+             xmlns:model="clr-namespace:adminClient.MVVM.Model"
+             xmlns:modelview="clr-namespace:adminClient.MVVM.ViewModel"
+             x:DataType="modelview:RecipeViewModel"
+             Title="Recipe">
+    <VerticalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Id"/>
+            <Label Text="{Binding Recipe.RecipeId}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Name"/>
+            <Entry Text="{Binding Recipe.Name, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+
+        <Button Text="Save" Command="{Binding SaveCommand}"/>
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -53,6 +53,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="MVVM\View\RecipesView.xaml.cs">
+			<DependentUpon>RecipesView.xaml</DependentUpon>
+		  </Compile>
+		  <Compile Update="MVVM\View\RecipeView.xaml.cs">
+			<DependentUpon>RecipeView.xaml</DependentUpon>
+		  </Compile>
+
 	  <Compile Update="MVVM\View\UsersView.xaml.cs">
 	    <DependentUpon>UsersView.xaml</DependentUpon>
 	  </Compile>

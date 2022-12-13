@@ -10,5 +10,6 @@ public partial class AppShell : Shell
 
 		//Registerd route
 		Routing.RegisterRoute(nameof(UserView), typeof(UserView));
+		Routing.RegisterRoute(nameof(RecipeView), typeof(RecipeView));
 	}
 }

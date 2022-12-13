@@ -12,29 +12,29 @@ using System.Threading.Tasks;
 
 namespace adminClient.MVVM.ViewModel
 {
-    public partial class RecipeViewModel: ObservableObject
+    public partial class RecipesViewModel: ObservableObject
     {
         public ObservableCollection<Recipe> Recipes { get; } = new();
-        public RecipeViewModel(UserService userService)
+        public RecipesViewModel(RecipeService recipeService)
         {
-            var task = userService.GetUsers();
+            var task = recipeService.GetRecipes();
             task.Wait();
-            var userList = task.Result;
-            foreach (var user in userList)
+            var recipeList = task.Result;
+            foreach (var recipe in recipeList)
             {
-                Users.Add(user);
+                Recipes.Add(recipe);
             }
         }
 
         [RelayCommand]
-        async Task GoToDetails(User user)
+        async Task GoToDetails(Recipe recipe)
         {
-            if (user == null)
+            if (recipe == null)
                 return;
 
-            await Shell.Current.GoToAsync(nameof(UserView), true, new Dictionary<string, object>
+            await Shell.Current.GoToAsync(nameof(RecipeView), true, new Dictionary<string, object>
             {
-                {"User", user }
+                {"Recipe", recipe }
             });
         }
     }
