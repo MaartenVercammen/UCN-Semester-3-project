@@ -10,7 +10,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace admin_client.Services
+namespace adminClient.Services
 {
     public partial class BaseService
     {

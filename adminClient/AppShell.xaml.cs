@@ -1,4 +1,4 @@
-﻿using admin_client.MVVM.View;
+﻿using adminClient.MVVM.View;
 
 namespace adminClient;
 

@@ -1,6 +1,6 @@
-using admin_client.MVVM.ViewModel;
+using adminClient.MVVM.ViewModel;
 
-namespace admin_client.MVVM.View;
+namespace adminClient.MVVM.View;
 
 public partial class MainPage : ContentPage
 {

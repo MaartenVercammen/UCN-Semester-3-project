@@ -1,5 +1,5 @@
-﻿using admin_client.MVVM.Model;
-using admin_client.Services;
+﻿using adminClient.MVVM.Model;
+using adminClient.Services;
 using adminClient.Services;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace admin_client.MVVM.ViewModel
+namespace adminClient.MVVM.ViewModel
 {
     public class MainPageView
     {

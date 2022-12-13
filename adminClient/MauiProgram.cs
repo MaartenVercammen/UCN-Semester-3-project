@@ -1,6 +1,6 @@
-﻿using admin_client.MVVM.View;
-using admin_client.MVVM.ViewModel;
-using admin_client.Services;
+﻿using adminClient.MVVM.View;
+using adminClient.MVVM.ViewModel;
+using adminClient.Services;
 using adminClient.Services;
 
 namespace adminClient;

@@ -1,5 +1,5 @@
-﻿using admin_client.MVVM.Model;
-using admin_client.Services;
+﻿using adminClient.MVVM.Model;
+using adminClient.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

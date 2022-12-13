@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using admin_client.MVVM.Model;
+using adminClient.MVVM.Model;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace admin_client.Services
+namespace adminClient.Services
 {
     public class UserService : BaseService
     {

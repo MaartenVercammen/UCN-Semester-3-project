@@ -1,4 +1,4 @@
-﻿using adminClient.MVVM.Model;
+using adminClient.MVVM.Model;
 using adminClient.MVVM.View;
 using adminClient.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace adminClient.MVVM.ViewModel
 {
-    public partial class UsersViewModel: ObservableObject
+    public partial class RecipeViewModel: ObservableObject
     {
-        public ObservableCollection<User> Users { get; } = new();
-        public UsersViewModel(UserService userService)
+        public ObservableCollection<Recipe> Recipes { get; } = new();
+        public RecipeViewModel(UserService userService)
         {
             var task = userService.GetUsers();
             task.Wait();
