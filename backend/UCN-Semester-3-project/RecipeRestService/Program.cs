@@ -76,6 +76,7 @@ builder.Services.AddSingleton<ISwipedRecipeAccess, SwipedRecipeDatabaseAccess>()
 builder.Services.AddSingleton<IRecipeData, RecipedataControl>();
 builder.Services.AddSingleton<IRecipeAccess, RecipeDatabaseAccess>();
 builder.Services.AddSingleton<ISecurityHelper, SecurityHelper>();
+builder.Services.AddSingleton<CountDataBaseAcces>();
 
 //Dependencies into controller as singletons
 //This is needed for test mocking
