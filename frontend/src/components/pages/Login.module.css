@@ -1,0 +1,59 @@
+.container {
+    min-height: 85vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    max-width: 575px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #444444;
+    text-align: center;
+}
+
+.loginInput {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #faf9f9;
+    height: 1.4rem;
+}
+
+#icon {
+    margin-top: 3rem;
+    margin-left: 4rem;
+    position: absolute;
+    cursor: pointer;
+    color: #777777;
+}
+
+.loginFormContainer {
+    margin: 4rem 5rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.loginButton {
+    width: 26rem;
+    background-color: #D8A8DC;
+    border: none;
+    border-radius: 12px;
+    height: 2.5rem;
+    color: #faf9f9;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.signUpRedirect {
+    font-size: .9rem;
+    color: #989898;
+}
+
+.signUpRedirect span {
+    color: #DCBEA8;
+    font-size: .9rem;
+    cursor: pointer;
+}

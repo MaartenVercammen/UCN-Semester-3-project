@@ -1,27 +1,24 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RecipesData.Model;
 using System.Data.SqlClient;
-using System.Data;
 
 namespace RecipesData.Database
 {
     public class RecipeDatabaseAccess : IRecipeAccess
     {
-        readonly string _connectionString;
+        private readonly string _connectionString;
+        private readonly IUserAccess _userDatabaseAccess;
 
-        public RecipeDatabaseAccess(IConfiguration configuration)
+        public RecipeDatabaseAccess(IConfiguration configuration, IUserAccess userAccess)
         {
             _connectionString = configuration.GetConnectionString("UcnConnection");
+            _userDatabaseAccess = new UserDatabaseAccess(_connectionString);
         }
 
-        public RecipeDatabaseAccess(string connetionstring)
+        public RecipeDatabaseAccess(string connetionstring, IUserAccess userAccess)
         {
             _connectionString = connetionstring;
+            _userDatabaseAccess = userAccess;
         }
 
         /// <summary>
@@ -85,10 +82,9 @@ namespace RecipesData.Database
             return foundRecipes;
         }
 
-        public List<Recipe> GetRandomRecipe(Guid userId)
+        public Recipe GetRandomRecipe(Guid userId)
         {
-            List<Recipe> foundRecipes = new List<Recipe>();
-            Recipe recipe = new Recipe();
+            Recipe foundRecipe = new Recipe();
             String userIdString = userId.ToString();            
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -96,20 +92,19 @@ namespace RecipesData.Database
                 connection.Open();
                 using (SqlCommand command = connection.CreateCommand())
                 {
-                    command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE recipe.authorId = @userId AND isLiked IS NULL";
+                    command.CommandText = "SELECT * FROM recipe where recipeId not in (select recipeId from swipedRecipe where swipedRecipe.userId = @userId) order by NEWID() OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY";
 
-                    command.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@userId", userIdString);
 
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        recipe = BuildRecipeObject(reader);
-                        foundRecipes.Add(recipe);
+                        foundRecipe = BuildRecipeObject(reader);
                     }
                     reader.Close();
                 }
             }
-            return foundRecipes;
+            return foundRecipe;
         }
 
         public List<Recipe> GetRecipesSimplified() 
@@ -128,14 +123,9 @@ namespace RecipesData.Database
                 foundRecipes = new List<Recipe>();
                 while (recipeReader.Read())
                 {
-                    readRecipe = new Recipe();
-                    readRecipe.RecipeId = Guid.Parse(recipeReader.GetString(recipeReader.GetOrdinal("recipeId")));
-                    readRecipe.Name = recipeReader.GetString(recipeReader.GetOrdinal("name"));
-                    readRecipe.Description = recipeReader.GetString(recipeReader.GetOrdinal("description"));
-                    readRecipe.PictureURL = recipeReader.GetString(recipeReader.GetOrdinal("pictureUrl"));
-                    readRecipe.Time = recipeReader.GetInt32(recipeReader.GetOrdinal("time"));
-
+                    readRecipe = BuildRecipeSimplified(recipeReader);
                     foundRecipes.Add(readRecipe);
+                    
                 }
 
                 con.Close();
@@ -144,7 +134,7 @@ namespace RecipesData.Database
         }
 
         /// <summary>
-        /// Insterts a recipe into the database
+        /// Inserts a recipe into the database
         /// </summary>
         /// <param name="recipe">The recipe that is inserted into the database</param>
         /// <returns>The Guid of the inserted recipe</returns>
@@ -163,9 +153,8 @@ namespace RecipesData.Database
                 conn.Open();
 
                 SqlCommand cmd = conn.CreateCommand();
-                SqlTransaction transaction;
 
-                transaction = conn.BeginTransaction();
+                var transaction = conn.BeginTransaction();
 
                 cmd.Connection = conn;
                 cmd.Transaction = transaction;
@@ -181,8 +170,8 @@ namespace RecipesData.Database
                     cmd.Parameters.AddWithValue("time", recipe.Time);
                     cmd.Parameters.AddWithValue("authorId", recipe.Author.UserId);
                     cmd.Parameters.AddWithValue("portionNum", recipe.PortionNum);
-                    string outidstring = (string)cmd.ExecuteScalar();
-                    outid = Guid.Parse(outidstring);
+                    string outIdString = (string)cmd.ExecuteScalar();
+                    outid = Guid.Parse(outIdString);
 
                     //create ingredients
                     for (int i = 0; i < recipe.Ingredients.Count; i++)
@@ -215,6 +204,7 @@ namespace RecipesData.Database
                 catch (Exception)
                 {
                     transaction.Rollback();
+                    outid = Guid.Empty;
                 }
 
             }
@@ -228,7 +218,7 @@ namespace RecipesData.Database
         public List<Guid> GetNotSwipedGuidsByUserId(Guid userId)
         {
             List<Guid> guids = new List<Guid>();
-            string query = "select * from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
+            string query = "select recipeId from recipe where recipe.recipeId not in( select recipeId from swipedRecipe where userid = @id)";
             using (SqlConnection conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
@@ -246,16 +236,133 @@ namespace RecipesData.Database
             }
             return guids;
         }
+
+
+    public List<Recipe> GetLikedByUser(Guid userId)
+    {
+        List<Recipe> likedRecipes = new List<Recipe>();
+        Recipe recipe = new Recipe();
+        String userIdString = userId.ToString();
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            connection.Open();
+            using (SqlCommand command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT * FROM recipe left JOIN [swipedRecipe] on recipe.recipeId = swipedRecipe.recipeId WHERE swipedRecipe.userId =@userId AND isLiked = 1";
+
+                command.Parameters.AddWithValue("@userId", userIdString);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    recipe = BuildRecipeSimplified(reader);
+                    likedRecipes.Add(recipe);
+                }
+                reader.Close();
+            }
+        }
+        return likedRecipes;
+    }
         
         /// <summary>
         /// Updates a recipe
         /// </summary>
         /// <param name="recipe">The recipe that is updated</param>
-        /// <returns>True if the recipe was successfully updated</returns>
-
+        /// <returns>True if the recipe was successfully updated</returns>        
         public bool UpdateRecipe(Recipe recipe)
         {
-            throw new NotImplementedException();
+            bool update = false;
+            string queryRecipe = "update  [recipe] set name = @name, description = @description, pictureUrl = @pictureURL, time = @time, portionNum = @portionNum, authorId = @authorId where recipeId = @id";
+            string queryDeleteIngredients = "delete from ingredient where recipeId = @recipeId";
+            string queryIngredient = "insert into ingredient(name, amount, unit, recipeId) values (@name, @amount, @unit, @recipeId)";
+            string queryDeleteInstructions = "delete from instruction where recipeId = @recipeId";
+            string querystruction = "insert into instruction(step, description, recipeId)  values (@step, @description, @recipeId)";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                SqlCommand command = connection.CreateCommand();
+                var transaction = connection.BeginTransaction();
+
+                command.Connection = connection;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText = queryRecipe;
+                    command.Parameters.AddWithValue("id", recipe.RecipeId.ToString());
+                    command.Parameters.AddWithValue("name", recipe.Name);
+                    command.Parameters.AddWithValue("description", recipe.Description);
+                    command.Parameters.AddWithValue("pictureURL", recipe.PictureURL);
+                    command.Parameters.AddWithValue("time", recipe.Time);
+                    command.Parameters.AddWithValue("authorId", recipe.Author.UserId);
+                    command.Parameters.AddWithValue("portionNum", recipe.PortionNum);
+                    System.Console.WriteLine("update recipe");
+                    command.ExecuteNonQuery();
+                    
+                    //ingredient
+                    // delete existing
+                    command.Parameters.Clear();
+                    command.CommandText = queryDeleteIngredients;
+                    command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                    System.Console.WriteLine("delete ingredients");
+                    command.ExecuteNonQuery();
+
+                    // insert new
+                    for (int i = 0; i < recipe.Ingredients.Count; i++)
+                    {
+                        command.Parameters.Clear();
+                        command.CommandText = queryIngredient;
+                        Ingredient ingredient = recipe.Ingredients[i];
+                        command.CommandText = queryIngredient;
+                        command.Parameters.AddWithValue("name", ingredient.name);
+                        command.Parameters.AddWithValue("amount", ingredient.amount);
+                        command.Parameters.AddWithValue("unit", ingredient.unit);
+                        command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                        System.Console.WriteLine("insert ingredient");
+                        System.Console.WriteLine("ingredient " + recipe.RecipeId.ToString());
+                        command.ExecuteNonQuery();
+                    }
+                    
+                    //insturction
+                    // delete existing
+                    command.Parameters.Clear();
+                    command.CommandText = queryDeleteInstructions;
+                    command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                    System.Console.WriteLine("instruction " + recipe.RecipeId.ToString());
+                    System.Console.WriteLine("delete instructions");
+                    command.ExecuteNonQuery();
+
+                    // insert new
+                    for (int i = 0; i < recipe.Instructions.Count; i++)
+                    {
+                        command.Parameters.Clear();
+                        command.CommandText = querystruction;
+                        Instruction instruction = recipe.Instructions[i];
+                        command.CommandText = querystruction;
+                        command.Parameters.AddWithValue("step", instruction.Step);
+                        command.Parameters.AddWithValue("description", instruction.Description);
+                        command.Parameters.AddWithValue("recipeId", recipe.RecipeId.ToString());
+                        System.Console.WriteLine("insert instruction");
+                        command.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                    update = true;
+
+                }
+                catch (Exception ex)
+                {
+                    System.Console.WriteLine(ex.Message);
+                    transaction.Rollback();
+                    update = false;
+                }
+
+                connection.Close();
+
+            }
+            return update;
         }
 
         public bool DeleteRecipe(Guid id)
@@ -296,32 +403,7 @@ namespace RecipesData.Database
 
             return deleteSuccesFull;
         }
-
-        /// <summary>
-        /// Retrives the instructions of a recipe
-        /// </summary>
-        /// <param name="con">The Sqlconnection</param>
-        /// <param name="recipe">The queried recipe</param>
-        private void getInstructionsByRecipe(SqlConnection con, Recipe recipe)
-        {
-            using (SqlCommand instructionCommand = con.CreateCommand())
-            {
-                instructionCommand.CommandText = "select * from instruction where recipeId = @id";
-
-                instructionCommand.Parameters.AddWithValue("@id", recipe.RecipeId);
-
-                SqlDataReader reader = instructionCommand.ExecuteReader();
-                while (reader.Read())
-                {
-                    Instruction instruction = BuildInstructionObject(reader);
-                    recipe.Instructions.Add(instruction);
-                }
-                reader.Close();
-            }
-        }
-
-
-
+        
         // private 
         /// <summary>
         /// Retrieves the ingredients of a recipe
@@ -383,6 +465,7 @@ namespace RecipesData.Database
             recipe.PictureURL = reader.GetString(reader.GetOrdinal("pictureURL"));
             recipe.Time = reader.GetInt32(reader.GetOrdinal("time"));
             recipe.PortionNum = reader.GetInt32(reader.GetOrdinal("portionNum"));
+            recipe.Author = _userDatabaseAccess.GetUserById(Guid.Parse(reader.GetString(reader.GetOrdinal("authorId"))));
             return recipe;
         }
 
@@ -411,6 +494,23 @@ namespace RecipesData.Database
             instruction.Step = reader.GetInt32(reader.GetOrdinal("step"));
             instruction.Description = reader.GetString(reader.GetOrdinal("description"));
             return instruction;
+        }
+        
+        /// <summary>
+        /// Builds a simplefied recipe
+        /// </summary>
+        /// <param name="recipeReader">Sql Data reader with the data</param>
+        /// <returns>Simplified Recipe</returns>
+        private static Recipe BuildRecipeSimplified(SqlDataReader recipeReader)
+        {
+            Recipe simplefiedRecipe;
+            simplefiedRecipe = new Recipe();
+            simplefiedRecipe.RecipeId = Guid.Parse(recipeReader.GetString(recipeReader.GetOrdinal("recipeId")));
+            simplefiedRecipe.Name = recipeReader.GetString(recipeReader.GetOrdinal("name"));
+            simplefiedRecipe.Description = recipeReader.GetString(recipeReader.GetOrdinal("description"));
+            simplefiedRecipe.PictureURL = recipeReader.GetString(recipeReader.GetOrdinal("pictureUrl"));
+            simplefiedRecipe.Time = recipeReader.GetInt32(recipeReader.GetOrdinal("time"));
+            return simplefiedRecipe;
         }
     }
 }

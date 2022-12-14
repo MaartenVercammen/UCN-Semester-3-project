@@ -1,6 +1,6 @@
 nav {
   display: flex;
-  height: 8rem;
+  height: 6rem;
   justify-content: center;
 }
 
@@ -14,8 +14,16 @@ nav {
 }
 
 .pandaLogo {
-  font-size: 2rem;
-  color: #D8A8DC;
+  color: #444444;
+  font-size: 1.9rem;
+  padding: 10px;
   margin-left: 10px;
-  margin-bottom: 43px;
+}
+
+.pandaLogo span {
+  color: #DCBEA8;
+}
+
+.heart {
+  width: 1.5rem;
 }

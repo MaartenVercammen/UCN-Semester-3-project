@@ -1,0 +1,62 @@
+.container {
+    height: 100vh;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    max-width: 575px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #444444;
+    text-align: center;
+    background:linear-gradient( rgba(68,68,68, 0.7) 100%, rgba(68,68,68, 0.7)100%),url('../../assets/loadinglogo.jpg');
+    background-size: cover;
+}
+
+.header {
+    margin-top: 12vh;
+}
+
+.btnStyling {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+.btnContainer {
+    display: grid;
+    justify-content: center;
+    margin-bottom: 20vh;
+    gap: .7rem;
+}
+
+.logInBtn, .signUpBtn {
+    width: 20rem;
+}
+
+.logInBtn {
+    width: 26rem;
+    background-color: transparent;
+    border: none;
+    border-radius: 12px;
+    height: 2.5rem;
+    color: #F0F0F0;
+    border: 3px solid #D8A8DC;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.signUpBtn {
+    width: 26rem;
+    background-color: #D8A8DC;
+    border: none;
+    border-radius: 12px;
+    height: 2.5rem;
+    color: #faf9f9;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+}

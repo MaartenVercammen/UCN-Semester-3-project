@@ -15,7 +15,7 @@ namespace RecipesData.Database
 
         List<Recipe> GetRecipesSimplified();
 
-        List<Recipe> GetRandomRecipe(Guid userId);
+        Recipe GetRandomRecipe(Guid userId);
 
         Guid CreateRecipe(Recipe recipe);
 
@@ -24,5 +24,6 @@ namespace RecipesData.Database
         bool DeleteRecipe(Guid id);
 
         List<Guid> GetNotSwipedGuidsByUserId(Guid userId);
+        List<Recipe> GetLikedByUser(Guid userId);
     }
 }

@@ -29,5 +29,33 @@ export interface SwipedRecipe{
 
 export interface User{
   userId: string;
-  // TODO: finish when implementing user
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  address: string;
+  role: Role;
+}
+
+export enum Role {
+  USER = 'USER',
+  VERIFIEDUSER = 'VERIFIEDUSER',
+  ADMIN = 'ADMIN'
+}
+
+export interface BambooSession{
+  sessionId: string,
+  host: string,
+  address: string,
+  recipe: string,
+  description: string,
+  dateTime : string,
+  slotsNumber : number,
+  seats: Seat[],
+}
+
+export interface Seat {
+  sessionId: string,
+  user: User,
+  seatId: string,
 }

@@ -9,13 +9,13 @@ namespace RecipesData.Database
 {
     public interface ISwipedRecipeAccess
     {
-        SwipedRecipe GetSwipedRecipeById(Guid id);
+        SwipedRecipe GetSwipedRecipeById(Guid id, Guid user);
 
         List<SwipedRecipe> GetSwipeRecipesByUser(Guid userId);
         List<SwipedRecipe> GetLikedByUser(Guid userId);
 
         SwipedRecipe CreateSwipedRecipe(SwipedRecipe swipedRecipe);
 
-        bool DeleteSR(Guid id);
+        bool DeleteSR(Guid id, Guid userId);
     }
 }

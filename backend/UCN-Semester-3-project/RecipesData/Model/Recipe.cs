@@ -58,6 +58,10 @@ namespace RecipesData.Model
         {
             this.Ingredients = new List<Ingredient>();
             this.Instructions = new List<Instruction>();
+            Name = "";
+            Description = "";
+            PictureURL = "http://placeholder.png";
+            Author = new User();
         }
 
     }

@@ -1,25 +1,34 @@
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+using RecipeRestService.Security;
+using RecipesData.Database;
 using RecipesData.Model;
 
 namespace RecipeRestService.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
-        private readonly RecipedataControl _rControl;
-        private readonly IConfiguration _configuration;
+        private readonly IRecipeData _rControl;
+        private readonly IUserData _uControl;
 
-        public RecipesController(IConfiguration inConfiguration)
+        private readonly ISecurityHelper _securityHelper;
+
+        public RecipesController(IUserData userdata, IRecipeData recipeData, ISecurityHelper securityHelper)
         {
-            _configuration = inConfiguration;
-            _rControl = new RecipedataControl(_configuration);
+            _rControl = recipeData;
+            _uControl = userdata;
+            _securityHelper = securityHelper;
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("{id}")]
         public ActionResult<RecipeDto> Get(string id)
         {
@@ -39,6 +48,7 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<RecipeDto>> Get()
         {
             ActionResult<List<RecipeDto>> foundReturn;
@@ -70,14 +80,63 @@ namespace RecipeRestService.Controllers
 
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
+        [HttpGet, Route("user/{userId}/liked")] //liked/{userId}
+        public ActionResult<List<RecipeDto>> GetLiked(string userId)
+        {
+            if (_securityHelper.IsJWTEqualRequestId(Request.Headers["Authorization"], userId))
+            {
+                return new StatusCodeResult(403);
+            }
+
+            Guid userIdGuid = Guid.Parse(userId);
+            ActionResult<List<RecipeDto>> foundReturn;
+            // retrieve and convert data
+            List<Recipe>? foundRecipes = _rControl.GetLikedByUser(userIdGuid);
+            List<RecipeDto>? foundDts = null;
+            if (foundRecipes != null)
+            {
+                foundDts = RecipeDtoConvert.FromRecipeCollection(foundRecipes);
+            }
+            // evaluate
+            if (foundDts != null)
+            {
+                if (foundDts.Count > 0)
+                {
+                    foundReturn = Ok(foundDts);                 // Statuscode 200
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(204);    // Ok, but no content
+                }
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            // send response back to client
+            return foundReturn;
+        }
+
         [HttpPost]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
         {
+            Guid userid = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            inRecipe.Author = userid;
             ActionResult foundReturn;
             Guid insertedGuid = Guid.Empty;
-            if (inRecipe != null)
+            if (inRecipe != null && (userid != Guid.Empty || userid != null))
             {
-                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+                User? author = _uControl.Get(inRecipe.Author);
+                if (author != null)
+                {
+                    Recipe? recipe = RecipeDtoConvert.ToRecipe(inRecipe, author);
+                    if (recipe != null)
+                    {
+                        insertedGuid = _rControl.Add(recipe);
+                    }
+                }
             }
             if (insertedGuid != Guid.Empty)
             {
@@ -91,38 +150,81 @@ namespace RecipeRestService.Controllers
         }
 
         [HttpDelete, Route("{id}")]
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER")]
         public ActionResult Delete(string id)
         {
-            Guid recipeId = Guid.Parse(id);
 
             ActionResult foundReturn;
-            bool IsCompleted = _rControl.Delete(recipeId);
-            if (IsCompleted)
-            {
-                foundReturn = new StatusCodeResult(200);
-            }
-            else
-            {
-                foundReturn = new StatusCodeResult(500);
-            }
-            return foundReturn;
+            Guid recipeId = Guid.Parse(id);
+
+            Recipe? recipe = _rControl.Get(recipeId);
+            
+
+                if (_securityHelper.IsJWTEqualRequestId(Request.Headers["Authorization"], recipe.Author.UserId.ToString()))
+                {
+                    return new StatusCodeResult(403);
+                }
+
+                bool IsCompleted = _rControl.Delete(recipeId);
+                if (IsCompleted)
+                {
+                    foundReturn = new StatusCodeResult(200);
+                }
+                else
+                {
+                    foundReturn = new StatusCodeResult(500);
+                }
+                return foundReturn;
 
         }
 
+        [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         [HttpGet, Route("/Random")]
         public ActionResult<RecipeDto> GetRandomRecipe()
         {
             ActionResult foundReturn;
-            Recipe recipe = _rControl.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000")); //TODO: add userId of active user
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            Recipe? recipe = _rControl.GetRandomRecipe(userId);
             if (recipe != null)
             {
                 foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
             }
             else
             {
-                foundReturn = new StatusCodeResult(200);
+                foundReturn = new StatusCodeResult(204);
             }
             return foundReturn;
         }
+
+        [HttpPut]
+        [Authorize(Roles = "VERIFIEDUSER,ADMIN")]
+        public ActionResult Edit(RecipeDto inRecipe)
+        {
+            ActionResult foundReturn;
+            bool updated = false;
+
+            Role role = _securityHelper.GetRoleFromJWT(Request.Headers["Authorization"]);
+            Guid userId = _securityHelper.GetUserFromJWT(Request.Headers["Authorization"]);
+            if (userId != inRecipe.Author && role != Role.ADMIN)
+            {
+                return new StatusCodeResult(403);
+            }
+
+            if (inRecipe != null)
+            {
+                var recipeId = inRecipe.RecipeId;
+                updated = _rControl.Put(RecipeDtoConvert.ToRecipe(inRecipe, _uControl.Get(userId)));
+            }
+            if (updated)
+            {
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);        // Internal server error
+            }
+            return foundReturn;
+        }
+
     }
 }
