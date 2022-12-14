@@ -4,10 +4,18 @@ namespace RecipeRestService.Businesslogic
 {
     public interface ISwipedRecipeData
     {
+<<<<<<< HEAD
         SwipedRecipe? Get(Guid id, Guid userid);
         List<SwipedRecipe>? GetPerUser(Guid userId);
         List<SwipedRecipe>? GetLikedPerUser(Guid userId);
         SwipedRecipe? Add(SwipedRecipe swipedRecipeToAdd);
         bool Delete(Guid id, Guid userId); 
+=======
+        SwipedRecipe? Get(Guid id);
+        List<SwipedRecipe>? GetPerUser(Guid userId);
+        List<SwipedRecipe>? GetLikedPerUser(Guid userId);
+        SwipedRecipe? Add(SwipedRecipe swipedRecipeToAdd);
+        bool Delete(Guid id); 
+>>>>>>> main
     }
 }

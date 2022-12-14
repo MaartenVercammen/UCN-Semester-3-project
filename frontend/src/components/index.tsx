@@ -5,7 +5,7 @@ const Footer = lazy(() => import('./Footer'));
 
 
 const Index: React.FC = () => {
-  
+
   return (
     <div><Navbar/>
     <Main/>

@@ -1,18 +1,27 @@
+<<<<<<< HEAD
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+=======
+>>>>>>> main
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RecipeRestService.Businesslogic;
 using RecipeRestService.DTO;
 using RecipeRestService.ModelConversion;
+<<<<<<< HEAD
 using RecipeRestService.Security;
 using RecipesData.Database;
+=======
+>>>>>>> main
 using RecipesData.Model;
 
 namespace RecipeRestService.Controllers
 {
     [ApiController]
+<<<<<<< HEAD
     [Authorize]
+=======
+>>>>>>> main
     [Route("[controller]")]
     public class RecipesController : ControllerBase
     {
@@ -47,10 +56,40 @@ namespace RecipeRestService.Controllers
             return foundReturn;
         }
 
+<<<<<<< HEAD
         [HttpGet]
         [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]
         public ActionResult<List<RecipeDto>> Get()
         {
+=======
+        public RecipesController(IConfiguration inConfiguration)
+        {
+            _configuration = inConfiguration;
+            _rControl = new RecipedataControl(_configuration);
+        }
+
+        [HttpGet, Route("{id}")]
+        public ActionResult<RecipeDto> Get(string id)
+        {
+            Guid recipeId = Guid.Parse(id);
+
+            ActionResult<RecipeDto> foundReturn;
+            Recipe? foundRecipe = _rControl.Get(recipeId);
+            if (foundRecipe != null)
+            {
+                foundReturn = Ok(RecipeDtoConvert.FromRecipe(foundRecipe));
+            }
+            else
+            {
+                foundReturn = NotFound();
+            }
+            return foundReturn;
+        }
+
+        [HttpGet]
+        public ActionResult<List<RecipeDto>> Get()
+        {
+>>>>>>> main
             ActionResult<List<RecipeDto>> foundReturn;
             // retrieve and convert data
             List<Recipe>? foundRecipes = _rControl.Get();
@@ -78,6 +117,64 @@ namespace RecipeRestService.Controllers
             // send response back to client
             return foundReturn;
 
+<<<<<<< HEAD
+=======
+        }
+
+        [HttpPost]
+        public ActionResult<string> Post([FromBody] RecipeDto inRecipe)
+        {
+            ActionResult foundReturn;
+            Guid insertedGuid = Guid.Empty;
+            if (inRecipe != null)
+            {
+                insertedGuid = _rControl.Add(RecipeDtoConvert.ToRecipe(inRecipe));
+            }
+            if (insertedGuid != Guid.Empty)
+            {
+                foundReturn = Ok(insertedGuid);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+        }
+
+        [HttpDelete, Route("{id}")]
+        public ActionResult Delete(string id)
+        {
+            Guid recipeId = Guid.Parse(id);
+
+            ActionResult foundReturn;
+            bool IsCompleted = _rControl.Delete(recipeId);
+            if (IsCompleted)
+            {
+                foundReturn = new StatusCodeResult(200);
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);
+            }
+            return foundReturn;
+
+        }
+
+        [HttpGet, Route("/Random")]
+        public ActionResult<RecipeDto> GetRandomRecipe()
+        {
+            ActionResult foundReturn;
+            Recipe recipe = _rControl.GetRandomRecipe(Guid.Parse("00000000-0000-0000-0000-000000000000")); //TODO: add userId of active user
+            if (recipe != null)
+            {
+                foundReturn = Ok(RecipeDtoConvert.FromRecipe(recipe));
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(200);
+            }
+            return foundReturn;
+>>>>>>> main
         }
 
         [Authorize(Roles = "ADMIN,VERIFIEDUSER,USER")]

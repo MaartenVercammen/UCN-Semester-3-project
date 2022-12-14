@@ -102,7 +102,7 @@ const GetRecipe: React.FC = () => {
       <div className={style.container}>
         <h4>Preparation time: {recipe.time}min</h4>
         <p>{recipe.description}</p>
-        <h4>author: {author.firstName + " " + author.lastName}</h4> 
+        <h4>author: {author.firstName + " " + author.lastName}</h4>
         <h4>Number of portions: {recipe.portionNum}</h4>
         <h3>Ingredients:</h3>
         {ingredients.map((ingredient: Ingredient) => (
@@ -128,11 +128,11 @@ const GetRecipe: React.FC = () => {
       <div className={style.buttonContainer}>
         <button onClick={() => editRecipe()} className={style.editBtn}>edit</button>
         <button onClick={() => deleteRecipe()} className={style.deleteBtn}>delete</button>
-      </div>) 
-      : ( 
+      </div>)
+      : (
       <div className={style.buttonContainer}>
-        {isLiked() ? 
-        <button onClick={() => dislikeRecipe()} className={style.editBtn}>dislike</button> : 
+        {isLiked() ?
+        <button onClick={() => dislikeRecipe()} className={style.editBtn}>dislike</button> :
         <button onClick={() => likeRecipe()} className={style.editBtn}>like</button>
       } </div> )}
     </div>

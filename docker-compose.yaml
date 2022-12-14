@@ -25,7 +25,7 @@ services:
       - db
 
   db:
-    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    image: mcr.microsoft.com/mssql/server:2022-latest
     restart: always
     ports:
       - "1400:1433"
@@ -34,3 +34,4 @@ services:
     environment:
       SA_PASSWORD: ${DB_PASSWORD}
       ACCEPT_EULA: "Y"
+      MSSQL_AGENT_ENABLED: "Y"
