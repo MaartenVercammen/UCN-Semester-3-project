@@ -6,7 +6,6 @@ namespace RecipeRestService.Businesslogic
     public class SwipedRecipeDataControl : ISwipedRecipeData
     {
         ISwipedRecipeAccess _SwipedRecipeAccess;
-<<<<<<< HEAD
         public SwipedRecipeDataControl(ISwipedRecipeAccess access)
         {
             _SwipedRecipeAccess = access;
@@ -27,27 +26,6 @@ namespace RecipeRestService.Businesslogic
         }
 
 
-=======
-        public SwipedRecipeDataControl(IConfiguration inConfiguration)
-        {
-            _SwipedRecipeAccess = new SwipedRecipeDatabaseAccess(inConfiguration);
-        }
-
-        public SwipedRecipe? Get(Guid id)
-        {
-            SwipedRecipe? foundRecipe;
-            try
-            {
-                foundRecipe = _SwipedRecipeAccess.GetSwipedRecipeById(id);
-            }
-            catch (Exception)
-            {
-                foundRecipe = null;
-            }
-            return foundRecipe;
-        }
-
->>>>>>> main
         public List<SwipedRecipe>? GetPerUser(Guid userId)
         {
             List<SwipedRecipe>? foundRecipes;
@@ -90,20 +68,12 @@ namespace RecipeRestService.Businesslogic
             return swipedRecipeToAdd;
         }
 
-<<<<<<< HEAD
         public bool Delete(Guid recipeId, Guid userId)
-=======
-        public bool Delete(Guid id)
->>>>>>> main
         {
             bool removed;
             try
             {
-<<<<<<< HEAD
                 removed = _SwipedRecipeAccess.DeleteSR(recipeId, userId);
-=======
-                removed = _SwipedRecipeAccess.DeleteSR(id);
->>>>>>> main
             }
             catch (Exception)
             {
