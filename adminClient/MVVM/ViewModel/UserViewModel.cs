@@ -37,10 +37,11 @@ namespace adminClient.MVVM.ViewModel
         }
 
         [RelayCommand]
-        public void Delete()
+        public async void Delete()
         {
             var task = _userService.DeleteUser(User.UserId.ToString());
             task.Wait();
+            await Shell.Current.GoToAsync("..");
             IsDone = task.Result;
         }
 
