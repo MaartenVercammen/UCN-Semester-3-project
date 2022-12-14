@@ -4,6 +4,8 @@ services:
   web:
     image: emvee/ucn-frontend:latest
     restart: always
+    volumes:
+      - /var/www/foodpanda.dk/html/:/app/dist/build
     depends_on:
       - api
     ports:
