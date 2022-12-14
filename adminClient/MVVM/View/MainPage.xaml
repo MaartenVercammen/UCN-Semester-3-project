@@ -5,6 +5,7 @@
              xmlns:model="clr-namespace:adminClient.MVVM.Model"
              xmlns:viewmodel="clr-namespace:adminClient.MVVM.ViewModel"
              x:DataType="viewmodel:MainPageView"
+             BackgroundColor="{StaticResource Primary}"
              >
 
     <RefreshView  Command="{Binding RefreshCommand}"
