@@ -1,5 +1,5 @@
-﻿using admin_client.MVVM.Model;
-using admin_client.Services;
+using adminClient.MVVM.Model;
+using adminClient.Services;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace admin_client.MVVM.ViewModel
+namespace adminClient.MVVM.ViewModel
 {
     [QueryProperty(nameof(User), "User")]
     public partial class UserViewModel : ObservableObject
@@ -18,10 +18,31 @@ namespace admin_client.MVVM.ViewModel
         [ObservableProperty]
         User user;
 
+        [ObservableProperty]
+        bool isDone = false;
+
+        UserService _userService;
+
+        public UserViewModel(UserService userService)
+        {
+            _userService = userService;
+        }
+
         [RelayCommand]
         public void Save()
         {
-            Console.WriteLine("Save");
+            var task = _userService.UpdateUser(User);
+            task.Wait();
+            IsDone = task.Result;
+        }
+
+        [RelayCommand]
+        public async void Delete()
+        {
+            var task = _userService.DeleteUser(User.UserId.ToString());
+            task.Wait();
+            await Shell.Current.GoToAsync("..");
+            IsDone = task.Result;
         }
 
     }

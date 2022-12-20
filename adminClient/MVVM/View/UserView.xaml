@@ -1,26 +1,67 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+<<<<<<< HEAD
+             x:Class="adminClient.MVVM.View.UserView"
+             xmlns:model="clr-namespace:adminClient.MVVM.Model"
+             xmlns:modelview="clr-namespace:adminClient.MVVM.ViewModel"
+=======
              x:Class="admin_client.MVVM.View.UserView"
              xmlns:model="clr-namespace:admin_client.MVVM.Model"
              xmlns:modelview="clr-namespace:admin_client.MVVM.ViewModel"
+>>>>>>> dev
              x:DataType="modelview:UserViewModel"
              Title="User">
     <VerticalStackLayout>
         <HorizontalStackLayout Spacing="10">
             <Label Text="Id"/>
+<<<<<<< HEAD
+            <Label Text="{Binding User.UserId, Mode=TwoWay}"/>
+=======
             <Label Text="{Binding User.UserId}"/>
+>>>>>>> dev
         </HorizontalStackLayout>
         <HorizontalStackLayout Spacing="10">
             <Label Text="Firstname"/>
             <Entry Text="{Binding User.FirstName, Mode=TwoWay}"/>
         </HorizontalStackLayout>
+<<<<<<< HEAD
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Lastname"/>
+            <Entry Text="{Binding User.LastName, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Adress"/>
+            <Entry Text="{Binding User.Address, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Email"/>
+            <Entry Text="{Binding User.Email, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Role"/>
+            <Entry Text="{Binding User.Role, Mode=TwoWay}"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Password"/>
+            <Entry Text="{Binding User.Password, Mode=OneWayToSource}"/>
+            <Label Text="Do not change unless you want to update the password"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+            <Button Text="Save" Command="{Binding SaveCommand}"/>
+            <Button Text="Delete" Command="{Binding DeleteCommand}"/>
+        </HorizontalStackLayout>
+        <Label Text="{Binding IsDone}"/>
+=======
         <Label Text="{Binding User.LastName, StringFormat='Lastname: {0} '}"/>
         <Label Text="{Binding User.Address, StringFormat='Adress: {0}'}"/>
         <Label Text="{Binding User.Email, StringFormat='Email: {0}'}"/>
         <Label Text="{Binding User.Role, StringFormat='Role: {0}'}"/>
 
         <Button Text="Save" Command="{Binding SaveCommand}"/>
+>>>>>>> dev
 
     </VerticalStackLayout>
 </ContentPage>

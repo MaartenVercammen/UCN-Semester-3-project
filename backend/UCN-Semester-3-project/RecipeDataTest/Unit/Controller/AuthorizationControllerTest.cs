@@ -8,6 +8,7 @@ using RecipeRestService.Security;
 using RecipesData.Model;
 using RecipeDataTest.Unit.Data;
 using RecipeRestService.DTO;
+using RecipesData.Database;
 
 namespace RecipeDataTest.Unit.Controller;
 
@@ -24,11 +25,13 @@ public class AuthorizationConrtollerTest
 
     private readonly byte[] _bytes;
 
+    private readonly CountDataBaseAcces _countDataBase;
+
     public AuthorizationConrtollerTest()
     {
         _httpContext.Response.Headers["token"] = "";
         _httpContext.Response.Headers["Access-Control-Expose-Headers"] = "";
-        _sut = new AuthorizationController(_authenticationData.Object, _securityHelper.Object)
+        _sut = new AuthorizationController(_authenticationData.Object, _securityHelper.Object, _countDataBase)
         {
             ControllerContext = new ControllerContext()
             {

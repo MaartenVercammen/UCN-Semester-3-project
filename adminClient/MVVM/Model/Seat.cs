@@ -1,5 +1,5 @@
 
-namespace admin_client.MVVM.Model
+namespace adminClient.MVVM.Model
 {
     public class Seat
     {

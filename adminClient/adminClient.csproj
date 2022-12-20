@@ -53,6 +53,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+<<<<<<< HEAD
+	  <Compile Update="MVVM\View\BambooSessionView.xaml.cs">
+	    <DependentUpon>BambooSessionView.xaml</DependentUpon>
+	  </Compile>
+=======
+>>>>>>> dev
 	  <Compile Update="MVVM\View\UsersView.xaml.cs">
 	    <DependentUpon>UsersView.xaml</DependentUpon>
 	  </Compile>
@@ -61,4 +67,16 @@
 	  </Compile>
 	</ItemGroup>
 
+<<<<<<< HEAD
+	<ItemGroup>
+	  <MauiXaml Update="MVVM\View\BambooSessionView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MVVM\View\BambooSessionOverview.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+=======
+>>>>>>> dev
 </Project>

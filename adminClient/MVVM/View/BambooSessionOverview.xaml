@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="adminClient.MVVM.View.BambooSessionOverview"
+             xmlns:viewmodel="clr-namespace:adminClient.MVVM.ViewModel"
+             xmlns:model="clr-namespace:adminClient.MVVM.Model"
+             x:DataType="viewmodel:BambooSessionOverviewViewModel"
+             Title="BambooSessionOverview">
+    <RefreshView  Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
+        <CollectionView ItemsSource="{Binding BambooSessions}"
+                    SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:BambooSession">
+                    <Frame HeightRequest="250">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:BambooSessionOverviewViewModel}}, Path=GoToDetailsCommand}"
+                                            CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding HostObject.FirstName, StringFormat='Host: {0} '}"/>
+                            <Label Text="{Binding Address, StringFormat='Adress: {0} '}"/>
+                            <Label Text="{Binding RecipeObject.Name, StringFormat='Recipe: {0} '}"/>
+                            <Label Text="{Binding Description, StringFormat='Description: {0}'}"/>
+                            <Label Text="{Binding DateTime, StringFormat='Time: {0}'}"/>
+                            <Label Text="{Binding SlotsNumber, StringFormat='Slots: {0}'}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

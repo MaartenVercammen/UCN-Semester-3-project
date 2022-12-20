@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using RecipeRestService.Security;
 using System.Security.Claims;
+using RecipesData.Database;
 
 namespace RecipeRestService.Controllers
 {
@@ -20,11 +21,13 @@ namespace RecipeRestService.Controllers
 
         private readonly IAuthenticationData _access;
         private readonly ISecurityHelper _securityHelper;
+        private readonly CountDataBaseAcces _countDataBase;
         
-        public AuthorizationController(IAuthenticationData access, ISecurityHelper securityHelper)
+        public AuthorizationController(IAuthenticationData access, ISecurityHelper securityHelper, CountDataBaseAcces countDataBaseAcces)
         {
             _access = access;
             _securityHelper = securityHelper;
+            _countDataBase = countDataBaseAcces;
         }
 
         [HttpPost]
@@ -41,6 +44,7 @@ namespace RecipeRestService.Controllers
                     Response.Headers["token"] = GenerateToken(user);
                     Response.Headers["Access-Control-Expose-Headers"] = "token";
                     actionResult = Ok(userDto);
+                    _countDataBase.AddCount();
                 }
                 else{
                     actionResult = new StatusCodeResult(401);

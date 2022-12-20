@@ -1,6 +1,6 @@
-﻿using admin_client.MVVM.Model;
-using admin_client.MVVM.View;
-using admin_client.Services;
+﻿using adminClient.MVVM.Model;
+using adminClient.MVVM.View;
+using adminClient.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -10,14 +10,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace admin_client.MVVM.ViewModel
+namespace adminClient.MVVM.ViewModel
 {
     public partial class UsersViewModel: ObservableObject
     {
+        private readonly UserService _userService;
         public ObservableCollection<User> Users { get; } = new();
+
+        [ObservableProperty]
+        bool isRefreshing;
         public UsersViewModel(UserService userService)
         {
-            var task = userService.GetUsers();
+            _userService= userService;
+            GetUsers();
+        }
+
+        private void GetUsers() {
+            var task = _userService.GetUsers();
             task.Wait();
             var userList = task.Result;
             foreach (var user in userList)
@@ -36,6 +45,14 @@ namespace admin_client.MVVM.ViewModel
             {
                 {"User", user }
             });
+        }
+
+        [RelayCommand]
+        void Refresh()
+        {
+            IsRefreshing = true;
+            GetUsers();
+            IsRefreshing = false;
         }
     }
 }

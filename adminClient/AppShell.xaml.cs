@@ -1,4 +1,4 @@
-﻿using admin_client.MVVM.View;
+﻿using adminClient.MVVM.View;
 
 namespace adminClient;
 
@@ -9,6 +9,13 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
 		//Registerd route
+		Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+
 		Routing.RegisterRoute(nameof(UserView), typeof(UserView));
+		Routing.RegisterRoute(nameof(UsersView), typeof(UsersView));
+
+		Routing.RegisterRoute(nameof(BambooSessionOverview), typeof(BambooSessionOverview));
+		Routing.RegisterRoute(nameof(BambooSessionView), typeof(BambooSessionView));
+		
 	}
 }

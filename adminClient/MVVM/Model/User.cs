@@ -1,8 +1,8 @@
-namespace admin_client.MVVM.Model
+namespace adminClient.MVVM.Model
 {
     public class User
     {
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -10,7 +10,7 @@ namespace admin_client.MVVM.Model
         public string Address { get; set; }
         public string Role { get; set; }
 
-        public User(string userId, string email, string firstName, string lastName, string password, string address, string role)
+        public User(Guid userId, string email, string firstName, string lastName, string password, string address, string role)
         {
             this.UserId = userId;
             this.Email = email;
@@ -23,7 +23,7 @@ namespace admin_client.MVVM.Model
 
         public User(string email, string firstName, string lastName, string password, string address, string role)
         {
-            this.UserId = Guid.NewGuid().ToString();
+            this.UserId = Guid.NewGuid();
             this.Email = email;
             this.FirstName = firstName;
             this.LastName = lastName;

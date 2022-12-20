@@ -1,5 +1,5 @@
-﻿using admin_client.MVVM.Model;
-using admin_client.Services;
+﻿using adminClient.MVVM.Model;
+using adminClient.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,9 @@ namespace adminClient.Services
         public async Task<Recipe> GetRecipe(string id)
         {
             Recipe recipe = null;
-            var response = await _client.GetAsync($"https://localhost:7088/recipes/{id}");
+            var task = _client.GetAsync($"https://localhost:7088/recipes/{id}");
+            task.Wait();
+            var response = task.Result;
             if (response.IsSuccessStatusCode)
             {
                 recipe = await response.Content.ReadFromJsonAsync<Recipe>();

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="adminClient.MVVM.View.BambooSessionView"
+             xmlns:viewmodel="clr-namespace:adminClient.MVVM.ViewModel"
+             xmlns:model="clr-namespace:adminClient.MVVM.Model"
+             x:DataType="viewmodel:BambooSessionViewModel"
+             Title="BambooSession">
+    <VerticalStackLayout Margin="20">
+        <Label Text="{Binding BambooSession.SessionId, StringFormat='SessionId: {0} '}"/>
+        <Label Text="{Binding BambooSession.HostObject.FirstName, StringFormat='Host: {0} '}"/>
+        <Label Text="{Binding BambooSession.Address, StringFormat='Adress: {0} '}"/>
+        <Label Text="{Binding BambooSession.RecipeObject.Name, StringFormat='Recipe: {0} '}"/>
+        <Label Text="{Binding BambooSession.Description, StringFormat='Description: {0}'}"/>
+        <Label Text="{Binding BambooSession.DateTime, StringFormat='Time: {0}'}"/>
+        <Label Text="{Binding BambooSession.SlotsNumber, StringFormat='Slots: {0}'}"/>
+        <CollectionView ItemsSource="{Binding BambooSession.Seats}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Seat">
+                    <HorizontalStackLayout Spacing="50">
+                        <Label Text="{Binding SeatId, StringFormat='Slots: {0}'}"/>
+                        <Label>
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}User {0} {1}">
+                                    <Binding Path="User.FirstName"/>
+                                    <Binding Path="User.LastName"/>
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                      
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,41 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="admin_client.MVVM.View.MainPage">
+             x:Class="adminClient.MVVM.View.MainPage"
+             xmlns:model="clr-namespace:adminClient.MVVM.Model"
+             xmlns:viewmodel="clr-namespace:adminClient.MVVM.ViewModel"
+             x:DataType="viewmodel:MainPageView"
+             BackgroundColor="{StaticResource Primary}"
+             >
 
+    <RefreshView  Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
-
             <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+                Text="Welcome to the Admin Client"
+                FontSize="Large"
+                FontAttributes="Bold"
+                HorizontalTextAlignment="Center" />
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+            <!-- Stat for user -->
+            <Label Text="User statistic"/>
+            <Label Text="{Binding UserCount}"/>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+            <!-- Stat for Bamboo -->
+            <Label Text="Bamboo statistic"/>
+            <Label Text="{Binding BambooCount}"/>
+
+            <!-- Stat for Recipe -->
+            <Label Text="Recipe statistic"/>
+            <Label Text="{Binding RecipeCount}"/>
+
+            <!-- Stat for Recipe -->
+            <Label Text="Visitors"/>
+            <Label Text="{Binding Visitors}"/>
+
 
         </VerticalStackLayout>
     </ScrollView>
+    </RefreshView>
 
 </ContentPage>
